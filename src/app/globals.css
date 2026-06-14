@@ -1,26 +1,221 @@
+@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
+/* ==========================================================================
+   DESIGN SYSTEM TOKENS — WasteLink (based on DESIGN.md)
+   ========================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Color Palette */
+  --color-brand-green: #299e63;
+  --color-forest-green: #006400;
+  --color-hover-green: #1f7a4a;
+  --color-active-green: #1a6340;
+  --color-disabled-green: #b0d4b8;
+  --color-hover-bg: rgba(41, 158, 99, 0.08);
+  --color-active-bg: rgba(41, 158, 99, 0.15);
+  --color-focus-ring: rgba(41, 158, 99, 0.1);
+  --color-icon-bg: rgba(41, 158, 99, 0.12);
+
+  /* Text Colors */
+  --color-text-primary: #1a202c;
+  --color-text-secondary: #464f54;
+  --color-text-tertiary: #222d33;
+
+  /* Neutral / Background */
+  --color-background: #ffffff;
+  --color-border: #e2e8f0;
+  --color-divider: #e4e5e6;
+  --color-card-bg: #ffffff;
+
+  /* Semantic */
+  --color-success: #299e63;
+  --color-error: #dc2626;
+  --color-error-bg: #fee2e2;
+
+  /* Typography */
+  --font-display: "Red Hat Display", "Segoe UI", system-ui, sans-serif;
+  --font-body: "Red Hat Text", "Segoe UI", system-ui, sans-serif;
+
+  /* Spacing Scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-15: 60px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-22: 88px;
+  --space-27: 108px;
+
+  /* Border Radius */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Shadows */
+  --shadow-raised: rgba(18, 44, 77, 0.04) 0px 1px 12px 0px;
+  --shadow-elevated: rgba(18, 44, 77, 0.08) 0px 4px 16px 0px;
+  --shadow-floating: rgba(18, 44, 77, 0.12) 0px 10px 25px 0px;
+
+  /* Container */
+  --container-max: 1200px;
+  --container-padding: 24px;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* ==========================================================================
+   RESET & BASE
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+  background-color: var(--color-background);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ==========================================================================
+   TYPOGRAPHY HIERARCHY
+   ========================================================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-body);
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.display-large {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 700;
+  line-height: 80px;
+}
+
+.heading-1 {
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 48px;
+}
+
+.heading-2 {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 40px;
+}
+
+.heading-3 {
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 32px;
+}
+
+.body-large {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+}
+
+.body-regular {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.body-small {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+}
+
+a {
+  color: var(--color-brand-green);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+a:hover {
+  color: var(--color-hover-green);
+}
+
+/* ==========================================================================
+   CONTAINER
+   ========================================================================== */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+/* ==========================================================================
+   RESPONSIVE BREAKPOINTS (mobile-first)
+   ========================================================================== */
+@media (max-width: 767px) {
+  :root {
+    --container-padding: 16px;
+  }
+
+  .display-large {
+    font-size: 40px;
+    line-height: 52px;
+  }
+
+  .heading-1 {
+    font-size: 32px;
+    line-height: 40px;
+  }
+
+  .heading-2 {
+    font-size: 24px;
+    line-height: 32px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  :root {
+    --container-padding: 20px;
+  }
+
+  .display-large {
+    font-size: 52px;
+    line-height: 64px;
+  }
 }
