@@ -1,195 +1,166 @@
-"use client";
+'use client';
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useState } from "react";
-import Container from "./Container";
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Container } from '@/components/ui/container';
 
-const NAV_LINKS = [
-  { href: "/", label: "Beranda" },
-  { href: "/categories", label: "Kategori" },
-  { href: "/collectors", label: "Pengepul" },
-  { href: "/about", label: "Tentang Kami" },
+/**
+ * Header Navigation Bar – DESIGN.md §4 Navigation
+ *
+ * Height: 64px, bg white, border-bottom 1px solid #E2E8F0
+ * Shadow: rgba(18,44,77,0.04) 0 1px 12px
+ * Logo: 24px, bold, #299E63
+ * Nav links: 16px, 400 weight, #1A202C, hover #299E63 + bg rgba(41,158,99,0.08)
+ * Mobile: hamburger → slide-out drawer
+ */
+
+const navLinks = [
+  { href: '/categories', label: 'Kategori' },
+  { href: '/collectors', label: 'Pengepul' },
+  { href: '/about', label: 'Tentang Kami' },
 ];
 
-export default function Header() {
+export const Header = () => {
   const pathname = usePathname();
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setMobileOpen(false);
+  }, [pathname]);
+
+  // Prevent body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [mobileOpen]);
 
   return (
-    <header
-      style={{
-        backgroundColor: "var(--color-background)",
-        borderBottom: "1px solid var(--color-border)",
-        height: "64px",
-        boxShadow: "var(--shadow-raised)",
-        position: "sticky",
-        top: 0,
-        zIndex: 100,
-      }}
-    >
-      <Container
-        style={{
-          height: "100%",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          paddingBlock: "12px",
-        }}
-      >
-        {/* Logo */}
-        <Link
-          href="/"
-          style={{
-            fontFamily: "var(--font-body)",
-            fontSize: "24px",
-            fontWeight: 700,
-            color: "var(--color-brand-green)",
-            textDecoration: "none",
-          }}
-        >
-          WasteLink
-        </Link>
+    <>
+      <header className="bg-white border-b border-border shadow-sm h-16 sticky top-0 z-50">
+        <Container className="h-full flex items-center justify-between">
+          {/* Logo – DESIGN.md: 24px, 700, #299E63 */}
+          <Link
+            href="/"
+            className="text-h3 text-brand-green font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 rounded-[4px]"
+          >
+            WasteLink
+          </Link>
 
-        {/* Desktop Nav */}
-        <nav
-          style={{ display: "flex", gap: "4px", alignItems: "center" }}
-          aria-label="Navigasi Utama"
-          className="hidden-mobile"
-        >
-          {NAV_LINKS.map(({ href, label }) => {
-            const isActive =
-              href === "/" ? pathname === "/" : pathname.startsWith(href);
-            return (
-              <Link
-                key={href}
-                href={href}
-                style={{
-                  fontFamily: "var(--font-body)",
-                  fontSize: "16px",
-                  fontWeight: 400,
-                  color: isActive
-                    ? "var(--color-brand-green)"
-                    : "var(--color-text-primary)",
-                  textDecoration: "none",
-                  padding: "8px 16px",
-                  borderRadius: "var(--radius-sm)",
-                  borderBottom: isActive
-                    ? "2px solid var(--color-brand-green)"
-                    : "2px solid transparent",
-                  transition: "color 0.15s ease, background-color 0.15s ease",
-                }}
-                onMouseEnter={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = "var(--color-brand-green)";
-                    e.currentTarget.style.backgroundColor =
-                      "var(--color-hover-bg)";
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (!isActive) {
-                    e.currentTarget.style.color = "var(--color-text-primary)";
-                    e.currentTarget.style.backgroundColor = "transparent";
-                  }
-                }}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-2">
+            {navLinks.map((link) => {
+              const isActive = pathname === link.href || pathname?.startsWith(link.href + '/');
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className={`
+                    text-link px-4 py-2 rounded-[4px]
+                    transition-colors duration-200
+                    focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2
+                    ${isActive
+                      ? 'text-brand-green border-b-2 border-brand-green'
+                      : 'text-text-primary hover:text-brand-green hover:bg-brand-green-subtle'
+                    }
+                  `}
+                >
+                  {link.label}
+                </Link>
+              );
+            })}
+          </nav>
 
-        {/* Mobile Hamburger */}
-        <button
-          id="mobile-menu-toggle"
-          aria-label="Buka menu navigasi"
-          aria-expanded={menuOpen}
-          onClick={() => setMenuOpen((v) => !v)}
-          style={{
-            display: "none",
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: "8px",
-            color: "var(--color-text-primary)",
-          }}
-          className="show-mobile"
-        >
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            {menuOpen ? (
-              <>
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </>
-            ) : (
-              <>
-                <line x1="3" y1="6" x2="21" y2="6" />
-                <line x1="3" y1="12" x2="21" y2="12" />
-                <line x1="3" y1="18" x2="21" y2="18" />
-              </>
-            )}
-          </svg>
-        </button>
-      </Container>
+          {/* Desktop CTA + Mobile Hamburger */}
+          <div className="flex items-center gap-3">
+            <Link href="/login" tabIndex={-1} className="hidden md:block">
+              <Button variant="primary">Masuk Admin</Button>
+            </Link>
 
-      {/* Mobile Drawer */}
-      {menuOpen && (
+            {/* Hamburger Button – mobile only */}
+            <button
+              type="button"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="md:hidden w-11 h-11 flex items-center justify-center rounded-[6px] text-text-primary hover:bg-brand-green-subtle hover:text-brand-green transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"
+              aria-label={mobileOpen ? 'Tutup menu' : 'Buka menu'}
+              aria-expanded={mobileOpen}
+            >
+              {mobileOpen ? (
+                /* X icon */
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="18" y1="6" x2="6" y2="18" />
+                  <line x1="6" y1="6" x2="18" y2="18" />
+                </svg>
+              ) : (
+                /* Hamburger icon */
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <line x1="3" y1="6" x2="21" y2="6" />
+                  <line x1="3" y1="12" x2="21" y2="12" />
+                  <line x1="3" y1="18" x2="21" y2="18" />
+                </svg>
+              )}
+            </button>
+          </div>
+        </Container>
+      </header>
+
+      {/* Mobile Drawer Overlay */}
+      {mobileOpen && (
         <div
-          id="mobile-menu"
-          style={{
-            position: "absolute",
-            top: "64px",
-            left: 0,
-            right: 0,
-            backgroundColor: "var(--color-background)",
-            borderBottom: "1px solid var(--color-border)",
-            boxShadow: "var(--shadow-floating)",
-            zIndex: 99,
-            padding: "16px 24px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "4px",
-          }}
-          className="show-mobile"
-        >
-          {NAV_LINKS.map(({ href, label }) => {
-            const isActive =
-              href === "/" ? pathname === "/" : pathname.startsWith(href);
-            return (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMenuOpen(false)}
-                style={{
-                  color: isActive
-                    ? "var(--color-brand-green)"
-                    : "var(--color-text-primary)",
-                  fontWeight: isActive ? 700 : 400,
-                  padding: "12px 16px",
-                  borderRadius: "var(--radius-md)",
-                  textDecoration: "none",
-                  backgroundColor: isActive
-                    ? "var(--color-hover-bg)"
-                    : "transparent",
-                }}
-              >
-                {label}
-              </Link>
-            );
-          })}
-        </div>
+          className="fixed inset-0 z-40 bg-black/30 md:hidden"
+          onClick={() => setMobileOpen(false)}
+          aria-hidden="true"
+        />
       )}
 
-      <style>{`
-        @media (max-width: 767px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
-        }
-        @media (min-width: 768px) {
-          .show-mobile { display: none !important; }
-          .hidden-mobile { display: flex !important; }
-        }
-      `}</style>
-    </header>
+      {/* Mobile Slide-out Drawer */}
+      <div
+        className={`
+          fixed top-16 right-0 bottom-0 z-50 w-[280px]
+          bg-white border-l border-border shadow-lg
+          transform transition-transform duration-300 ease-in-out
+          md:hidden
+          ${mobileOpen ? 'translate-x-0' : 'translate-x-full'}
+        `}
+      >
+        <nav className="flex flex-col p-6 gap-2">
+          {navLinks.map((link) => {
+            const isActive = pathname === link.href || pathname?.startsWith(link.href + '/');
+            return (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setMobileOpen(false)}
+                className={`
+                  text-link px-4 py-3 rounded-[6px]
+                  transition-colors duration-200
+                  focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2
+                  ${isActive
+                    ? 'text-brand-green bg-brand-green-subtle font-medium'
+                    : 'text-text-primary hover:text-brand-green hover:bg-brand-green-subtle'
+                  }
+                `}
+              >
+                {link.label}
+              </Link>
+            );
+          })}
+
+          <div className="mt-4 pt-4 border-t border-border">
+            <Link href="/login" tabIndex={-1} onClick={() => setMobileOpen(false)}>
+              <Button variant="primary" className="w-full">Masuk Admin</Button>
+            </Link>
+          </div>
+        </nav>
+      </div>
+    </>
   );
-}
+};

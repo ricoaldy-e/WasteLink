@@ -1,221 +1,236 @@
-@import url("https://fonts.googleapis.com/css2?family=Red+Hat+Display:wght@400;500;700&family=Red+Hat+Text:wght@400;500;700&display=swap");
 @import "tailwindcss";
 
-/* ==========================================================================
-   DESIGN SYSTEM TOKENS — WasteLink (based on DESIGN.md)
-   ========================================================================== */
-:root {
-  /* Color Palette */
-  --color-brand-green: #299e63;
+@theme {
+  /* =====================
+     Colors – Brand
+  ===================== */
+  --color-brand-green: #299E63;
+  --color-brand-green-hover: #1F7A4A;
+  --color-brand-green-active: #1A6340;
+  --color-brand-green-disabled: #B0D4B8;
+  --color-brand-green-subtle: rgba(41, 158, 99, 0.08);
+  --color-brand-green-muted: rgba(41, 158, 99, 0.12);
   --color-forest-green: #006400;
-  --color-hover-green: #1f7a4a;
-  --color-active-green: #1a6340;
-  --color-disabled-green: #b0d4b8;
-  --color-hover-bg: rgba(41, 158, 99, 0.08);
-  --color-active-bg: rgba(41, 158, 99, 0.15);
-  --color-focus-ring: rgba(41, 158, 99, 0.1);
-  --color-icon-bg: rgba(41, 158, 99, 0.12);
 
-  /* Text Colors */
-  --color-text-primary: #1a202c;
-  --color-text-secondary: #464f54;
-  --color-text-tertiary: #222d33;
+  /* =====================
+     Colors – Neutral
+  ===================== */
+  --color-white: #FFFFFF;
+  --color-background: #F8FAFC;
+  --color-surface: #FFFFFF;
+  --color-border: #E2E8F0;
+  --color-divider: #E4E5E6;
 
-  /* Neutral / Background */
-  --color-background: #ffffff;
-  --color-border: #e2e8f0;
-  --color-divider: #e4e5e6;
-  --color-card-bg: #ffffff;
+  /* =====================
+     Colors – Text
+  ===================== */
+  --color-text-primary: #1A202C;
+  --color-text-secondary: #464F54;
+  --color-text-tertiary: #222D33;
+  --color-text-muted: #718096;
 
-  /* Semantic */
-  --color-success: #299e63;
-  --color-error: #dc2626;
-  --color-error-bg: #fee2e2;
+  /* =====================
+     Colors – Semantic
+  ===================== */
+  --color-success: #299E63;
+  --color-warning: #F59E0B;
+  --color-error: #DC2626;
+  --color-error-bg: #FEE2E2;
 
-  /* Typography */
-  --font-display: "Red Hat Display", "Segoe UI", system-ui, sans-serif;
-  --font-body: "Red Hat Text", "Segoe UI", system-ui, sans-serif;
+  /* =====================
+     Typography – Font Family
+     Values come from next/font CSS variables injected on <html>
+  ===================== */
+  --font-heading: var(--font-heading), "Red Hat Display", "Segoe UI", system-ui, sans-serif;
+  --font-body: var(--font-body), "Red Hat Text", "Segoe UI", system-ui, sans-serif;
 
-  /* Spacing Scale */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
-  --space-15: 60px;
-  --space-16: 64px;
-  --space-20: 80px;
-  --space-22: 88px;
-  --space-27: 108px;
+  /* =====================
+     Spacing
+     Base unit: 4px
+  ===================== */
+  --spacing-2:  8px;   /* xs – micro spacing */
+  --spacing-3:  12px;  /* sm – button/input padding */
+  --spacing-4:  16px;  /* md – content padding */
+  --spacing-5:  20px;  /* card padding, section margin */
+  --spacing-6:  24px;  /* lg – generous gaps */
+  --spacing-8:  32px;  /* xl – section breaks */
+  --spacing-12: 48px;  /* 2xl – large section gaps */
+  --spacing-15: 60px;  /* section vertical padding */
+  --spacing-16: 64px;  /* hero padding */
+  --spacing-20: 80px;  /* section full padding */
+  --spacing-22: 88px;  /* major section vertical spacing */
+  --spacing-27: 108px; /* extra-large vertical gaps */
 
-  /* Border Radius */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
+  /* =====================
+     Border Radius
+  ===================== */
+  --radius-none: 0px;
+  --radius-badge: 4px;
+  --radius-sm: 6px;   /* buttons, inputs */
+  --radius-md: 8px;   /* cards, containers */
+  --radius-lg: 12px;
+  --radius-pill: 9999px;
 
-  /* Shadows */
-  --shadow-raised: rgba(18, 44, 77, 0.04) 0px 1px 12px 0px;
+  /* =====================
+     Shadows
+  ===================== */
+  --shadow-raised:   rgba(18, 44, 77, 0.04) 0px 1px 12px 0px;
   --shadow-elevated: rgba(18, 44, 77, 0.08) 0px 4px 16px 0px;
   --shadow-floating: rgba(18, 44, 77, 0.12) 0px 10px 25px 0px;
 
-  /* Container */
-  --container-max: 1200px;
-  --container-padding: 24px;
+  /* Alias shadow tokens to Tailwind shadow-* utilities */
+  --shadow-sm: rgba(18, 44, 77, 0.04) 0px 1px 12px 0px;
+  --shadow-md: rgba(18, 44, 77, 0.08) 0px 4px 16px 0px;
+  --shadow-lg: rgba(18, 44, 77, 0.12) 0px 10px 25px 0px;
 }
 
-/* ==========================================================================
-   RESET & BASE
-   ========================================================================== */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* =====================
+   Base Styles
+===================== */
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-primary);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  a {
+    color: var(--color-brand-green);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
 }
 
-html {
-  font-size: 16px;
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
-}
+/* =====================
+   Typography Utilities
+   Matches DESIGN.md hierarchy table exactly
+===================== */
 
-body {
-  font-family: var(--font-body);
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.5;
-  color: var(--color-text-primary);
-  background-color: var(--color-background);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-/* ==========================================================================
-   TYPOGRAPHY HIERARCHY
-   ========================================================================== */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: var(--font-body);
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-.display-large {
-  font-family: var(--font-display);
-  font-size: 64px;
-  font-weight: 700;
-  line-height: 80px;
-}
-
-.heading-1 {
+/* Display Large – 40px/48px (Mobile) to 64px/80px (Desktop) */
+@utility text-display-xl {
+  font-family: var(--font-heading);
   font-size: 40px;
   font-weight: 700;
   line-height: 48px;
+  letter-spacing: 0px;
+  
+  @media (min-width: 768px) {
+    font-size: 64px;
+    line-height: 80px;
+  }
 }
 
-.heading-2 {
+/* Heading 1 – 32px/40px (Mobile) to 48px/56px (Desktop) */
+@utility text-h1 {
+  font-family: var(--font-body);
   font-size: 32px;
   font-weight: 700;
   line-height: 40px;
+  letter-spacing: 0px;
+
+  @media (min-width: 768px) {
+    font-size: 48px;
+    line-height: 56px;
+  }
 }
 
-.heading-3 {
-  font-size: 24px;
+/* Heading 2 – 28px/36px (Mobile) to 36px/44px (Desktop) */
+@utility text-h2 {
+  font-family: var(--font-body);
+  font-size: 28px;
   font-weight: 700;
-  line-height: 32px;
+  line-height: 36px;
+  letter-spacing: 0px;
+
+  @media (min-width: 768px) {
+    font-size: 36px;
+    line-height: 44px;
+  }
 }
 
-.body-large {
-  font-size: 18px;
-  font-weight: 500;
+/* Heading 3 – 20px/28px (Mobile) to 24px/32px (Desktop) */
+@utility text-h3 {
+  font-family: var(--font-body);
+  font-size: 20px;
+  font-weight: 700;
   line-height: 28px;
-}
+  letter-spacing: 0px;
 
-.body-regular {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 24px;
-}
-
-.body-small {
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 21px;
-}
-
-.caption {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 18px;
-}
-
-a {
-  color: var(--color-brand-green);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  text-decoration: none;
-  transition: color 0.15s ease;
-}
-
-a:hover {
-  color: var(--color-hover-green);
-}
-
-/* ==========================================================================
-   CONTAINER
-   ========================================================================== */
-.container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--container-padding);
-}
-
-/* ==========================================================================
-   RESPONSIVE BREAKPOINTS (mobile-first)
-   ========================================================================== */
-@media (max-width: 767px) {
-  :root {
-    --container-padding: 16px;
-  }
-
-  .display-large {
-    font-size: 40px;
-    line-height: 52px;
-  }
-
-  .heading-1 {
-    font-size: 32px;
-    line-height: 40px;
-  }
-
-  .heading-2 {
+  @media (min-width: 768px) {
     font-size: 24px;
     line-height: 32px;
   }
 }
 
-@media (min-width: 768px) and (max-width: 1199px) {
-  :root {
-    --container-padding: 20px;
-  }
+/* Body Large – 18px / 28px / 500 */
+@utility text-body-lg {
+  font-family: var(--font-body);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 28px;
+  letter-spacing: 0px;
+}
 
-  .display-large {
-    font-size: 52px;
-    line-height: 64px;
-  }
+/* Body Regular – 16px / 24px / 500 */
+@utility text-body-md {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+/* Body Small – 14px / 21px / 500 */
+@utility text-body-sm {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 21px;
+  letter-spacing: 0px;
+}
+
+/* Link – 16px / 24px / 400 */
+@utility text-link {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0px;
+}
+
+/* Button – 16px / 19px / 700 */
+@utility text-btn {
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 19px;
+  letter-spacing: 0px;
+}
+
+/* Caption – 12px / 18px / 400 */
+@utility text-caption {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0px;
+}
+
+/* =====================
+   Hero gradient utility
+   DESIGN.md: gradient from #299E63 (left) to #1F7A4A (right)
+===================== */
+@utility bg-hero-gradient {
+  background: linear-gradient(to right, #299E63, #1F7A4A);
 }

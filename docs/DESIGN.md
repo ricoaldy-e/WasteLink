@@ -25,7 +25,7 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 - **Tertiary Text** (`#222D33`): De-emphasized text, captions, and tertiary navigation items.
 
 ### Neutral Scale
-- **Background Light** (`#FFFFFF`): Primary content background and card surfaces.
+- **Background Light** (`#F8FAFC`): Primary content background, providing subtle contrast against pure white cards.
 - **Border Light** (`#E2E8F0`): Subtle borders, dividers, and form input backgrounds. Most-used neutral for structural elements.
 - **Divider** (`#E4E5E6`): Secondary border color for less-prominent divisions and separators.
 
@@ -45,14 +45,14 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 **Primary Body Font:** Red Hat Text
 - Fallback: `'Red Hat Text', 'Segoe UI', system-ui, sans-serif`
 
-### Hierarchy
+### Hierarchy (Fluid / Responsive)
 
-| Role | Font | Size | Weight | Line Height | Letter Spacing | Notes |
+| Role | Font | Size (Mobile / Desktop) | Weight | Line Height | Letter Spacing | Notes |
 |------|------|------|--------|-------------|-----------------|-------|
-| Display Large | Red Hat Display | 64px | 700 | 80px | 0px | Hero headings, page titles |
-| Heading 1 | Red Hat Text | 40px | 700 | 48px | 0px | Section headings |
-| Heading 2 | Red Hat Text | 32px | 700 | 40px | 0px | Subsection headings |
-| Heading 3 | Red Hat Text | 24px | 700 | 32px | 0px | Card titles, component headers |
+| Display Large | Red Hat Display | 40px / 64px | 700 | 48px / 80px | 0px | Hero headings, page titles |
+| Heading 1 | Red Hat Text | 32px / 48px | 700 | 40px / 56px | 0px | Section headings |
+| Heading 2 | Red Hat Text | 28px / 36px | 700 | 36px / 44px | 0px | Subsection headings |
+| Heading 3 | Red Hat Text | 20px / 24px | 700 | 28px / 32px | 0px | Card titles, component headers |
 | Body Large | Red Hat Text | 18px | 500 | 28px | 0px | Large body text, introductions |
 | Body Regular | Red Hat Text | 16px | 500 | 24px | 0px | Default body copy, paragraphs |
 | Body Small | Red Hat Text | 14px | 500 | 21px | 0px | Secondary text, descriptions |
@@ -122,7 +122,7 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 - Background: `#FFFFFF`
 - Border: `1px solid #E2E8F0`
 - Border Radius: `8px`
-- Padding: `24px`
+- Padding: `16px` (Mobile) / `24px` (Desktop)
 - Box Shadow: `rgba(18, 44, 77, 0.04) 0px 1px 12px 0px`
 - Hover State: Box Shadow `rgba(18, 44, 77, 0.08) 0px 4px 16px 0px`
 
@@ -130,8 +130,8 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 - Background: `#FFFFFF`
 - Border: `1px solid #E2E8F0`
 - Border Radius: `8px`
-- Padding: `20px`
-- Display: flex, gap `16px`
+- Padding: `16px` (Mobile) / `20px` (Desktop)
+- Display: flex, gap `12px` (Mobile) / `16px` (Desktop)
 - Icon Size: `48px` × `48px`
 - Icon Background: `rgba(41, 158, 99, 0.12)`
 - Icon Border Radius: `6px`
@@ -139,7 +139,7 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 
 **Hero Section Background**
 - Background: Linear gradient from `#299E63` (left) to `#1F7A4A` (right)
-- Padding: `80px 64px`
+- Padding: `64px 24px` (Mobile) / `108px 64px` (Desktop)
 - Min Height: `500px`
 - Overlay: Diagonal geometric accent with opacity `0.1`
 
@@ -267,9 +267,9 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 **Max Width:** `1200px` (centered with auto margin)
 
 **Column Strategy:** 12-column responsive grid
-- Desktop (1200px+): 12 columns, `24px` gutter
-- Tablet (768px–1199px): 8 columns, `20px` gutter
-- Mobile (< 768px): 4 columns, `16px` gutter
+- Desktop (1200px+): 12 columns, `40px` gutter / padding
+- Tablet (768px–1199px): 8 columns, `32px` gutter / padding
+- Mobile (< 768px): 4 columns, `24px` gutter / padding
 
 **Section Patterns:**
 - Full bleed hero with gradient overlay

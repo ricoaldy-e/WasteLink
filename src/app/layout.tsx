@@ -1,23 +1,33 @@
-import type { Metadata } from "next";
-import "./globals.css";
+import './globals.css';
+import { Red_Hat_Display, Red_Hat_Text } from 'next/font/google';
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | WasteLink",
-    default: "WasteLink — Temukan Pengepul Sampah di Sekitar Anda",
-  },
-  description:
-    "WasteLink menghubungkan masyarakat dengan pengepul sampah dan daur ulang. Temukan pengepul terpercaya berdasarkan kategori sampah yang Anda miliki.",
+const redHatDisplay = Red_Hat_Display({
+  subsets: ['latin'],
+  weight: ['700'],
+  variable: '--font-heading',
+  display: 'swap',
+});
+
+const redHatText = Red_Hat_Text({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+export const metadata = {
+  title: 'WasteLink - Direktori Pengepul Limbah',
+  description: 'Platform direktori pengepul limbah untuk membantu masyarakat menemukan pengepul berdasarkan kategori sampah.',
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
+}) {
   return (
-    <html lang="id" className="h-full">
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="id" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }

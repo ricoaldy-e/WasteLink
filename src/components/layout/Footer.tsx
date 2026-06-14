@@ -1,125 +1,96 @@
-"use client";
+import Link from 'next/link';
+import { Container } from '@/components/ui/container';
 
-import Link from "next/link";
-import Container from "./Container";
-
-const FOOTER_LINKS = [
-  { href: "/categories", label: "Kategori" },
-  { href: "/collectors", label: "Pengepul" },
-  { href: "/about", label: "Tentang Kami" },
-];
-
-export default function Footer() {
+/**
+ * Footer – Public layout footer
+ * Follows DESIGN.md spacing (48px–80px), typography, and color tokens
+ */
+export const Footer = () => {
   return (
-    <footer
-      style={{
-        backgroundColor: "var(--color-text-primary)",
-        color: "#ffffff",
-        marginTop: "auto",
-      }}
-    >
-      <Container
-        style={{
-          paddingBlock: "48px",
-          display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(220px, 1fr))",
-          gap: "32px",
-        }}
-      >
-        {/* Brand Column */}
-        <div>
-          <p
-            style={{
-              fontFamily: "var(--font-body)",
-              fontSize: "24px",
-              fontWeight: 700,
-              color: "var(--color-brand-green)",
-              marginBottom: "12px",
-            }}
-          >
-            WasteLink
-          </p>
-          <p
-            style={{
-              fontSize: "14px",
-              fontWeight: 500,
-              lineHeight: "21px",
-              color: "rgba(255,255,255,0.7)",
-              maxWidth: "280px",
-            }}
-          >
-            Menghubungkan masyarakat dengan pengepul sampah dan daur ulang
-            terpercaya di seluruh Indonesia.
-          </p>
+    <footer className="bg-white border-t border-border py-12 md:py-16 mt-auto">
+      <Container>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
+          {/* Brand Column */}
+          <div className="col-span-1 md:col-span-2">
+            <Link
+              href="/"
+              className="text-h3 text-brand-green font-bold block mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+            >
+              WasteLink
+            </Link>
+            <p className="text-body-md text-text-secondary max-w-sm">
+              Platform direktori pengepul limbah untuk membantu masyarakat menemukan pengepul berdasarkan kategori sampah secara mudah dan efisien.
+            </p>
+          </div>
+
+          {/* Navigasi Column */}
+          <div>
+            <h3 className="text-body-lg font-bold text-text-primary mb-4">Navigasi</h3>
+            <ul className="flex flex-col gap-3">
+              <li>
+                <Link
+                  href="/"
+                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                >
+                  Beranda
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/categories"
+                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                >
+                  Kategori Sampah
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/collectors"
+                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                >
+                  Daftar Pengepul
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="/about"
+                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                >
+                  Tentang Kami
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Kontak Column */}
+          <div>
+            <h3 className="text-body-lg font-bold text-text-primary mb-4">Kontak</h3>
+            <ul className="flex flex-col gap-3">
+              <li className="text-body-md text-text-secondary">
+                Email: halo@wastelink.id
+              </li>
+              <li className="text-body-md text-text-secondary">
+                WhatsApp: +62 812 3456 7890
+              </li>
+            </ul>
+          </div>
         </div>
 
-        {/* Navigation Column */}
-        <div>
-          <p
-            style={{
-              fontSize: "14px",
-              fontWeight: 700,
-              color: "#ffffff",
-              marginBottom: "16px",
-              textTransform: "uppercase",
-              letterSpacing: "0.05em",
-            }}
-          >
-            Navigasi
+        {/* Bottom Bar */}
+        <div className="mt-8 pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
+          <p className="text-body-sm text-text-muted">
+            &copy; {new Date().getFullYear()} WasteLink. Seluruh Hak Cipta Dilindungi.
           </p>
-          <nav
-            style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-          >
-            {FOOTER_LINKS.map(({ href, label }) => (
-              <Link
-                key={href}
-                href={href}
-                style={{
-                  fontSize: "14px",
-                  fontWeight: 500,
-                  color: "rgba(255,255,255,0.7)",
-                  textDecoration: "none",
-                  transition: "color 0.15s ease",
-                }}
-                onMouseEnter={(e) =>
-                  (e.currentTarget.style.color = "var(--color-brand-green)")
-                }
-                onMouseLeave={(e) =>
-                  (e.currentTarget.style.color = "rgba(255,255,255,0.7)")
-                }
-              >
-                {label}
-              </Link>
-            ))}
-          </nav>
+          <div className="flex gap-4">
+            <Link
+              href="/login"
+              className="text-body-sm text-text-muted hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+            >
+              Admin Login
+            </Link>
+          </div>
         </div>
       </Container>
-
-      {/* Bottom Bar */}
-      <div
-        style={{
-          borderTop: "1px solid rgba(255,255,255,0.1)",
-        }}
-      >
-        <Container
-          style={{
-            paddingBlock: "20px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "12px",
-              fontWeight: 400,
-              color: "rgba(255,255,255,0.5)",
-            }}
-          >
-            © {new Date().getFullYear()} WasteLink. Hak cipta dilindungi.
-          </p>
-        </Container>
-      </div>
     </footer>
   );
-}
+};

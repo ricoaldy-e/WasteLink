@@ -1,13 +1,5 @@
-import Header from "@/components/layout/Header";
-import Footer from "@/components/layout/Footer";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: {
-    template: "%s | WasteLink",
-    default: "WasteLink — Temukan Pengepul Sampah di Sekitar Anda",
-  },
-};
+import { Header } from '@/components/layout/Header';
+import { Footer } from '@/components/layout/Footer';
 
 export default function PublicLayout({
   children,
@@ -15,10 +7,12 @@ export default function PublicLayout({
   children: React.ReactNode;
 }) {
   return (
-    <>
+    <div className="flex flex-col min-h-screen">
       <Header />
-      <main style={{ flex: 1 }}>{children}</main>
+      <main className="flex-1">
+        {children}
+      </main>
       <Footer />
-    </>
+    </div>
   );
 }
