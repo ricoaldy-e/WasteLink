@@ -20,7 +20,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
             w-full appearance-none
             h-[44px] rounded-[6px]
             border border-border
-            px-4 py-3 pr-10
+            px-4 pr-10
             text-body-md text-text-primary
             bg-white
             transition-all duration-200

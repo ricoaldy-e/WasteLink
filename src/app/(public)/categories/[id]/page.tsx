@@ -73,12 +73,12 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
           <div className="w-full md:w-1/3">
             <div className="relative aspect-square w-full bg-background rounded-[8px] border border-border overflow-hidden shadow-sm">
               {category.image_url ? (
-                <Image 
-                  src={category.image_url} 
-                  alt={category.name || "Kategori"} 
-                  fill 
+                <Image
+                  src={category.image_url}
+                  alt={category.name || "Kategori"}
+                  fill
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                  className="object-contain p-4 bg-white" 
+                  className="object-contain p-4 bg-white"
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-text-muted bg-border/20">
@@ -170,17 +170,17 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                       </div>
                     )}
                   </div>
-                  
+
                   <div className="p-5 flex flex-col flex-1">
                     <Badge variant="neutral" className="mb-2.5 w-fit bg-gray-50 border-gray-200 text-text-secondary font-medium">
                       {category.name}
                     </Badge>
                     <h3 title={collector.name} className="text-lg font-semibold text-text-primary mb-2 line-clamp-2 min-h-[3.5rem]">{collector.name}</h3>
-                    
+
                     <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">
                       {collector.description || "Mitra pengepul terpercaya di WasteLink."}
                     </p>
-                    
+
                     <div className="flex items-start gap-2.5 text-text-secondary mt-auto">
                       <svg className="w-4 h-4 shrink-0 mt-0.5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
