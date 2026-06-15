@@ -15,7 +15,6 @@ export const Footer = () => {
     <footer className="bg-white border-t border-border py-12 md:py-16 mt-auto">
       <Container>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
-          {/* Brand Column */}
           <div className="col-span-1 md:col-span-2">
             <Link
               href="/"
@@ -34,7 +33,6 @@ export const Footer = () => {
             </p>
           </div>
 
-          {/* Navigasi Column */}
           <div className="md:text-right flex flex-col md:items-end">
             <h3 className="text-body-lg font-bold text-text-primary mb-4">Navigasi</h3>
             <ul className="flex flex-col gap-3 items-start md:items-end">
@@ -78,7 +76,6 @@ export const Footer = () => {
           </div>
         </div>
 
-        {/* Bottom Bar */}
         <div className="mt-8 pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-body-sm text-text-muted">
             &copy; {new Date().getFullYear()} WasteLink. Seluruh Hak Cipta Dilindungi.

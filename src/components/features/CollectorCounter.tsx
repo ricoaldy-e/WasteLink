@@ -43,7 +43,6 @@ export function StatsPanel({ collectorsCount, categoriesCount }: StatsPanelProps
 
   return (
     <div className="w-full max-w-[280px] sm:max-w-[320px] bg-white/[0.04] border border-white/10 rounded-2xl divide-y divide-white/10 shadow-lg backdrop-blur-[2px] overflow-hidden select-none">
-      {/* Stat 1: Collectors */}
       <Link href="/collectors" className="block p-6 text-left transition-all hover:bg-white/[0.08] active:bg-white/[0.12] focus:outline-none focus:bg-white/[0.08]">
         <span className="text-4xl md:text-5xl font-bold tracking-tight text-white tabular-nums block">
           {collectors}
@@ -53,7 +52,6 @@ export function StatsPanel({ collectorsCount, categoriesCount }: StatsPanelProps
         </span>
       </Link>
 
-      {/* Stat 2: Categories */}
       <Link href="/categories" className="block p-6 text-left transition-all hover:bg-white/[0.08] active:bg-white/[0.12] focus:outline-none focus:bg-white/[0.08]">
         <span className="text-4xl md:text-5xl font-bold tracking-tight text-white tabular-nums block">
           {categories}

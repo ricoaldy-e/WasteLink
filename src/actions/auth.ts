@@ -18,7 +18,6 @@ export async function loginAction(
     return { error: "Email dan password wajib diisi." };
   }
 
-  // Basic email format validation
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     return { error: "Format email tidak valid." };

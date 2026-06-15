@@ -15,9 +15,6 @@ function extractStoragePath(url: string | null): string | null {
   return parts.length > 1 ? parts[1] : null;
 }
 
-// ─────────────────────────────────────────────
-// CREATE
-// ─────────────────────────────────────────────
 export async function createCategoryAction(
   _prevState: ActionState,
   formData: FormData
@@ -53,9 +50,6 @@ export async function createCategoryAction(
   redirect("/dashboard/categories");
 }
 
-// ─────────────────────────────────────────────
-// UPDATE
-// ─────────────────────────────────────────────
 export async function updateCategoryAction(
   id: string,
   _prevState: ActionState,
@@ -74,7 +68,6 @@ export async function updateCategoryAction(
 
   const supabase = await createClient();
 
-  // Ambil data lama untuk mengecek image_url
   const { data: oldData } = await supabase
     .from("categories")
     .select("image_url")
@@ -108,13 +101,9 @@ export async function updateCategoryAction(
   redirect("/dashboard/categories");
 }
 
-// ─────────────────────────────────────────────
-// DELETE
-// ─────────────────────────────────────────────
 export async function deleteCategoryAction(id: string): Promise<ActionState> {
   const supabase = await createClient();
 
-  // Ambil data lama untuk mengecek image_url
   const { data: oldData } = await supabase
     .from("categories")
     .select("image_url")

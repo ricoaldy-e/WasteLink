@@ -26,7 +26,6 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 8;
 
-  // Filter collectors alphabetically and by query
   const filteredCollectors = collectors.filter((collector) => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return true;
@@ -38,14 +37,12 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
     );
   });
 
-  // Pagination calculations
   const totalItems = filteredCollectors.length;
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredCollectors.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Pagination page numbers list with ellipsis helper
   const getPageNumbers = () => {
     const pages: (number | string)[] = [];
     const maxVisiblePages = 5;
@@ -84,10 +81,9 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
 
   return (
     <div className="w-full">
-      {/* Search Input Bar */}
-      <div className="relative w-full sm:max-w-md mb-8 select-none">
+      <div className="relative w-full max-w-sm mb-8 select-none">
         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="h-[18px] w-[18px] text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -99,7 +95,7 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
             setCurrentPage(1); // Reset to page 1 on search
           }}
           placeholder="Cari nama, alamat, atau kategori limbah..."
-          className="block w-full pl-11 pr-4 py-3 bg-white border border-border rounded-xl text-body-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/10 transition-all shadow-sm"
+          className="block w-full pl-10 pr-10 py-2.5 bg-white border border-border rounded-[8px] text-sm font-semibold text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green/20 transition-all shadow-sm"
         />
         {searchQuery && (
           <button
@@ -108,7 +104,7 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
               setSearchQuery("");
               setCurrentPage(1); // Reset to page 1 on clear
             }}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-text-muted hover:text-text-primary focus:outline-none"
+            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-text-secondary hover:text-text-primary focus:outline-none"
             aria-label="Bersihkan pencarian"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -118,7 +114,6 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
         )}
       </div>
 
-      {/* Grid Pengepul */}
       {filteredCollectors.length > 0 ? (
         <>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -132,25 +127,21 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
                       alt={collector.name || "Pengepul"}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                      className="object-cover"
+                      className="object-contain p-4 bg-white"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
                       <span className="text-text-muted text-sm font-medium">Tanpa Gambar</span>
                     </div>
                   )}
-                  
-                  {/* Badge Kategori di Atas Gambar */}
-                  {collector.categories?.name && (
-                    <div className="absolute top-3 right-3 z-10">
-                      <Badge variant="neutral" className="shadow-sm bg-white/90 backdrop-blur-sm text-text-primary border border-gray-200">
-                        {collector.categories.name}
-                      </Badge>
-                    </div>
-                  )}
                 </div>
                 
                 <div className="pt-4 flex flex-col items-start text-left flex-1 w-full">
+                  {collector.categories?.name && (
+                    <Badge variant="neutral" className="mb-2.5 bg-gray-50 border-gray-200 text-text-secondary font-medium">
+                      {collector.categories.name}
+                    </Badge>
+                  )}
                   <h3 className="text-lg font-semibold text-text-primary mb-2 line-clamp-1">{collector.name}</h3>
                   
                   <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">
@@ -172,7 +163,6 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
           ))}
           </div>
 
-          {/* Pagination Controls */}
           {totalPages > 1 && (
             <div className="flex items-center justify-center gap-2 mt-12 select-none">
               <Button
@@ -215,7 +205,6 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
                 })}
               </div>
 
-              {/* Mobile text indicator */}
               <span className="text-body-sm text-text-secondary font-medium sm:hidden px-2">
                 Halaman {currentPage} dari {totalPages}
               </span>

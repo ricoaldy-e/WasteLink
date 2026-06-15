@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 export default function PublicCollectorsLoading() {
   return (
     <>
-      {/* Page Header (Matching the real collectors page) */}
       <div className="w-full bg-gradient-to-r from-[#24925A] to-[#1B6F3E] text-white py-16 md:py-20 border-b border-brand-green/10">
         <div className="max-w-[1200px] mx-auto w-full px-6 md:px-8 lg:px-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -24,18 +23,15 @@ export default function PublicCollectorsLoading() {
       </div>
 
       <Section className="bg-background !py-16" contained>
-        {/* Search Input Bar Skeleton */}
         <div className="w-full max-w-md mb-8">
           <Skeleton className="h-12 w-full rounded-xl animate-pulse" />
         </div>
 
-        {/* Collectors Grid Skeleton */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
             <Card key={i} variant="default" className="flex flex-col h-full border border-border shadow-sm bg-white overflow-hidden">
               <div className="relative aspect-[4/3] w-full">
                 <Skeleton className="w-full h-full animate-pulse rounded-none" />
-                {/* Category Badge skeleton */}
                 <div className="absolute top-3 right-3 z-10">
                   <Skeleton className="h-5 w-16 rounded-full bg-gray-200 animate-pulse" />
                 </div>

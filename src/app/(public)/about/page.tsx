@@ -12,7 +12,6 @@ export const metadata = {
 export default function AboutPage() {
   return (
     <>
-      {/* 1. Hero Section */}
       <section className="relative w-full overflow-hidden text-center py-20 md:py-28 lg:py-36 bg-gray-900">
         <Image
           src="/images/about.png"
@@ -29,7 +28,6 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* 2. Apa Itu WasteLink */}
       <Section className="bg-surface" contained>
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-h1 text-text-primary mb-6">Apa Itu WasteLink?</h2>
@@ -39,7 +37,6 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* 3. Misi WasteLink */}
       <Section className="bg-background border-y border-border" contained>
         <div className="text-center mb-10 lg:mb-16">
           <h2 className="text-h1 text-text-primary mb-4">Misi Kami</h2>
@@ -65,7 +62,6 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* 4. Cara Menggunakan */}
       <Section className="bg-surface" contained>
         <div className="text-center mb-12">
           <h2 className="text-h1 text-text-primary mb-4">Cara Menggunakan WasteLink</h2>
@@ -91,7 +87,6 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      {/* 5. CTA Section */}
       <Section className="bg-brand-green text-center border-t border-border" contained>
         <h2 className="text-display-xl text-white mb-6">Mulai Daur Ulang Sekarang</h2>
         <p className="text-body-lg text-white mb-10 max-w-2xl mx-auto opacity-90">

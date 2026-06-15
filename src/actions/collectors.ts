@@ -15,9 +15,6 @@ function extractStoragePath(url: string | null): string | null {
   return parts.length > 1 ? parts[1] : null;
 }
 
-// ─────────────────────────────────────────────
-// CREATE
-// ─────────────────────────────────────────────
 export async function createCollectorAction(
   _prevState: ActionState,
   formData: FormData
@@ -62,9 +59,6 @@ export async function createCollectorAction(
   redirect("/dashboard/collectors");
 }
 
-// ─────────────────────────────────────────────
-// UPDATE
-// ─────────────────────────────────────────────
 export async function updateCollectorAction(
   id: string,
   _prevState: ActionState,
@@ -126,9 +120,6 @@ export async function updateCollectorAction(
   redirect("/dashboard/collectors");
 }
 
-// ─────────────────────────────────────────────
-// DELETE
-// ─────────────────────────────────────────────
 export async function deleteCollectorAction(id: string): Promise<ActionState> {
   const supabase = await createClient();
 

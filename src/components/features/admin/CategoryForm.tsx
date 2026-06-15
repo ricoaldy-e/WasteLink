@@ -2,7 +2,6 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -31,15 +30,14 @@ export function CategoryForm({ category, action }: CategoryFormProps) {
   const isEdit = Boolean(category);
 
   return (
-    <Card className="w-full max-w-2xl">
-      {/* Inline alert: error */}
+    <div className="w-full">
       {state.error && (
         <div
           role="alert"
-          className="mb-6 flex items-start gap-3 rounded-[6px] border border-error/30 bg-error-bg px-4 py-3"
+          className="mb-8 flex items-start gap-3 rounded-[4px] border border-border border-l-4 border-red-600 bg-white p-4 shadow-sm text-red-800"
         >
           <svg
-            className="mt-0.5 shrink-0 text-error"
+            className="mt-0.5 shrink-0 text-red-600"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -48,15 +46,14 @@ export function CategoryForm({ category, action }: CategoryFormProps) {
           >
             <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5zM8 11a.875.875 0 1 1 0 1.75A.875.875 0 0 1 8 11z" />
           </svg>
-          <p className="text-body-sm text-error">{state.error}</p>
+          <p className="text-xs font-semibold leading-relaxed">{state.error}</p>
         </div>
       )}
 
-      {/* Inline alert: success (only shown before redirect fires) */}
       {state.success && (
         <div
           role="status"
-          className="mb-6 flex items-start gap-3 rounded-[6px] border border-brand-green/30 bg-brand-green-muted px-4 py-3"
+          className="mb-8 flex items-start gap-3 rounded-[4px] border border-border border-l-4 border-brand-green bg-white p-4 shadow-sm text-brand-green"
         >
           <svg
             className="mt-0.5 shrink-0 text-brand-green"
@@ -68,108 +65,154 @@ export function CategoryForm({ category, action }: CategoryFormProps) {
           >
             <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm3.03 5.03a.75.75 0 0 0-1.06-1.06L6.75 7.19 5.53 5.97a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l3.75-3.75z" />
           </svg>
-          <p className="text-body-sm text-brand-green">{state.success}</p>
+          <p className="text-xs font-semibold leading-relaxed">{state.success}</p>
         </div>
       )}
 
-      <form action={formAction} noValidate onKeyDown={handleKeyDown} className="flex flex-col gap-4 md:gap-6">
-        {/* Name */}
-        <div>
-          <Label htmlFor="category-name">
-            Nama Kategori <span className="text-error">*</span>
-          </Label>
-          <Input
-            id="category-name"
-            name="name"
-            type="text"
-            placeholder="cth. Plastik"
-            defaultValue={category?.name ?? ""}
-            maxLength={100}
-            required
-            disabled={isPending || isUploading}
-            error={!!state.error}
-          />
+      <form
+        action={formAction}
+        noValidate
+        onKeyDown={handleKeyDown}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch"
+      >
+        <div className="lg:hidden col-span-1">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary mb-3">
+              Panduan Mengisi
+            </h3>
+            <ul className="text-xs text-text-secondary space-y-2.5 list-disc pl-4 leading-relaxed">
+              <li>
+                <strong className="text-text-primary">Nama Kategori:</strong> Masukkan nama ringkas dan padat (cth. Plastik, Kertas, Logam).
+              </li>
+              <li>
+                <strong className="text-text-primary">Deskripsi:</strong> Tuliskan rangkuman singkat mengenai jenis sampah yang tercakup.
+              </li>
+              <li>
+                <strong className="text-text-primary">Konten Edukasi:</strong> Berikan petunjuk pemilahan atau langkah pengelolaan limbah bagi masyarakat.
+              </li>
+              <li>
+                <strong className="text-text-primary">Gambar:</strong> Unggah gambar representatif dengan resolusi yang jelas.
+              </li>
+            </ul>
+          </Card>
         </div>
 
-        {/* Description */}
-        <div>
-          <Label htmlFor="category-description">Deskripsi</Label>
-          <Textarea
-            id="category-description"
-            name="description"
-            placeholder="Deskripsi singkat tentang kategori ini…"
-            defaultValue={category?.description ?? ""}
-            maxLength={500}
-            disabled={isPending || isUploading}
-            rows={3}
-          />
+        <div className="lg:col-span-8 flex flex-col">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col gap-6 h-full flex-1">
+            <div>
+              <Label htmlFor="category-name">
+                Nama Kategori <span className="text-error">*</span>
+              </Label>
+              <Input
+                id="category-name"
+                name="name"
+                type="text"
+                placeholder="cth. Plastik"
+                defaultValue={category?.name ?? ""}
+                maxLength={100}
+                required
+                disabled={isPending || isUploading}
+                error={!!state.error}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="category-description">Deskripsi</Label>
+              <Textarea
+                id="category-description"
+                name="description"
+                placeholder="Deskripsi singkat tentang kategori ini…"
+                defaultValue={category?.description ?? ""}
+                maxLength={500}
+                disabled={isPending || isUploading}
+                rows={3}
+                className="resize-none"
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="category-education">Konten Edukasi</Label>
+              <Textarea
+                id="category-education"
+                name="education_content"
+                placeholder="Jelaskan cara pengelolaan, manfaat daur ulang, dll…"
+                defaultValue={category?.education_content ?? ""}
+                disabled={isPending || isUploading}
+                rows={5}
+                className="resize-none"
+              />
+            </div>
+          </Card>
         </div>
 
-        {/* Education Content */}
-        <div>
-          <Label htmlFor="category-education">Konten Edukasi</Label>
-          <Textarea
-            id="category-education"
-            name="education_content"
-            placeholder="Jelaskan cara pengelolaan, manfaat daur ulang, dll…"
-            defaultValue={category?.education_content ?? ""}
-            disabled={isPending || isUploading}
-            rows={5}
-          />
+        <div className="lg:col-span-4 flex flex-col">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col justify-between h-full flex-1 gap-6">
+            <div className="hidden lg:block border-b border-border pb-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary mb-3">
+                Panduan Mengisi
+              </h3>
+              <ul className="text-xs text-text-secondary space-y-2.5 list-disc pl-4 leading-relaxed">
+                <li>
+                  <strong className="text-text-primary">Nama Kategori:</strong> Masukkan nama ringkas dan padat (cth. Plastik, Kertas, Logam).
+                </li>
+                <li>
+                  <strong className="text-text-primary">Deskripsi:</strong> Tuliskan rangkuman singkat mengenai jenis sampah yang tercakup.
+                </li>
+                <li>
+                  <strong className="text-text-primary">Konten Edukasi:</strong> Berikan petunjuk pemilahan atau langkah pengelolaan limbah bagi masyarakat.
+                </li>
+                <li>
+                  <strong className="text-text-primary">Gambar:</strong> Unggah gambar representatif dengan resolusi yang jelas.
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-4">
+              <ImageUploader
+                name="image_url"
+                folder="categories"
+                label="Gambar Kategori"
+                defaultImageUrl={category?.image_url}
+                onUploadStateChange={setIsUploading}
+              />
+            </div>
+          </Card>
         </div>
 
-        {/* Image Upload */}
-        <ImageUploader
-          name="image_url"
-          folder="categories"
-          label="Gambar Kategori"
-          defaultImageUrl={category?.image_url}
-          onUploadStateChange={setIsUploading}
-        />
-
-        {/* Actions */}
-        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
-          <Link href="/dashboard/categories" className="sm:w-auto w-full">
-            <Button
-              type="button"
-              variant="secondary"
-              className="w-full"
-              disabled={isPending || isUploading}
-            >
-              Batal
-            </Button>
+        <div className="lg:col-span-12 flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6 border-t border-border mt-4">
+          <Link
+            href="/dashboard/categories"
+            className="w-full sm:w-[180px] h-[44px] rounded-[6px] border border-border text-text-secondary bg-white hover:bg-gray-50 active:bg-gray-100 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center pointer-events-auto"
+            style={{ pointerEvents: (isPending || isUploading) ? "none" : "auto", opacity: (isPending || isUploading) ? 0.5 : 1 }}
+          >
+            Batal
           </Link>
-          <Button
+          
+          <button
             id={isEdit ? "update-category-submit" : "create-category-submit"}
             type="submit"
-            variant="primary"
-            className="sm:flex-1"
+            className="w-full sm:w-[180px] h-[44px] rounded-[6px] bg-brand-green text-white hover:bg-brand-green-hover active:bg-brand-green-active disabled:bg-brand-green-disabled text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-1 shadow-sm"
             disabled={isPending || isUploading}
             aria-busy={isPending || isUploading}
           >
             {isPending || isUploading ? (
               <span className="flex items-center gap-2">
                 <svg
-                  className="animate-spin"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
+                  className="animate-spin w-4 h-4 text-white"
+                  viewBox="0 0 24 24"
                   fill="none"
-                  aria-hidden="true"
                 >
                   <circle
-                    cx="8"
-                    cy="8"
-                    r="6"
+                    cx="12"
+                    cy="12"
+                    r="10"
                     stroke="currentColor"
-                    strokeOpacity="0.3"
-                    strokeWidth="2"
+                    strokeWidth="4"
+                    strokeOpacity="0.25"
                   />
                   <path
-                    d="M14 8a6 6 0 0 0-6-6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    fill="currentColor"
                   />
                 </svg>
                 {isUploading ? "Mengunggah..." : "Menyimpan..."}
@@ -179,9 +222,9 @@ export function CategoryForm({ category, action }: CategoryFormProps) {
             ) : (
               "Tambah Kategori"
             )}
-          </Button>
+          </button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }

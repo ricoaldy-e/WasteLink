@@ -5,7 +5,6 @@ import { Card } from "@/components/ui/card";
 export default function PublicCategoriesLoading() {
   return (
     <>
-      {/* Page Header (Matching the real categories page) */}
       <div className="w-full bg-gradient-to-r from-[#24925A] to-[#1B6F3E] text-white py-16 md:py-20 border-b border-brand-green/10">
         <div className="max-w-[1200px] mx-auto w-full px-6 md:px-8 lg:px-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -24,12 +23,10 @@ export default function PublicCategoriesLoading() {
       </div>
 
       <Section className="bg-background !py-16" contained>
-        {/* Search Input Bar Skeleton */}
         <div className="w-full max-w-md mb-8">
           <Skeleton className="h-12 w-full rounded-xl animate-pulse" />
         </div>
 
-        {/* Categories Grid Skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
             <Card key={i} variant="default" className="flex flex-col h-full border border-border shadow-sm bg-white overflow-hidden">

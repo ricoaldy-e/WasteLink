@@ -11,9 +11,7 @@ export const metadata: Metadata = {
 export default function LoginPage() {
   return (
     <main className="min-h-screen lg:h-screen lg:overflow-hidden grid grid-cols-1 lg:grid-cols-12 bg-gray-50">
-      {/* Left Panel: Form */}
       <div className="lg:col-span-6 flex flex-col justify-between p-6 sm:p-10 md:p-12 lg:py-8 lg:px-16 xl:py-10 xl:px-24 min-h-screen lg:min-h-0 lg:h-full relative z-10 border-r border-border bg-gray-50">
-        {/* Top Header Link (Consistent Hybrid Back Button) */}
         <div className="flex justify-start">
           <Link
             href="/"
@@ -28,14 +26,12 @@ export default function LoginPage() {
           </Link>
         </div>
 
-        {/* Center: Card-wrapped Form to remove empty space */}
         <div className="my-auto py-6 w-full flex justify-center">
           <div className="w-full max-w-[460px] bg-white border border-border p-10 sm:p-12 rounded-2xl shadow-sm">
             <LoginForm />
           </div>
         </div>
 
-        {/* Bottom: Footer note */}
         <div className="text-center">
           <p className="text-[10px] font-semibold uppercase tracking-wider text-text-muted">
             &copy; {new Date().getFullYear()} WasteLink Admin Panel. Seluruh hak cipta dilindungi.
@@ -43,29 +39,23 @@ export default function LoginPage() {
         </div>
       </div>
 
-      {/* Right Panel: Creative Browser Mockup Grid Showcase */}
       <div className="hidden lg:flex lg:col-span-6 lg:h-full flex-col items-center justify-center p-12 bg-gradient-to-br from-emerald-50/30 to-brand-green-subtle/30 relative overflow-hidden">
-        {/* Subtle dot pattern background */}
         <div className="absolute inset-0 opacity-40 mix-blend-overlay pointer-events-none" style={{ backgroundImage: 'radial-gradient(var(--color-border) 1.5px, transparent 1.5px)', backgroundSize: '20px 20px' }} />
         
-        {/* Caption above mockup */}
         <div className="mb-8 text-center max-w-md relative z-10">
-          <h3 className="text-lg font-bold text-text-primary mb-2 tracking-tight">Panel Kontrol WasteLink</h3>
+          <h3 className="text-lg font-bold uppercase tracking-wider text-text-primary mb-2">Panel Kontrol WasteLink</h3>
           <p className="text-xs text-text-secondary leading-relaxed max-w-sm mx-auto">
             Kelola kategori, pantau daftar pengepul aktif, dan pastikan platform direktori daur ulang berjalan dengan lancar untuk bumi yang lebih hijau.
           </p>
         </div>
 
-        {/* Browser Mockup containing login.png */}
         <div className="relative w-full max-w-[85%] aspect-[16/10] bg-white border border-border p-3 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 group/mockup">
-          {/* Mockup browser controls */}
           <div className="flex gap-1.5 mb-2.5 select-none">
             <div className="w-2 h-2 rounded-full bg-red-400/80" />
             <div className="w-2 h-2 rounded-full bg-yellow-400/80" />
             <div className="w-2 h-2 rounded-full bg-green-400/80" />
           </div>
           
-          {/* Image inner container */}
           <div className="relative w-full h-[calc(100%-18px)] rounded-lg overflow-hidden border border-border/50 bg-gray-50">
             <Image
               src="/login.png"

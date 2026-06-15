@@ -9,8 +9,7 @@ export const metadata = {
 
 export default async function CollectorsPage() {
   const supabase = await createClient();
-  
-  // Fetch all active collectors, joining with categories to display the category name
+
   const { data: collectors, error } = await supabase
     .from('collectors')
     .select(`
@@ -35,7 +34,6 @@ export default async function CollectorsPage() {
 
   return (
     <>
-      {/* Page Header */}
       <div className="w-full bg-gradient-to-r from-[#24925A] to-[#1B6F3E] text-white py-16 md:py-20 border-b border-brand-green/10">
         <div className="max-w-[1200px] mx-auto w-full px-6 md:px-8 lg:px-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -46,7 +44,7 @@ export default async function CollectorsPage() {
               Temukan jaringan pengepul tepercaya yang siap menerima berbagai jenis limbah daur ulang Anda.
             </p>
           </div>
-          
+
           <div className="hidden md:flex items-center shrink-0">
             <div className="flex items-center gap-3 bg-white/10 border border-white/20 px-4 py-2.5 rounded-lg select-none">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="text-emerald-300">
@@ -56,7 +54,7 @@ export default async function CollectorsPage() {
                 <path d="M16 3.13a4 4 0 0 1 0 7.75" />
               </svg>
               <span className="text-sm font-semibold text-white tracking-wide">
-                {collectors?.length || 0} Pengepul Aktif
+                {collectors?.length || 0} Pengepul Sampah
               </span>
             </div>
           </div>
@@ -65,7 +63,6 @@ export default async function CollectorsPage() {
 
       <Section className="bg-background !py-16" contained>
 
-        {/* Error State */}
         {error && (
           <div className="bg-error-bg border border-error rounded-[8px] p-6 text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-h3 text-error mb-2">Gagal Memuat Data</h2>
@@ -75,7 +72,6 @@ export default async function CollectorsPage() {
           </div>
         )}
 
-        {/* Empty State */}
         {!error && (!collectors || collectors.length === 0) && (
           <div className="text-center py-16 bg-background rounded-[8px] border border-border">
             <div className="w-16 h-16 bg-border rounded-[6px] mx-auto mb-4 flex items-center justify-center">
@@ -90,7 +86,6 @@ export default async function CollectorsPage() {
           </div>
         )}
 
-        {/* Collectors List with Search */}
         {!error && sortedCollectors && sortedCollectors.length > 0 && (
           <CollectorsList collectors={formattedCollectors} />
         )}

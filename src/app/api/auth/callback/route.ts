@@ -11,6 +11,5 @@ export async function GET(request: Request) {
     await supabase.auth.exchangeCodeForSession(code);
   }
 
-  // Redirect to dashboard after successful auth
   return NextResponse.redirect(`${origin}/dashboard`);
 }

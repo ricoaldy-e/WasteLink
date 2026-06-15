@@ -36,7 +36,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
   const resolvedParams = await params;
   const supabase = await createClient();
 
-  // Fetch Collector (and its related category for context)
   const { data: collector, error } = await supabase
     .from('collectors')
     .select(`
@@ -48,20 +47,15 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
     .eq('id', resolvedParams.id)
     .single();
 
-  // Handle 404 or inactive collectors directly accessing via URL
   if (error || !collector || collector.status !== true) {
     notFound();
   }
 
-  // Format WhatsApp Link
-  // Clean up any non-numeric characters for wa.me link
   const waNumber = collector.whatsapp ? collector.whatsapp.replace(/\D/g, '') : '';
-  // Convert 08... to 628...
   const formattedWaNumber = waNumber.startsWith('0') ? '62' + waNumber.slice(1) : waNumber;
 
   return (
     <>
-      {/* Detail Pengepul Section */}
       <Section className="bg-surface pt-8 md:pt-12" contained>
         <div className="mb-8">
           <Link
@@ -77,7 +71,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
           </Link>
         </div>
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-          {/* Bagian Gambar Pengepul */}
           <div className="w-full md:w-1/3">
             <div className="relative aspect-square w-full bg-background rounded-[8px] border border-border overflow-hidden shadow-sm">
               {collector.image_url ? (
@@ -86,7 +79,7 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
                   alt={collector.name || "Pengepul"} 
                   fill 
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                  className="object-cover" 
+                  className="object-contain p-4 bg-white" 
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-text-muted bg-border/20">
@@ -98,7 +91,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
               )}
             </div>
             
-            {/* CTA Button WhatsApp di Mobile akan di bawah, di Desktop di bawah gambar */}
             <div className="mt-6 hidden md:block">
               {collector.whatsapp ? (
                 <a 
@@ -122,7 +114,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
             </div>
           </div>
 
-          {/* Informasi Detail Pengepul */}
           <div className="w-full md:w-2/3">
             <div className="mb-6">
               {collector.categories?.name && (
@@ -136,14 +127,12 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
               </p>
             </div>
 
-            {/* Kartu Informasi Kontak & Operasional */}
             <Card className="mb-6" variant="default">
               <h3 className="text-h3 text-text-primary mb-6 border-b border-border pb-4">
                 Informasi Pengepul
               </h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {/* Kolom Kiri: Alamat & Jam */}
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-body-sm font-semibold text-text-primary mb-1 flex items-center gap-2">
@@ -171,7 +160,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
                   </div>
                 </div>
 
-                {/* Kolom Kanan: Kontak */}
                 <div className="space-y-6">
                   <div>
                     <h4 className="text-body-sm font-semibold text-text-primary mb-1 flex items-center gap-2">
@@ -200,7 +188,6 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
               </div>
             </Card>
 
-            {/* Tombol CTA Mobile (Muncul di layar kecil saja) */}
             <div className="md:hidden mt-6">
               {collector.whatsapp ? (
                 <a 

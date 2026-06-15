@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# WasteLink
+
+A modern platform connecting individuals with local waste collectors. Built to simplify recycling management, WasteLink enables users to find specific recycling facilities based on waste categories and seamlessly connect with collectors via WhatsApp.
+
+## Key Features
+
+**Public Interface**
+- **Categorized Directory**: Browse waste collectors filtered by specific recycling categories (e.g., Plastic, Metal, Paper).
+- **Collector Profiles**: Detailed pages featuring operational hours, addresses, and accepted materials.
+- **Direct Integration**: Seamless WhatsApp integration for immediate communication with collectors.
+- **Educational Content**: Embedded recycling guidelines and material-specific disposal instructions.
+
+**Admin Dashboard**
+- **Content Management**: Complete CRUD operations for Collectors and Categories.
+- **Media Handling**: Integrated image uploading and storage management via Supabase.
+- **Secure Authentication**: Protected dashboard access with session management.
+- **Responsive Management**: Fully optimized interface for both desktop and mobile administration.
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Database & Services**: [Supabase](https://supabase.com/) (PostgreSQL, Authentication, Storage)
+
+## Prerequisites
+
+- Node.js 18.x or later
+- npm or yarn
+- A Supabase project and account
 
 ## Getting Started
 
-First, run the development server:
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd wastelink
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. **Environment Setup**
+   Create a `.env.local` file in the root directory based on the `.env.example` structure:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+4. **Run the development server**
+   ```bash
+   npm run dev
+   ```
+   Navigate to `http://localhost:3000` to view the application.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Architecture & Structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `/src/app/(public)` - Public-facing routing group (Home, Directories, Detail Pages)
+- `/src/app/(admin)` - Protected routing group for the admin dashboard
+- `/src/components` - Reusable UI components and feature-specific modules
+- `/src/lib` - Utility configurations (e.g., Supabase client initialization)
+- `/src/actions` - Server actions handling database mutations
+- `/src/types` - TypeScript interfaces

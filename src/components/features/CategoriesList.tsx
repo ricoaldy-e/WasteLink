@@ -19,7 +19,6 @@ interface CategoriesListProps {
 export function CategoriesList({ categories }: CategoriesListProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  // Filter categories alphabetically and by query
   const filteredCategories = categories.filter((cat) => {
     const query = searchQuery.toLowerCase().trim();
     if (!query) return true;
@@ -31,10 +30,9 @@ export function CategoriesList({ categories }: CategoriesListProps) {
 
   return (
     <div className="w-full">
-      {/* Search Input Bar */}
-      <div className="relative w-full md:max-w-md mb-8 select-none">
+      <div className="relative w-full max-w-sm mb-8 select-none">
         <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-          <svg className="h-5 w-5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg className="h-[18px] w-[18px] text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>
@@ -43,13 +41,13 @@ export function CategoriesList({ categories }: CategoriesListProps) {
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder="Cari kategori limbah..."
-          className="block w-full pl-11 pr-4 py-3 bg-white border border-border rounded-xl text-body-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-brand-green/60 focus:ring-2 focus:ring-brand-green/10 transition-all shadow-sm"
+          className="block w-full pl-10 pr-10 py-2.5 bg-white border border-border rounded-[8px] text-sm font-semibold text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green/20 transition-all shadow-sm"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => setSearchQuery("")}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-text-muted hover:text-text-primary focus:outline-none"
+            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-text-secondary hover:text-text-primary focus:outline-none"
             aria-label="Bersihkan pencarian"
           >
             <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
@@ -59,7 +57,6 @@ export function CategoriesList({ categories }: CategoriesListProps) {
         )}
       </div>
 
-      {/* Grid Kategori */}
       {filteredCategories.length > 0 ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredCategories.map((cat) => (
@@ -72,7 +69,7 @@ export function CategoriesList({ categories }: CategoriesListProps) {
                       alt={cat.name || "Kategori"}
                       fill
                       sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover"
+                      className="object-contain p-4"
                     />
                   ) : (
                     <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
@@ -82,7 +79,7 @@ export function CategoriesList({ categories }: CategoriesListProps) {
                 </div>
                 <div className="pt-4 flex flex-col items-start text-left flex-1 w-full">
                   <h3 className="text-lg font-semibold text-text-primary mb-2">{cat.name}</h3>
-                  <p className="text-sm text-text-secondary line-clamp-2 mt-auto leading-relaxed">{cat.description}</p>
+                  <p className="text-sm text-text-secondary line-clamp-2 leading-relaxed">{cat.description}</p>
                 </div>
               </Card>
             </Link>

@@ -17,6 +17,7 @@ const redHatText = Red_Hat_Text({
 });
 
 export const metadata = {
+  metadataBase: new URL('https://wastelink.id'),
   title: 'WasteLink | Recycling for Everyone',
   description: 'Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.',
   openGraph: {
@@ -43,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" data-scroll-behavior="smooth" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
+    <html lang="id" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
       <body>
         <NextTopLoader color="#299E63" showSpinner={false} />
         {children}

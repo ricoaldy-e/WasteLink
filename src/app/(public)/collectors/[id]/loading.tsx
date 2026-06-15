@@ -7,7 +7,6 @@ export default function PublicCollectorDetailLoading() {
     <main className="min-h-screen bg-background pt-24 pb-16">
       <Section className="bg-surface" contained>
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
-          {/* Gambar Pengepul Skeleton */}
           <div className="w-full md:w-1/3">
             <Skeleton className="w-full aspect-square rounded-[8px]" />
             <div className="mt-6 hidden md:block">
@@ -15,7 +14,6 @@ export default function PublicCollectorDetailLoading() {
             </div>
           </div>
 
-          {/* Informasi Pengepul Skeleton */}
           <div className="w-full md:w-2/3">
             <div className="mb-6">
               <div className="flex items-center gap-3 mb-4">
@@ -26,7 +24,6 @@ export default function PublicCollectorDetailLoading() {
               <Skeleton className="h-6 w-full" />
             </div>
 
-            {/* Kartu Informasi Skeleton */}
             <Card className="mb-6" variant="default">
               <Skeleton className="h-8 w-48 mb-6 border-b border-border pb-4" />
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

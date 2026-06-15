@@ -20,7 +20,6 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-[380px] mx-auto">
-      {/* Logo / Brand */}
       <div className="flex flex-col items-center mb-6 text-center">
         <div className="relative w-12 h-12 mb-4 bg-white border border-border rounded-xl flex items-center justify-center shadow-sm">
           <Image
@@ -31,7 +30,7 @@ export function LoginForm() {
             className="object-contain"
           />
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-text-primary">
+        <h1 className="text-2xl font-bold uppercase tracking-wider text-text-primary">
           Masuk Admin
         </h1>
         <p className="text-xs text-text-muted mt-1.5 leading-relaxed">
@@ -39,7 +38,6 @@ export function LoginForm() {
         </p>
       </div>
 
-      {/* Error Alert */}
       {state.error && (
         <div
           role="alert"
@@ -49,9 +47,7 @@ export function LoginForm() {
         </div>
       )}
 
-      {/* Form */}
       <form action={formAction} noValidate onKeyDown={handleKeyDown} className="flex flex-col gap-4">
-        {/* Email */}
         <div className="space-y-1.5">
           <Label htmlFor="email" className="text-xs font-semibold text-text-secondary">Email</Label>
           <Input
@@ -67,7 +63,6 @@ export function LoginForm() {
           />
         </div>
 
-        {/* Password */}
         <div className="space-y-1.5 text-left">
           <Label htmlFor="password" className="text-xs font-semibold text-text-secondary">Password</Label>
           <div className="relative">
@@ -103,7 +98,6 @@ export function LoginForm() {
           </div>
         </div>
 
-        {/* Submit */}
         <Button
           id="login-submit"
           type="submit"

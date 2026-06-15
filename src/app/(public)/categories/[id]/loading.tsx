@@ -5,15 +5,12 @@ import { Card } from "@/components/ui/card";
 export default function PublicCategoryDetailLoading() {
   return (
     <main className="min-h-screen bg-background pt-24 pb-16">
-      {/* Detail Kategori Section Skeleton */}
       <Section className="bg-surface border-b border-border" contained>
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12 items-start">
-          {/* Gambar Skeleton */}
           <div className="w-full md:w-1/2 lg:w-5/12 shrink-0">
             <Skeleton className="w-full aspect-[4/3] rounded-[8px]" />
           </div>
 
-          {/* Konten Kategori Skeleton */}
           <div className="w-full md:w-1/2 lg:w-7/12 flex flex-col pt-2 md:pt-4">
             <Skeleton className="h-6 w-32 rounded-full mb-4" />
             <Skeleton className="h-12 w-3/4 mb-4" />
@@ -33,7 +30,6 @@ export default function PublicCategoryDetailLoading() {
         </div>
       </Section>
 
-      {/* Daftar Pengepul Section Skeleton */}
       <Section contained className="pt-16">
         <div className="mb-10 text-center md:text-left">
           <Skeleton className="h-8 w-64 mb-3 mx-auto md:mx-0" />

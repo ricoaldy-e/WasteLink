@@ -27,19 +27,16 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh session – IMPORTANT: do not remove this call
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   const { pathname } = request.nextUrl;
 
-  // If accessing /dashboard (or any protected admin route) without a session → redirect to /login
   if (pathname.startsWith("/dashboard") && !user) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // If already logged in and trying to access /login → redirect to /dashboard
   if (pathname === "/login" && user) {
     return NextResponse.redirect(new URL("/dashboard", request.url));
   }

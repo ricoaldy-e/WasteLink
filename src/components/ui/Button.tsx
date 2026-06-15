@@ -51,7 +51,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ].join(' '),
     };
 
-    // Pisahkan children dari props agar bisa dibungkus
     const { children, ...restProps } = props;
 
     return (

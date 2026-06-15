@@ -24,11 +24,8 @@ export default async function HomePage() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Hero Section */}
       <section className="relative w-full min-h-[600px] h-[85vh] flex items-center overflow-hidden">
 
-        {/* Right Side / Background Image */}
-        {/* Mengurangi lebar pembungkus (container) agar gambar tidak terlalu ter-stretch (nge-zoom) */}
         <div className="absolute inset-y-0 right-0 w-full md:w-[65%] lg:w-[60%] z-0 bg-gray-100">
           <Image
             src="/images/hero-bg.png"
@@ -38,15 +35,11 @@ export default async function HomePage() {
             className="object-cover object-center md:object-right"
             sizes="(max-width: 768px) 100vw, 60vw"
           />
-          {/* Subtle dark gradient from right to make sure image looks deep */}
           <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-transparent to-transparent hidden md:block" />
-          {/* Mobile dark overlay so text is readable if screen is small */}
           <div className="absolute inset-0 bg-black/50 md:hidden" />
         </div>
 
-        {/* Curved Green Overlay (Left Side) */}
         <div className="absolute top-0 bottom-0 left-0 w-full md:w-[55%] lg:w-[50%] z-10 bg-[#24925A]/95 md:bg-[#24925A] flex flex-col justify-center">
-          {/* SVG Curve - Hidden on mobile, visible on tablet+ */}
           <svg
             className="hidden md:block absolute top-0 bottom-0 left-[99%] h-full w-[150px] lg:w-[200px] text-[#24925A]"
             preserveAspectRatio="none"
@@ -56,7 +49,6 @@ export default async function HomePage() {
             <path d="M0,0 Q100,50 0,100 Z" />
           </svg>
 
-          {/* Decorative thin curved line */}
           <svg
             className="hidden md:block absolute top-0 bottom-0 left-[100%] h-full w-[170px] lg:w-[230px] text-white/20 pointer-events-none"
             preserveAspectRatio="none"
@@ -98,7 +90,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Tentang Section */}
       <Section className="bg-background !py-24">
         <div className="text-center mb-16 md:mb-20 relative z-10">
           <h2 className="text-2xl md:text-3xl font-semibold uppercase tracking-wider text-text-primary mb-4">Cara Kerja WasteLink</h2>
@@ -122,7 +113,6 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* Kategori Section */}
       <Section className="bg-surface !py-24">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
           <div className="max-w-2xl">
@@ -148,7 +138,7 @@ export default async function HomePage() {
                         alt={cat.name || "Kategori"}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-cover"
+                        className="object-contain p-4"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
@@ -158,7 +148,7 @@ export default async function HomePage() {
                   </div>
                   <div className="p-5 flex flex-col flex-1">
                     <h3 className="text-lg font-semibold text-text-primary mb-2">{cat.name}</h3>
-                    <p className="text-sm text-text-secondary line-clamp-2 mt-auto leading-relaxed">{cat.description}</p>
+                    <p className="text-sm text-text-secondary line-clamp-2 leading-relaxed">{cat.description}</p>
                   </div>
                 </Card>
               </Link>
@@ -171,16 +161,13 @@ export default async function HomePage() {
         </div>
       </Section>
 
-      {/* CTA Section */}
       <div className="bg-surface pb-24 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#24925A] via-[#1F824F] to-[#17663E] rounded-[2.5rem] relative overflow-hidden shadow-xl border border-brand-green/20">
 
-          {/* Subtle design gradient overlays matching the theme */}
           <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
           <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative z-10 px-8 py-16 md:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            {/* Left Column: Content */}
             <div className="lg:col-span-8 flex flex-col items-start text-left">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold uppercase tracking-wider text-white mb-6 leading-[1.2]">
                 Mari Jaga Lingkungan Bersama
@@ -195,7 +182,6 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* Right Column: Stats Panel */}
             <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
               <StatsPanel collectorsCount={totalActiveCollectors} categoriesCount={totalCategories} />
             </div>

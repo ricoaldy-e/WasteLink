@@ -25,7 +25,7 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
       "text-body-md text-text-primary",
       "placeholder:text-text-secondary",
       "bg-white",
-      "resize-y",
+      "resize-none",
       "transition-all duration-200",
       "focus:outline-none focus:ring-[3px]",
       "disabled:opacity-50 disabled:cursor-not-allowed",

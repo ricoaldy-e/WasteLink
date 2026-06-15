@@ -11,7 +11,6 @@ export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
  */
 export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(
   ({ className = '', variant = 'success', showDot = true, children, ...props }, ref) => {
-    // Prevent style conflicts by checking for overrides
     const hasBg = className.includes('bg-');
     const hasText = className.includes('text-');
     const hasBorder = className.includes('border-');

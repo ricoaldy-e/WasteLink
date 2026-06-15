@@ -13,7 +13,7 @@ export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
     return (
       <label
         ref={ref}
-        className={`block text-body-sm font-semibold text-text-primary mb-2 ${className}`}
+        className={`block text-xs font-semibold uppercase tracking-wider text-text-primary mb-2 ${className}`}
         {...props}
       />
     );

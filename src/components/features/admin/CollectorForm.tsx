@@ -2,7 +2,6 @@
 
 import { useActionState, useState } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -35,15 +34,14 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
   const isEdit = Boolean(collector);
 
   return (
-    <Card className="w-full max-w-2xl">
-      {/* Error alert */}
+    <div className="w-full">
       {state.error && (
         <div
           role="alert"
-          className="mb-6 flex items-start gap-3 rounded-[6px] border border-error/30 bg-error-bg px-4 py-3"
+          className="mb-8 flex items-start gap-3 rounded-[4px] border border-border border-l-4 border-red-600 bg-white p-4 shadow-sm text-red-800"
         >
           <svg
-            className="mt-0.5 shrink-0 text-error"
+            className="mt-0.5 shrink-0 text-red-600"
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -52,15 +50,14 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
           >
             <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm.75 4.25a.75.75 0 0 0-1.5 0v3.5a.75.75 0 0 0 1.5 0v-3.5zM8 11a.875.875 0 1 1 0 1.75A.875.875 0 0 1 8 11z" />
           </svg>
-          <p className="text-body-sm text-error">{state.error}</p>
+          <p className="text-xs font-semibold leading-relaxed">{state.error}</p>
         </div>
       )}
 
-      {/* Success alert */}
       {state.success && (
         <div
           role="status"
-          className="mb-6 flex items-start gap-3 rounded-[6px] border border-brand-green/30 bg-brand-green-muted px-4 py-3"
+          className="mb-8 flex items-start gap-3 rounded-[4px] border border-border border-l-4 border-brand-green bg-white p-4 shadow-sm text-brand-green"
         >
           <svg
             className="mt-0.5 shrink-0 text-brand-green"
@@ -72,184 +69,228 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
           >
             <path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm3.03 5.03a.75.75 0 0 0-1.06-1.06L6.75 7.19 5.53 5.97a.75.75 0 0 0-1.06 1.06l1.75 1.75a.75.75 0 0 0 1.06 0l3.75-3.75z" />
           </svg>
-          <p className="text-body-sm text-brand-green">{state.success}</p>
+          <p className="text-xs font-semibold leading-relaxed">{state.success}</p>
         </div>
       )}
 
-      <form action={formAction} noValidate onKeyDown={handleKeyDown} className="flex flex-col gap-4 md:gap-6">
-        {/* Name */}
-        <div>
-          <Label htmlFor="collector-name">
-            Nama Pengepul <span className="text-error">*</span>
-          </Label>
-          <Input
-            id="collector-name"
-            name="name"
-            type="text"
-            placeholder="cth. CV. Jaya Daur Ulang"
-            defaultValue={collector?.name ?? ""}
-            maxLength={100}
-            required
-            disabled={isPending || isUploading}
-            error={!!state.error}
-          />
+      <form
+        action={formAction}
+        noValidate
+        onKeyDown={handleKeyDown}
+        className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start"
+      >
+        <div className="lg:hidden col-span-1">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary mb-3">
+              Panduan Pengepul
+            </h3>
+            <ul className="text-xs text-text-secondary space-y-2.5 list-disc pl-4 leading-relaxed">
+              <li>
+                <strong className="text-text-primary">Nama & Kategori:</strong> Masukkan nama resmi instansi/lapak dan pilih kategori limbah utama.
+              </li>
+              <li>
+                <strong className="text-text-primary">Alamat & Kontak:</strong> Tulis alamat lokasi lengkap dan kontak aktif untuk memudahkan transaksi daur ulang.
+              </li>
+              <li>
+                <strong className="text-text-primary">Jam Operasional:</strong> Informasikan jadwal buka lapak dengan format yang jelas.
+              </li>
+              <li>
+                <strong className="text-text-primary">Status:</strong> Pengepul nonaktif tidak akan muncul di peta direktori publik.
+              </li>
+            </ul>
+          </Card>
         </div>
 
-        {/* Category */}
-        <div>
-          <Label htmlFor="collector-category">Kategori</Label>
-          <Select
-            id="collector-category"
-            name="category_id"
-            defaultValue={collector?.category_id ?? ""}
-            required
-            disabled={isPending || isUploading}
+        <div className="lg:col-span-8 flex flex-col">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col gap-6">
+            <div>
+              <Label htmlFor="collector-name">
+                Nama Pengepul <span className="text-error">*</span>
+              </Label>
+              <Input
+                id="collector-name"
+                name="name"
+                type="text"
+                placeholder="cth. CV. Jaya Daur Ulang"
+                defaultValue={collector?.name ?? ""}
+                maxLength={100}
+                required
+                disabled={isPending || isUploading}
+                error={!!state.error}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="collector-category">Kategori</Label>
+              <Select
+                id="collector-category"
+                name="category_id"
+                defaultValue={collector?.category_id ?? ""}
+                required
+                disabled={isPending || isUploading}
+              >
+                <option value="">-- Pilih Kategori --</option>
+                {categories.map((cat) => (
+                  <option key={cat.id} value={cat.id}>
+                    {cat.name}
+                  </option>
+                ))}
+              </Select>
+            </div>
+
+            <div>
+              <Label htmlFor="collector-address">Alamat</Label>
+              <Textarea
+                id="collector-address"
+                name="address"
+                placeholder="Jl. Contoh No. 1, Kota, Provinsi"
+                defaultValue={collector?.address ?? ""}
+                maxLength={500}
+                disabled={isPending || isUploading}
+                rows={2}
+                className="resize-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
+              <div>
+                <Label htmlFor="collector-phone">Nomor Telepon</Label>
+                <Input
+                  id="collector-phone"
+                  name="phone"
+                  type="tel"
+                  placeholder="021-XXXXXXXX"
+                  defaultValue={collector?.phone ?? ""}
+                  maxLength={20}
+                  disabled={isPending || isUploading}
+                />
+              </div>
+              <div>
+                <Label htmlFor="collector-whatsapp">Nomor WhatsApp</Label>
+                <Input
+                  id="collector-whatsapp"
+                  name="whatsapp"
+                  type="tel"
+                  placeholder="08XXXXXXXXXX"
+                  defaultValue={collector?.whatsapp ?? ""}
+                  maxLength={20}
+                  disabled={isPending || isUploading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <Label htmlFor="collector-hours">Jam Operasional</Label>
+              <Input
+                id="collector-hours"
+                name="operational_hours"
+                type="text"
+                placeholder="cth. 08.00 – 17.00 (Senin – Sabtu)"
+                defaultValue={collector?.operational_hours ?? ""}
+                maxLength={100}
+                disabled={isPending || isUploading}
+              />
+            </div>
+
+            <div>
+              <Label htmlFor="collector-description">Deskripsi</Label>
+              <Textarea
+                id="collector-description"
+                name="description"
+                placeholder="Informasi tambahan mengenai pengepul ini…"
+                defaultValue={collector?.description ?? ""}
+                maxLength={500}
+                disabled={isPending || isUploading}
+                rows={4}
+                className="resize-none"
+              />
+            </div>
+          </Card>
+        </div>
+
+        <div className="lg:col-span-4 flex flex-col">
+          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col gap-6">
+            <div className="hidden lg:block border-b border-border pb-6">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-text-primary mb-3">
+                Panduan Pengepul
+              </h3>
+              <ul className="text-xs text-text-secondary space-y-2.5 list-disc pl-4 leading-relaxed">
+                <li>
+                  <strong className="text-text-primary">Nama & Kategori:</strong> Masukkan nama resmi instansi/lapak dan pilih kategori limbah utama.
+                </li>
+                <li>
+                  <strong className="text-text-primary">Alamat & Kontak:</strong> Tulis alamat lokasi lengkap dan kontak aktif untuk memudahkan transaksi daur ulang.
+                </li>
+                <li>
+                  <strong className="text-text-primary">Jam Operasional:</strong> Informasikan jadwal buka lapak dengan format yang jelas.
+                </li>
+                <li>
+                  <strong className="text-text-primary">Status:</strong> Pengepul nonaktif tidak akan muncul di peta direktori publik.
+                </li>
+              </ul>
+            </div>
+
+            <div className="flex flex-col gap-6">
+              <div>
+                <Label htmlFor="collector-status" className="mb-2 block">Status Pengepul</Label>
+                <Select
+                  id="collector-status"
+                  name="status"
+                  defaultValue={collector ? (collector.status ? "true" : "false") : "true"}
+                  disabled={isPending || isUploading}
+                >
+                  <option value="true">Aktif</option>
+                  <option value="false">Tidak Aktif</option>
+                </Select>
+              </div>
+
+              <div className="flex flex-col gap-4">
+                <ImageUploader
+                  name="image_url"
+                  folder="collectors"
+                  label="Gambar Pengepul"
+                  defaultImageUrl={collector?.image_url}
+                  onUploadStateChange={setIsUploading}
+                />
+              </div>
+            </div>
+          </Card>
+        </div>
+
+        <div className="lg:col-span-12 flex flex-col-reverse sm:flex-row justify-end gap-3 pt-6 border-t border-border mt-4">
+          <Link
+            href="/dashboard/collectors"
+            className="w-full sm:w-[180px] h-[44px] rounded-[6px] border border-border text-text-secondary bg-white hover:bg-gray-50 active:bg-gray-100 text-xs font-bold uppercase tracking-wider transition-colors flex items-center justify-center pointer-events-auto"
+            style={{ pointerEvents: (isPending || isUploading) ? "none" : "auto", opacity: (isPending || isUploading) ? 0.5 : 1 }}
           >
-            <option value="">-- Pilih Kategori --</option>
-            {categories.map((cat) => (
-              <option key={cat.id} value={cat.id}>
-                {cat.name}
-              </option>
-            ))}
-          </Select>
-        </div>
-
-        {/* Address */}
-        <div>
-          <Label htmlFor="collector-address">Alamat</Label>
-          <Textarea
-            id="collector-address"
-            name="address"
-            placeholder="Jl. Contoh No. 1, Kota, Provinsi"
-            defaultValue={collector?.address ?? ""}
-            maxLength={500}
-            disabled={isPending || isUploading}
-            rows={2}
-          />
-        </div>
-
-        {/* Phone & WhatsApp — side by side on tablet+ */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-          <div>
-            <Label htmlFor="collector-phone">Nomor Telepon</Label>
-            <Input
-              id="collector-phone"
-              name="phone"
-              type="tel"
-              placeholder="021-XXXXXXXX"
-              defaultValue={collector?.phone ?? ""}
-              maxLength={20}
-              disabled={isPending || isUploading}
-            />
-          </div>
-          <div>
-            <Label htmlFor="collector-whatsapp">Nomor WhatsApp</Label>
-            <Input
-              id="collector-whatsapp"
-              name="whatsapp"
-              type="tel"
-              placeholder="08XXXXXXXXXX"
-              defaultValue={collector?.whatsapp ?? ""}
-              maxLength={20}
-              disabled={isPending || isUploading}
-            />
-          </div>
-        </div>
-
-        {/* Operational Hours */}
-        <div>
-          <Label htmlFor="collector-hours">Jam Operasional</Label>
-          <Input
-            id="collector-hours"
-            name="operational_hours"
-            type="text"
-            placeholder="cth. 08.00 – 17.00 (Senin – Sabtu)"
-            defaultValue={collector?.operational_hours ?? ""}
-            maxLength={100}
-            disabled={isPending || isUploading}
-          />
-        </div>
-
-        {/* Description */}
-        <div>
-          <Label htmlFor="collector-description">Deskripsi</Label>
-          <Textarea
-            id="collector-description"
-            name="description"
-            placeholder="Informasi tambahan mengenai pengepul ini…"
-            defaultValue={collector?.description ?? ""}
-            maxLength={500}
-            disabled={isPending || isUploading}
-            rows={4}
-          />
-        </div>
-
-        {/* Status */}
-        <div>
-          <Label htmlFor="collector-status">Status Pengepul</Label>
-          <Select
-            id="collector-status"
-            name="status"
-            defaultValue={collector ? (collector.status ? "true" : "false") : "true"}
-            disabled={isPending || isUploading}
-          >
-            <option value="true">Aktif</option>
-            <option value="false">Tidak Aktif</option>
-          </Select>
-        </div>
-
-        {/* Image Upload */}
-        <ImageUploader
-          name="image_url"
-          folder="collectors"
-          label="Gambar Pengepul"
-          defaultImageUrl={collector?.image_url}
-          onUploadStateChange={setIsUploading}
-        />
-
-        {/* Actions */}
-        <div className="flex flex-col-reverse sm:flex-row gap-3 pt-2">
-          <Link href="/dashboard/collectors" className="sm:w-auto w-full">
-            <Button
-              type="button"
-              variant="secondary"
-              className="w-full"
-              disabled={isPending || isUploading}
-            >
-              Batal
-            </Button>
+            Batal
           </Link>
-          <Button
+          
+          <button
             id={isEdit ? "update-collector-submit" : "create-collector-submit"}
             type="submit"
-            variant="primary"
-            className="sm:flex-1"
+            className="w-full sm:w-[180px] h-[44px] rounded-[6px] bg-brand-green text-white hover:bg-brand-green-hover active:bg-brand-green-active disabled:bg-brand-green-disabled text-xs font-bold uppercase tracking-wider transition-all flex items-center justify-center gap-2 focus:outline-none focus:ring-2 focus:ring-brand-green focus:ring-offset-1 shadow-sm"
             disabled={isPending || isUploading}
             aria-busy={isPending || isUploading}
           >
             {isPending || isUploading ? (
               <span className="flex items-center gap-2">
                 <svg
-                  className="animate-spin"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
+                  className="animate-spin w-4 h-4 text-white"
+                  viewBox="0 0 24 24"
                   fill="none"
-                  aria-hidden="true"
                 >
                   <circle
-                    cx="8"
-                    cy="8"
-                    r="6"
+                    cx="12"
+                    cy="12"
+                    r="10"
                     stroke="currentColor"
-                    strokeOpacity="0.3"
-                    strokeWidth="2"
+                    strokeWidth="4"
+                    strokeOpacity="0.25"
                   />
                   <path
-                    d="M14 8a6 6 0 0 0-6-6"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    fill="currentColor"
                   />
                 </svg>
                 {isUploading ? "Mengunggah..." : "Menyimpan..."}
@@ -259,9 +300,9 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
             ) : (
               "Tambah Pengepul"
             )}
-          </Button>
+          </button>
         </div>
       </form>
-    </Card>
+    </div>
   );
 }

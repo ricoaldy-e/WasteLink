@@ -3,8 +3,6 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Section } from "@/components/layout/Section";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { CollectorForm } from "@/components/features/admin/CollectorForm";
 import { updateCollectorAction } from "@/actions/collectors";
 import { Collector } from "@/types/collector";
@@ -22,7 +20,6 @@ export default async function EditCollectorPage({ params }: EditCollectorPagePro
   const { id } = await params;
   const supabase = await createClient();
 
-  // Fetch collector dan categories secara paralel
   const [{ data: collectorData, error: collectorError }, { data: categories, error: categoriesError }] =
     await Promise.all([
       supabase.from("collectors").select("*").eq("id", id).single(),
@@ -35,20 +32,26 @@ export default async function EditCollectorPage({ params }: EditCollectorPagePro
 
   const collector = collectorData as Collector;
 
-  // Bind id ke updateCollectorAction agar signature cocok dengan (prevState, formData)
   const boundUpdateAction = updateCollectorAction.bind(null, id);
 
   return (
-    <main className="min-h-screen bg-background">
+    <main className="min-h-screen bg-[#F8FAFC]">
       <Section className="pt-8 pb-12 lg:pt-12">
-        {/* Page Header */}
         <div className="mb-8">
-          <Link href="/dashboard/collectors">
-            <Button variant="ghost" className="text-text-secondary hover:text-brand-green mb-4 -ml-3">
-              ← Kembali ke Pengepul
-            </Button>
+          <Link
+            href="/dashboard/collectors"
+            className="group inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-wider text-text-secondary hover:text-text-primary transition-all duration-200 mb-4"
+          >
+            <span className="flex items-center justify-center w-7 h-7 rounded-full border border-border bg-white group-hover:border-text-secondary group-hover:bg-gray-50 transition-all duration-200 shadow-sm">
+              <svg className="w-3.5 h-3.5 text-text-muted group-hover:text-text-primary transition-colors duration-200" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              </svg>
+            </span>
+            <span>Kembali ke Pengepul</span>
           </Link>
-          <h1 className="text-h2 text-text-primary">Edit Pengepul</h1>
+          <h1 className="text-h2 font-bold uppercase tracking-wider text-text-primary">
+            Edit Pengepul
+          </h1>
           <p className="text-body-sm text-text-secondary mt-1">
             Perbarui informasi pengepul{" "}
             <span className="font-semibold text-text-primary">
@@ -58,16 +61,12 @@ export default async function EditCollectorPage({ params }: EditCollectorPagePro
           </p>
         </div>
 
-        {/* Categories load error (non-fatal — form still renders with empty dropdown) */}
         {categoriesError && (
-          <Card className="border-error/30 bg-error-bg mb-6 max-w-2xl">
-            <p className="text-body-sm text-error">
-              Gagal memuat daftar kategori: {categoriesError.message}
-            </p>
-          </Card>
+          <div className="mb-6 rounded-[4px] border border-border border-l-4 border-red-600 bg-white p-4 shadow-sm text-red-800 max-w-2xl text-xs font-semibold leading-relaxed">
+            Gagal memuat daftar kategori: {categoriesError.message}
+          </div>
         )}
 
-        {/* Pre-filled form */}
         <CollectorForm
           collector={collector}
           categories={(categories as Category[]) ?? []}

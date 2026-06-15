@@ -62,7 +62,7 @@ MallSampah's design system embodies a mission-driven, accessible approach to env
 
 ### Principles
 - **Clarity first:** Choose bold, high-contrast text for accessibility in diverse environments and devices.
-- **Hierarchy through weight:** Rely primarily on font weight (400, 500, 700) to establish visual hierarchy rather than excessive size variation.
+- **Hierarchy through weight & capitalization:** Rely primarily on font weight (400, 500, 700) and uppercase text (`uppercase tracking-wider`) to establish visual hierarchy. Uppercase is highly preferred for labels, small emphasis, and section headers over simply making text bold.
 - **Spacing as breathing:** Generous line heights (1.2–1.75) allow text to breathe and improve scannability on mobile and desktop.
 - **Brand voice:** Red Hat family conveys modern, approachable authority aligned with MallSampah's community mission.
 - **Performance:** Minimal font variants reduce load times while maintaining visual richness.

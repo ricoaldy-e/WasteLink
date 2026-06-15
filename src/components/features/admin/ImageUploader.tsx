@@ -41,7 +41,6 @@ export function ImageUploader({
   const [uploadError, setUploadError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // Cleanup object URL to prevent memory leaks
   useEffect(() => {
     return () => {
       if (previewUrl && previewUrl.startsWith("blob:")) {
@@ -55,7 +54,6 @@ export function ImageUploader({
       const file = e.target.files?.[0];
       if (!file) return;
 
-      // ── Validation ──────────────────────────────
       if (!ALLOWED_TYPES.includes(file.type)) {
         setUploadError(
           "Format tidak valid. Gunakan JPEG, PNG, atau WebP."
@@ -73,11 +71,9 @@ export function ImageUploader({
       setIsUploading(true);
       onUploadStateChange?.(true);
 
-      // ── Local preview (instant, via object URL) ──
       const objectUrl = URL.createObjectURL(file);
       setPreviewUrl(objectUrl);
 
-      // ── Upload to Supabase Storage ───────────────
       try {
         const supabase = createClient();
         const ext = file.name.split(".").pop();
@@ -93,7 +89,6 @@ export function ImageUploader({
           throw new Error(uploadErr.message);
         }
 
-        // Get public URL
         const { data } = supabase.storage
           .from(BUCKET)
           .getPublicUrl(filePath);
@@ -105,7 +100,6 @@ export function ImageUploader({
             ? `Upload gagal: ${err.message}`
             : "Upload gagal. Periksa koneksi dan coba lagi."
         );
-        // Revert preview to previous state on failure
         setPreviewUrl(defaultImageUrl ?? null);
       } finally {
         setIsUploading(false);
@@ -126,10 +120,8 @@ export function ImageUploader({
     <div className="flex flex-col gap-2">
       <Label>{label}</Label>
 
-      {/* Hidden input carries the final URL into FormData */}
       <input type="hidden" name={name} value={uploadedUrl} />
 
-      {/* Preview area */}
       {previewUrl ? (
         <div className="relative w-full max-w-xs">
           <div className="relative w-full aspect-video rounded-[6px] overflow-hidden border border-border bg-background">
@@ -140,7 +132,6 @@ export function ImageUploader({
               className="object-cover"
               unoptimized
             />
-            {/* Uploading overlay */}
             {isUploading && (
               <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 gap-2">
                 <svg
@@ -170,7 +161,6 @@ export function ImageUploader({
               </div>
             )}
           </div>
-          {/* Remove button */}
           {!isUploading && (
             <button
               type="button"
@@ -229,7 +219,6 @@ export function ImageUploader({
         </button>
       )}
 
-      {/* Hidden native file input */}
       <input
         ref={fileInputRef}
         type="file"
@@ -240,7 +229,6 @@ export function ImageUploader({
         tabIndex={-1}
       />
 
-      {/* Error message */}
       {uploadError && (
         <div role="alert" className="mt-1 p-2 bg-error-bg text-error text-caption rounded-[4px] flex items-start gap-2 border border-error/20">
           <svg className="w-4 h-4 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -250,7 +238,6 @@ export function ImageUploader({
         </div>
       )}
 
-      {/* Success hint */}
       {!isUploading && !uploadError && uploadedUrl && uploadedUrl !== defaultImageUrl && (
         <p role="status" className="text-caption text-brand-green">
           ✓ Gambar berhasil diunggah

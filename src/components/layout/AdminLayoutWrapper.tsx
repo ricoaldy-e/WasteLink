@@ -9,12 +9,10 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  // Close sidebar on route change for mobile
   useEffect(() => {
     setIsSidebarOpen(false);
   }, [pathname]);
 
-  // Prevent body scroll on mobile when sidebar is open
   useEffect(() => {
     if (isSidebarOpen) {
       document.body.style.overflow = "hidden";
@@ -44,7 +42,6 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
         </main>
       </div>
 
-      {/* Mobile Overlay */}
       {isSidebarOpen && (
         <div 
           className="fixed inset-0 z-40 bg-black/30 lg:hidden"

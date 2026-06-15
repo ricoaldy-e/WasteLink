@@ -10,7 +10,6 @@ export const metadata = {
 export default async function CategoriesPage() {
   const supabase = await createClient();
   
-  // Fetch categories, handling potential errors
   const { data: categories, error } = await supabase
     .from('categories')
     .select('id, name, description, image_url')
@@ -22,7 +21,6 @@ export default async function CategoriesPage() {
 
   return (
     <>
-      {/* Page Header */}
       <div className="w-full bg-gradient-to-r from-[#24925A] to-[#1B6F3E] text-white py-16 md:py-20 border-b border-brand-green/10">
         <div className="max-w-[1200px] mx-auto w-full px-6 md:px-8 lg:px-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-6">
           <div>
@@ -51,7 +49,6 @@ export default async function CategoriesPage() {
 
       <Section className="bg-background !py-16" contained>
 
-        {/* Error State */}
         {error && (
           <div className="bg-error-bg border border-error rounded-[8px] p-6 text-center max-w-2xl mx-auto mb-12">
             <h2 className="text-h3 text-error mb-2">Gagal Memuat Data</h2>
@@ -61,7 +58,6 @@ export default async function CategoriesPage() {
           </div>
         )}
 
-        {/* Empty State */}
         {!error && (!categories || categories.length === 0) && (
           <div className="text-center py-16 bg-background rounded-[8px] border border-border">
             <div className="w-16 h-16 bg-border rounded-[6px] mx-auto mb-4 flex items-center justify-center">
@@ -76,7 +72,6 @@ export default async function CategoriesPage() {
           </div>
         )}
 
-        {/* Categories List with Search */}
         {!error && sortedCategories && sortedCategories.length > 0 && (
           <CategoriesList categories={sortedCategories} />
         )}

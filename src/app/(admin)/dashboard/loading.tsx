@@ -6,13 +6,11 @@ export default function DashboardLoading() {
   return (
     <main className="min-h-screen bg-background">
       <Section className="pb-8 pt-8 lg:pt-12">
-        {/* Header Dashboard Skeleton */}
         <div className="mb-10">
           <Skeleton className="h-10 w-48 mb-2" />
           <Skeleton className="h-6 w-full max-w-2xl" />
         </div>
 
-        {/* Statistik Skeleton */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
           <Card className="flex flex-col">
             <Skeleton className="h-4 w-32 mb-4" />
@@ -24,7 +22,6 @@ export default function DashboardLoading() {
           </Card>
         </div>
 
-        {/* Quick Actions Skeleton */}
         <div>
           <Skeleton className="h-8 w-40 mb-6" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -36,7 +36,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
   const resolvedParams = await params;
   const supabase = await createClient();
 
-  // Fetch Category
   const { data: category, error: categoryError } = await supabase
     .from('categories')
     .select('id, name, description, education_content, image_url')
@@ -47,7 +46,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
     notFound();
   }
 
-  // Fetch Collectors associated with this category that are active
   const { data: collectors, error: collectorsError } = await supabase
     .from('collectors')
     .select('id, name, description, address, status, image_url')
@@ -57,7 +55,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
 
   return (
     <>
-      {/* Detail Kategori Section */}
       <Section className="bg-surface pt-8 md:pt-12" contained>
         <div className="mb-8">
           <Link
@@ -73,40 +70,42 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
           </Link>
         </div>
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12 mb-12">
-          {/* Gambar Kategori */}
           <div className="w-full md:w-1/3">
-            <div className="relative aspect-square w-full bg-background rounded-lg border border-border overflow-hidden shadow-sm">
+            <div className="relative aspect-square w-full bg-background rounded-[8px] border border-border overflow-hidden shadow-sm">
               {category.image_url ? (
                 <Image 
                   src={category.image_url} 
                   alt={category.name || "Kategori"} 
                   fill 
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
-                  className="object-cover" 
+                  className="object-contain p-4 bg-white" 
                 />
               ) : (
-                <div className="w-full h-full flex flex-col items-center justify-center text-text-muted">
-                  <svg className="w-12 h-12 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div className="w-full h-full flex flex-col items-center justify-center text-text-muted bg-border/20">
+                  <svg className="w-16 h-16 mb-4 text-text-muted/50" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2-2v12a2 2 0 002 2z" />
                   </svg>
-                  <span className="text-body-sm">Tanpa Gambar</span>
+                  <span className="text-body-md">Tanpa Gambar</span>
                 </div>
               )}
             </div>
           </div>
 
-          {/* Informasi & Edukasi Kategori */}
-          <div className="w-full md:w-2/3 flex flex-col justify-center">
-            <Badge variant="success" className="w-fit mb-4">Informasi Kategori</Badge>
-            <h1 className="text-h1 text-text-primary mb-4">{category.name}</h1>
-            <p className="text-body-lg text-text-secondary mb-6 leading-relaxed">
-              {category.description}
-            </p>
+          <div className="w-full md:w-2/3">
+            <div className="mb-6">
+              <div className="flex items-center gap-3 mb-4">
+                <Badge variant="neutral">Informasi Kategori</Badge>
+              </div>
+              <h1 className="text-h1 text-text-primary mb-2">{category.name}</h1>
+              <p className="text-body-lg text-text-secondary">
+                {category.description || "Deskripsi kategori belum tersedia."}
+              </p>
+            </div>
 
             {category.education_content && (
-              <div className="bg-brand-green-subtle rounded-lg p-6 border-l-4 border-brand-green">
-                <h3 className="text-h3 text-text-primary mb-2 flex items-center gap-2">
-                  <svg className="w-6 h-6 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <Card className="mb-6" variant="default">
+                <h3 className="text-h3 text-text-primary mb-6 border-b border-border pb-4 flex items-center gap-2">
+                  <svg className="w-5 h-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Edukasi Pengelolaan
@@ -114,13 +113,12 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                 <p className="text-body-md text-text-secondary whitespace-pre-wrap">
                   {category.education_content}
                 </p>
-              </div>
+              </Card>
             )}
           </div>
         </div>
       </Section>
 
-      {/* Daftar Pengepul Section */}
       <Section className="bg-background border-t border-border" contained>
         <div className="mb-8">
           <h2 className="text-h1 text-text-primary mb-2">Pengepul {category.name}</h2>
@@ -129,7 +127,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
           </p>
         </div>
 
-        {/* Error State untuk Pengepul */}
         {collectorsError && (
           <div className="bg-error-bg border border-error rounded-[8px] p-6 text-center max-w-2xl mx-auto my-12">
             <h3 className="text-h3 text-error mb-2">Gagal Memuat Data Pengepul</h3>
@@ -139,7 +136,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
           </div>
         )}
 
-        {/* Empty State untuk Pengepul */}
         {!collectorsError && (!collectors || collectors.length === 0) && (
           <div className="text-center py-16 bg-surface rounded-[8px] border border-border">
             <div className="w-16 h-16 bg-border rounded-[6px] mx-auto mb-4 flex items-center justify-center">
@@ -154,7 +150,6 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
           </div>
         )}
 
-        {/* Grid Pengepul */}
         {!collectorsError && collectors && collectors.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {collectors.map((collector) => (
@@ -167,23 +162,19 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                         alt={collector.name || "Pengepul"}
                         fill
                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
+                        className="object-contain p-4 bg-white"
                       />
                     ) : (
                       <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
                         <span className="text-text-muted text-sm font-medium">Tanpa Gambar</span>
                       </div>
                     )}
-                    
-                    {/* Badge Kategori di Atas Gambar */}
-                    <div className="absolute top-3 right-3 z-10">
-                      <Badge variant="neutral" className="shadow-sm bg-white/90 backdrop-blur-sm text-text-primary border border-gray-200">
-                        {category.name}
-                      </Badge>
-                    </div>
                   </div>
                   
                   <div className="p-5 flex flex-col flex-1">
+                    <Badge variant="neutral" className="mb-2.5 w-fit bg-gray-50 border-gray-200 text-text-secondary font-medium">
+                      {category.name}
+                    </Badge>
                     <h3 className="text-lg font-semibold text-text-primary mb-2 line-clamp-1">{collector.name}</h3>
                     
                     <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">

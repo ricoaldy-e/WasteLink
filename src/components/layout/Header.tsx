@@ -27,12 +27,12 @@ export const Header = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false);
+    // Memaksa scroll ke paling atas setiap kali pindah halaman
+    window.scrollTo(0, 0);
   }, [pathname]);
 
-  // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (mobileOpen) {
       document.body.style.overflow = 'hidden';
@@ -48,7 +48,6 @@ export const Header = () => {
     <>
       <header className="bg-white border-b border-border shadow-sm h-16 sticky top-0 z-50">
         <Container className="h-full flex items-center justify-between">
-          {/* Logo – DESIGN.md: 24px, 700, #299E63 */}
           <Link
             href="/"
             onClick={(e) => {
@@ -62,7 +61,6 @@ export const Header = () => {
             Waste<span className="text-text-primary">Link</span>
           </Link>
 
-          {/* Desktop Navigation (Absolute Centered) */}
           <nav className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || pathname?.startsWith(link.href + '/');
@@ -82,7 +80,6 @@ export const Header = () => {
                   `}
                 >
                   {link.label}
-                  {/* Hover underline effect */}
                   <span 
                     className={`
                       absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out
@@ -94,9 +91,7 @@ export const Header = () => {
             })}
           </nav>
 
-          {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-3">
-            {/* Logo Image */}
             <Link 
               href="/" 
               onClick={(e) => {
@@ -116,7 +111,6 @@ export const Header = () => {
               />
             </Link>
 
-            {/* Hamburger Button – mobile only */}
             <button
               type="button"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -143,7 +137,6 @@ export const Header = () => {
         </Container>
       </header>
 
-      {/* Mobile Drawer Overlay */}
       {mobileOpen && (
         <div
           className="fixed inset-0 z-40 bg-black/30 md:hidden"
@@ -152,7 +145,6 @@ export const Header = () => {
         />
       )}
 
-      {/* Mobile Slide-out Drawer */}
       <div
         className={`
           fixed top-16 right-0 bottom-0 z-50 w-[280px]
