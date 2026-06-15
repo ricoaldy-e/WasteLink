@@ -175,7 +175,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                     <Badge variant="neutral" className="mb-2.5 w-fit bg-gray-50 border-gray-200 text-text-secondary font-medium">
                       {category.name}
                     </Badge>
-                    <h3 className="text-lg font-semibold text-text-primary mb-2 line-clamp-1">{collector.name}</h3>
+                    <h3 title={collector.name} className="text-lg font-semibold text-text-primary mb-2 line-clamp-2 min-h-[3.5rem]">{collector.name}</h3>
                     
                     <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">
                       {collector.description || "Mitra pengepul terpercaya di WasteLink."}
@@ -186,8 +186,8 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                       </svg>
-                      <p className="text-sm line-clamp-2 leading-relaxed" title={collector.address || "Alamat belum disediakan"}>
-                        {collector.address || "Alamat belum disediakan"}
+                      <p className="text-sm line-clamp-2 leading-relaxed text-text-secondary">
+                        {collector.address ? "Tersedia lokasi Google Maps" : "Lokasi belum disediakan"}
                       </p>
                     </div>
                   </div>

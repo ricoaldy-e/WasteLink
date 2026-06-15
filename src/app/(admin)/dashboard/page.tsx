@@ -125,24 +125,22 @@ export default async function DashboardPage() {
               <div className="divide-y divide-border flex-1">
                 {recentCollectors.map((collector) => (
                   <div key={collector.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
-                    <div className="flex items-center gap-3">
+                    <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
                       <div className="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center text-white text-xs font-bold uppercase shrink-0">
                         {collector.name.charAt(0)}
                       </div>
-                      <div className="min-w-0">
+                      <div className="min-w-0 flex-1">
                         <p className="text-sm font-bold text-text-primary truncate">{collector.name}</p>
                         <p className="text-xs text-text-secondary mt-0.5 font-medium truncate">
                           {(collector.categories as any)?.name || "Kategori Umum"}
                         </p>
                       </div>
                     </div>
-                    <span className={`inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[4px] border shrink-0 ${
-                      collector.status 
-                        ? "bg-brand-green text-white border-transparent"
-                        : "bg-white text-text-secondary border-border"
-                    }`}>
-                      {collector.status ? "Aktif" : "Nonaktif"}
-                    </span>
+                    <Link href={`/dashboard/collectors/${collector.id}/edit`}>
+                      <button className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:text-brand-green border border-border hover:border-brand-green bg-white rounded-[6px] px-3 py-1.5 transition-colors shrink-0">
+                        Edit
+                      </button>
+                    </Link>
                   </div>
                 ))}
               </div>

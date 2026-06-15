@@ -105,7 +105,7 @@ export function AdminCategoriesList({ initialCategories }: AdminCategoriesListPr
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <h2 className="text-sm font-bold text-text-primary">
+                  <h2 className="text-sm font-bold text-text-primary truncate">
                     {category.name}
                   </h2>
                   {category.description && (
@@ -134,21 +134,21 @@ export function AdminCategoriesList({ initialCategories }: AdminCategoriesListPr
           </div>
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-between pt-6 border-t border-border mt-5 select-none">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border mt-5 select-none">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hidden sm:inline">
                 Halaman {currentPage} dari {totalPages}
               </span>
               
-              <div className="flex items-center gap-2">
+              <div className="flex items-center justify-between w-full sm:w-auto gap-2">
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center"
+                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center flex-1 sm:flex-none"
                 >
                   Sebelumnya
                 </button>
 
-                <div className="flex items-center gap-1">
+                <div className="hidden sm:flex items-center gap-1">
                   {getPageNumbers().map((page) => (
                     <button
                       key={page}
@@ -164,10 +164,14 @@ export function AdminCategoriesList({ initialCategories }: AdminCategoriesListPr
                   ))}
                 </div>
 
+                <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary sm:hidden px-2 text-center">
+                  {currentPage} / {totalPages}
+                </span>
+
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center"
+                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center flex-1 sm:flex-none"
                 >
                   Berikutnya
                 </button>

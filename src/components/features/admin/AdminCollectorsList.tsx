@@ -107,20 +107,9 @@ export function AdminCollectorsList({ initialCollectors }: AdminCollectorsListPr
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h2 className="text-sm font-bold text-text-primary truncate">
-                      {collector.name}
-                    </h2>
-                    <span
-                      className={`inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[4px] border ${
-                        collector.status
-                          ? "bg-brand-green text-white border-transparent"
-                          : "bg-white text-text-secondary border-border"
-                      }`}
-                    >
-                      {collector.status ? "Aktif" : "Nonaktif"}
-                    </span>
-                  </div>
+                  <h2 className="text-sm font-bold text-text-primary truncate">
+                    {collector.name}
+                  </h2>
                   {collector.categories?.name && (
                     <p className="text-xs text-brand-green font-semibold mt-0.5">
                       {collector.categories.name}
@@ -133,59 +122,73 @@ export function AdminCollectorsList({ initialCollectors }: AdminCollectorsListPr
                   )}
                 </div>
 
-                {collector.created_at && (
-                  <div className="text-xs text-text-secondary font-medium shrink-0">
-                    Terdaftar: {new Date(collector.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
-                  </div>
-                )}
+                <div className="flex flex-wrap items-center justify-start sm:justify-end gap-3 sm:gap-4 shrink-0">
+                  <span
+                    className={`inline-flex items-center text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-[4px] border ${collector.status
+                      ? "bg-brand-green text-white border-transparent"
+                      : "bg-white text-text-secondary border-border"
+                      }`}
+                  >
+                    {collector.status ? "Aktif" : "Nonaktif"}
+                  </span>
 
-                <div className="flex items-center gap-3 shrink-0">
-                  <Link href={`/dashboard/collectors/${collector.id}/edit`}>
-                    <button className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:text-brand-green border border-border hover:border-brand-green bg-white rounded-[6px] px-3.5 py-1.5 transition-colors">
-                      Edit
-                    </button>
-                  </Link>
-                  <DeleteCollectorButton id={collector.id} name={collector.name} />
+                  {collector.created_at && (
+                    <div className="text-xs text-text-secondary font-medium shrink-0">
+                      Terdaftar: {new Date(collector.created_at).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                    </div>
+                  )}
+
+                  <div className="flex items-center gap-3 shrink-0">
+                    <Link href={`/dashboard/collectors/${collector.id}/edit`}>
+                      <button className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:text-brand-green border border-border hover:border-brand-green bg-white rounded-[6px] px-3.5 py-1.5 transition-colors">
+                        Edit
+                      </button>
+                    </Link>
+                    <DeleteCollectorButton id={collector.id} name={collector.name} />
+                  </div>
                 </div>
               </div>
             ))}
           </div>
 
           {totalPages > 1 && (
-            <div className="flex items-center justify-between pt-6 border-t border-border mt-5 select-none">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 border-t border-border mt-5 select-none">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hidden sm:inline">
                 Halaman {currentPage} dari {totalPages}
               </span>
-              
-              <div className="flex items-center gap-2">
+
+              <div className="flex items-center justify-between w-full sm:w-auto gap-2">
                 <button
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
-                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center"
+                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center flex-1 sm:flex-none"
                 >
                   Sebelumnya
                 </button>
 
-                <div className="flex items-center gap-1">
+                <div className="hidden sm:flex items-center gap-1">
                   {getPageNumbers().map((page) => (
                     <button
                       key={page}
                       onClick={() => setCurrentPage(page)}
-                      className={`w-8 h-8 rounded-[6px] font-bold text-[10px] flex items-center justify-center border transition-all ${
-                        currentPage === page
-                          ? "bg-brand-green text-white border-transparent"
-                          : "bg-white text-text-secondary border-border hover:bg-gray-50 active:bg-gray-100"
-                      }`}
+                      className={`w-8 h-8 rounded-[6px] font-bold text-[10px] flex items-center justify-center border transition-all ${currentPage === page
+                        ? "bg-brand-green text-white border-transparent"
+                        : "bg-white text-text-secondary border-border hover:bg-gray-50 active:bg-gray-100"
+                        }`}
                     >
                       {page}
                     </button>
                   ))}
                 </div>
 
+                <span className="text-[10px] font-bold uppercase tracking-wider text-text-secondary sm:hidden px-2 text-center">
+                  {currentPage} / {totalPages}
+                </span>
+
                 <button
                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}
-                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center"
+                  className="px-3 h-8 rounded-[6px] border border-border text-text-secondary hover:bg-gray-50 active:bg-gray-100 disabled:opacity-50 text-[10px] font-bold uppercase tracking-wider transition-colors flex items-center justify-center flex-1 sm:flex-none"
                 >
                   Berikutnya
                 </button>

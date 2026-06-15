@@ -89,7 +89,7 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
                 <strong className="text-text-primary">Nama & Kategori:</strong> Masukkan nama resmi instansi/lapak dan pilih kategori limbah utama.
               </li>
               <li>
-                <strong className="text-text-primary">Alamat & Kontak:</strong> Tulis alamat lokasi lengkap dan kontak aktif untuk memudahkan transaksi daur ulang.
+                <strong className="text-text-primary">Alamat & Kontak:</strong> Masukkan link Google Maps lokasi pengepul dan kontak WhatsApp aktif untuk memudahkan transaksi.
               </li>
               <li>
                 <strong className="text-text-primary">Jam Operasional:</strong> Informasikan jadwal buka lapak dengan format yang jelas.
@@ -139,44 +139,29 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
             </div>
 
             <div>
-              <Label htmlFor="collector-address">Alamat</Label>
-              <Textarea
+              <Label htmlFor="collector-address">Link Google Maps Pengepul</Label>
+              <Input
                 id="collector-address"
                 name="address"
-                placeholder="Jl. Contoh No. 1, Kota, Provinsi"
+                type="url"
+                placeholder="https://maps.app.goo.gl/..."
                 defaultValue={collector?.address ?? ""}
                 maxLength={500}
                 disabled={isPending || isUploading}
-                rows={2}
-                className="resize-none"
               />
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
-              <div>
-                <Label htmlFor="collector-phone">Nomor Telepon</Label>
-                <Input
-                  id="collector-phone"
-                  name="phone"
-                  type="tel"
-                  placeholder="021-XXXXXXXX"
-                  defaultValue={collector?.phone ?? ""}
-                  maxLength={20}
-                  disabled={isPending || isUploading}
-                />
-              </div>
-              <div>
-                <Label htmlFor="collector-whatsapp">Nomor WhatsApp</Label>
-                <Input
-                  id="collector-whatsapp"
-                  name="whatsapp"
-                  type="tel"
-                  placeholder="08XXXXXXXXXX"
-                  defaultValue={collector?.whatsapp ?? ""}
-                  maxLength={20}
-                  disabled={isPending || isUploading}
-                />
-              </div>
+            <div>
+              <Label htmlFor="collector-whatsapp">Nomor WhatsApp</Label>
+              <Input
+                id="collector-whatsapp"
+                name="whatsapp"
+                type="tel"
+                placeholder="08XXXXXXXXXX"
+                defaultValue={collector?.whatsapp ?? ""}
+                maxLength={20}
+                disabled={isPending || isUploading}
+              />
             </div>
 
             <div>
@@ -219,7 +204,7 @@ export function CollectorForm({ collector, categories, action }: CollectorFormPr
                   <strong className="text-text-primary">Nama & Kategori:</strong> Masukkan nama resmi instansi/lapak dan pilih kategori limbah utama.
                 </li>
                 <li>
-                  <strong className="text-text-primary">Alamat & Kontak:</strong> Tulis alamat lokasi lengkap dan kontak aktif untuk memudahkan transaksi daur ulang.
+                  <strong className="text-text-primary">Alamat & Kontak:</strong> Masukkan link Google Maps lokasi pengepul dan kontak WhatsApp aktif untuk memudahkan transaksi.
                 </li>
                 <li>
                   <strong className="text-text-primary">Jam Operasional:</strong> Informasikan jadwal buka lapak dengan format yang jelas.
