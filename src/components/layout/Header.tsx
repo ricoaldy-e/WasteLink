@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
@@ -55,8 +56,8 @@ export const Header = () => {
             WasteLink
           </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-2">
+          {/* Desktop Navigation (Absolute Centered) */}
+          <nav className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 hidden md:flex items-center gap-1">
             {navLinks.map((link) => {
               const isActive = pathname === link.href || pathname?.startsWith(link.href + '/');
               return (
@@ -64,16 +65,24 @@ export const Header = () => {
                   key={link.href}
                   href={link.href}
                   className={`
-                    text-link px-4 py-2 rounded-[4px]
-                    transition-colors duration-200
+                    relative text-body-md font-medium px-4 py-2 rounded-[6px]
+                    transition-colors duration-300
                     focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2
+                    group
                     ${isActive
-                      ? 'text-brand-green border-b-2 border-brand-green'
-                      : 'text-text-primary hover:text-brand-green hover:bg-brand-green-subtle'
+                      ? 'text-brand-green'
+                      : 'text-text-secondary hover:text-brand-green'
                     }
                   `}
                 >
                   {link.label}
+                  {/* Hover underline effect */}
+                  <span 
+                    className={`
+                      absolute bottom-0 left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out
+                      ${isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'}
+                    `} 
+                  />
                 </Link>
               );
             })}
@@ -81,9 +90,16 @@ export const Header = () => {
 
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-3">
-            <Link href="/login" tabIndex={-1} className="hidden md:block">
-              <Button variant="primary">Masuk Admin</Button>
-            </Link>
+            {/* Logo Image */}
+            <div className="hidden md:flex items-center">
+              <Image 
+                src="/logo.png" 
+                alt="WasteLink Icon" 
+                width={40} 
+                height={40} 
+                className="object-contain"
+              />
+            </div>
 
             {/* Hamburger Button – mobile only */}
             <button
@@ -140,12 +156,12 @@ export const Header = () => {
                 href={link.href}
                 onClick={() => setMobileOpen(false)}
                 className={`
-                  text-link px-4 py-3 rounded-[6px]
-                  transition-colors duration-200
+                  relative text-body-md font-medium px-4 py-3 rounded-[6px]
+                  transition-colors duration-300
                   focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2
                   ${isActive
-                    ? 'text-brand-green bg-brand-green-subtle font-medium'
-                    : 'text-text-primary hover:text-brand-green hover:bg-brand-green-subtle'
+                    ? 'text-brand-green bg-brand-green/10'
+                    : 'text-text-secondary hover:text-brand-green hover:bg-brand-green/5'
                   }
                 `}
               >
@@ -154,11 +170,6 @@ export const Header = () => {
             );
           })}
 
-          <div className="mt-4 pt-4 border-t border-border">
-            <Link href="/login" tabIndex={-1} onClick={() => setMobileOpen(false)}>
-              <Button variant="primary" className="w-full">Masuk Admin</Button>
-            </Link>
-          </div>
         </nav>
       </div>
     </>

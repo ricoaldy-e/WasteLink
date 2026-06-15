@@ -18,9 +18,10 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     const base = [
       'inline-flex items-center justify-center',
       'text-btn',                         // 16px / 19px / 700 from globals.css
-      'transition-all duration-200',
+      'transition-all duration-300',
       'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2',
       'disabled:cursor-not-allowed',
+      'group relative overflow-hidden',   // For liquid glass effect
     ].join(' ');
 
     const variants: Record<string, string> = {
@@ -51,13 +52,24 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       ].join(' '),
     };
 
+    // Pisahkan children dari props agar bisa dibungkus
+    const { children, ...restProps } = props;
+
     return (
       <button
         ref={ref}
         disabled={disabled}
         className={`${base} ${variants[variant]} ${className}`}
-        {...props}
-      />
+        {...restProps}
+      >
+        <span className="relative z-10 flex items-center justify-center gap-2">
+          {children}
+        </span>
+        {/* Adaptive Liquid Glass Sweep Effect */}
+        {variant !== 'ghost' && !disabled && (
+          <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-current to-transparent skew-x-[-25deg] pointer-events-none opacity-20" />
+        )}
+      </button>
     );
   }
 );

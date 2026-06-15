@@ -30,33 +30,37 @@ export const Footer = () => {
               <li>
                 <Link
                   href="/"
-                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
                 >
                   Beranda
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
               </li>
               <li>
                 <Link
                   href="/categories"
-                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
                 >
                   Kategori Sampah
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
               </li>
               <li>
                 <Link
                   href="/collectors"
-                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
                 >
                   Daftar Pengepul
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
               </li>
               <li>
                 <Link
                   href="/about"
-                  className="text-body-md text-text-secondary hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
                 >
                   Tentang Kami
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
               </li>
             </ul>
@@ -67,10 +71,16 @@ export const Footer = () => {
             <h3 className="text-body-lg font-bold text-text-primary mb-4">Kontak</h3>
             <ul className="flex flex-col gap-3">
               <li className="text-body-md text-text-secondary">
-                Email: <a href="mailto:halo@wastelink.id" className="hover:text-brand-green hover:underline">halo@wastelink.id</a>
+                Email: <a href="mailto:halo@wastelink.id" className="relative group inline-block hover:text-brand-green transition-colors duration-300">
+                  halo@wastelink.id
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
+                </a>
               </li>
               <li className="text-body-md text-text-secondary">
-                WhatsApp: <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="hover:text-brand-green hover:underline">+62 812 3456 7890</a>
+                WhatsApp: <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="relative group inline-block hover:text-brand-green transition-colors duration-300">
+                  +62 812 3456 7890
+                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
+                </a>
               </li>
             </ul>
           </div>

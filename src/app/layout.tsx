@@ -17,8 +17,24 @@ const redHatText = Red_Hat_Text({
 });
 
 export const metadata = {
-  title: 'WasteLink - Direktori Pengepul Limbah',
-  description: 'Platform direktori pengepul limbah untuk membantu masyarakat menemukan pengepul berdasarkan kategori sampah.',
+  title: 'WasteLink | Recycling for Everyone',
+  description: 'Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.',
+  openGraph: {
+    title: 'WasteLink | Recycling for Everyone',
+    description: 'Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.',
+    url: 'https://wastelink.id',
+    siteName: 'WasteLink',
+    images: [
+      {
+        url: '/logo.png', // Logo image from public folder
+        width: 800,
+        height: 800,
+        alt: 'WasteLink Logo',
+      },
+    ],
+    locale: 'id_ID',
+    type: 'website',
+  },
 };
 
 export default function RootLayout({

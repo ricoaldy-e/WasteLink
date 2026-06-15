@@ -26,6 +26,10 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
     };
   }, [isSidebarOpen]);
 
+  if (pathname === "/login") {
+    return <>{children}</>;
+  }
+
   return (
     <div className="flex min-h-screen bg-background">
       <AdminSidebar 
