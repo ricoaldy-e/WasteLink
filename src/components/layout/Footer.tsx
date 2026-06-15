@@ -1,4 +1,7 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { Container } from '@/components/ui/container';
 
 /**
@@ -6,17 +9,25 @@ import { Container } from '@/components/ui/container';
  * Follows DESIGN.md spacing (48px–80px), typography, and color tokens
  */
 export const Footer = () => {
+  const pathname = usePathname();
+
   return (
     <footer className="bg-white border-t border-border py-12 md:py-16 mt-auto">
       <Container>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
           {/* Brand Column */}
           <div className="col-span-1 md:col-span-2">
             <Link
               href="/"
-              className="text-h3 text-brand-green font-bold block mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
+              onClick={(e) => {
+                if (pathname === '/') {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              className="text-h3 text-brand-green font-bold block mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px] inline-block hover:scale-105 hover:-translate-y-0.5 hover:drop-shadow-sm transition-all duration-300 w-fit"
             >
-              WasteLink
+              Waste<span className="text-text-primary">Link</span>
             </Link>
             <p className="text-body-md text-text-secondary max-w-sm">
               Platform direktori pengepul limbah untuk membantu masyarakat menemukan pengepul berdasarkan kategori sampah secara mudah dan efisien.
@@ -24,9 +35,9 @@ export const Footer = () => {
           </div>
 
           {/* Navigasi Column */}
-          <div>
+          <div className="md:text-right flex flex-col md:items-end">
             <h3 className="text-body-lg font-bold text-text-primary mb-4">Navigasi</h3>
-            <ul className="flex flex-col gap-3">
+            <ul className="flex flex-col gap-3 items-start md:items-end">
               <li>
                 <Link
                   href="/"
@@ -62,25 +73,6 @@ export const Footer = () => {
                   Tentang Kami
                   <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Kontak Column */}
-          <div>
-            <h3 className="text-body-lg font-bold text-text-primary mb-4">Kontak</h3>
-            <ul className="flex flex-col gap-3">
-              <li className="text-body-md text-text-secondary">
-                Email: <a href="mailto:halo@wastelink.id" className="relative group inline-block hover:text-brand-green transition-colors duration-300">
-                  halo@wastelink.id
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </a>
-              </li>
-              <li className="text-body-md text-text-secondary">
-                WhatsApp: <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="relative group inline-block hover:text-brand-green transition-colors duration-300">
-                  +62 812 3456 7890
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </a>
               </li>
             </ul>
           </div>

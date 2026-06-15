@@ -32,7 +32,7 @@ export function AdminSidebar({ isOpen, onClose }: AdminSidebarProps) {
           onClick={onClose}
           className="text-h3 text-brand-green font-bold whitespace-nowrap focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
         >
-          WasteLink Admin
+          Waste<span className="text-text-primary">Link</span> Admin
         </Link>
         
         {/* Close Button for Mobile */}

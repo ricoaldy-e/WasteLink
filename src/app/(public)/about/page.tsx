@@ -2,6 +2,7 @@ import { Section } from '@/components/layout/Section';
 import { Card, CardIcon } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Tentang | WasteLink',
@@ -12,15 +13,21 @@ export default function AboutPage() {
   return (
     <>
       {/* 1. Hero Section */}
-      <Section className="bg-hero-gradient relative overflow-hidden text-center !py-16 md:!py-20 lg:!py-27" contained>
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'linear-gradient(to right, #ffffff 1px, transparent 1px), linear-gradient(to bottom, #ffffff 1px, transparent 1px)', backgroundSize: '40px 40px' }}></div>
-        <div className="relative z-10">
-          <h1 className="text-display-xl text-white mb-6">Tentang WasteLink</h1>
-          <p className="text-body-lg text-white mb-8 max-w-2xl mx-auto opacity-90">
+      <section className="relative w-full overflow-hidden text-center py-20 md:py-28 lg:py-36 bg-gray-900">
+        <Image
+          src="/images/about.png"
+          alt="Tentang WasteLink"
+          fill
+          priority
+          className="object-cover object-center brightness-[0.35]"
+        />
+        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
+          <h1 className="text-display-xl text-white mb-6 tracking-tight">Tentang WasteLink</h1>
+          <p className="text-body-lg text-white mb-8 max-w-2xl mx-auto opacity-90 leading-relaxed">
             Platform direktori terpercaya yang didedikasikan untuk memudahkan pengelolaan limbah Anda dengan menghubungkan Anda ke jaringan pengepul terdekat.
           </p>
         </div>
-      </Section>
+      </section>
 
       {/* 2. Apa Itu WasteLink */}
       <Section className="bg-surface" contained>
@@ -67,43 +74,20 @@ export default function AboutPage() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          <Card variant="default" className="text-center group hover:border-brand-green transition-colors">
-            <CardIcon className="mx-auto mb-6 w-16 h-16 group-hover:scale-110 transition-transform">
-              <svg className="w-8 h-8 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-              </svg>
-            </CardIcon>
-            <h3 className="text-h3 text-text-primary mb-3">1. Pilih Kategori Limbah</h3>
-            <p className="text-body-md text-text-secondary">
-              Pilih jenis sampah yang ingin Anda daur ulang dari halaman kategori kami (misalnya plastik, kertas, elektronik, dsb).
-            </p>
-          </Card>
-
-          <Card variant="default" className="text-center group hover:border-brand-green transition-colors">
-            <CardIcon className="mx-auto mb-6 w-16 h-16 group-hover:scale-110 transition-transform">
-              <svg className="w-8 h-8 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </CardIcon>
-            <h3 className="text-h3 text-text-primary mb-3">2. Temukan Pengepul</h3>
-            <p className="text-body-md text-text-secondary">
-              Jelajahi daftar pengepul yang menerima kategori limbah tersebut. Periksa lokasi dan jam operasionalnya.
-            </p>
-          </Card>
-
-          <Card variant="default" className="text-center group hover:border-brand-green transition-colors">
-            <CardIcon className="mx-auto mb-6 w-16 h-16 group-hover:scale-110 transition-transform">
-              <svg className="w-8 h-8 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </CardIcon>
-            <h3 className="text-h3 text-text-primary mb-3">3. Hubungi Pengepul</h3>
-            <p className="text-body-md text-text-secondary">
-              Hubungi kontak WhatsApp yang tersedia atau kunjungi alamat pengepul untuk menyerahkan sampah yang telah Anda pisahkan.
-            </p>
-          </Card>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto relative">
+          {[
+            { step: '01', title: 'Pilih Kategori Limbah', desc: 'Pilih jenis sampah yang ingin Anda daur ulang dari halaman kategori kami (misalnya plastik, kertas, elektronik, dsb).' },
+            { step: '02', title: 'Temukan Pengepul', desc: 'Jelajahi daftar pengepul yang menerima kategori limbah tersebut. Periksa lokasi dan jam operasionalnya.' },
+            { step: '03', title: 'Hubungi Pengepul', desc: 'Hubungi kontak WhatsApp yang tersedia atau kunjungi alamat pengepul untuk menyerahkan sampah yang telah Anda pisahkan.' }
+          ].map((item, i) => (
+            <div key={i} className="flex flex-col items-center text-center bg-white border border-border p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
+              <div className="w-16 h-16 rounded-[1.25rem] bg-brand-green-subtle/50 flex items-center justify-center mb-6 border border-brand-green/10">
+                <span className="text-xl font-semibold text-brand-green">{item.step}</span>
+              </div>
+              <h3 className="text-xl font-semibold text-text-primary mb-3">{item.title}</h3>
+              <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+            </div>
+          ))}
         </div>
       </Section>
 

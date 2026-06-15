@@ -43,7 +43,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="id" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
+    <html lang="id" data-scroll-behavior="smooth" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
       <body>
         <NextTopLoader color="#299E63" showSpinner={false} />
         {children}

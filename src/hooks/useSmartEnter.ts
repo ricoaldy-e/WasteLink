@@ -51,17 +51,22 @@ export function useSmartEnter() {
       const currentIndex = interactableElements.indexOf(target);
       if (currentIndex === -1) return; // Target not found in list
 
-      // 1. Check if current field is filled
-      let isFilled = true;
-      if (target.tagName === "INPUT") {
-        isFilled = !!(target as HTMLInputElement).value.trim();
-      } else if (target.tagName === "SELECT") {
-        isFilled = !!(target as HTMLSelectElement).value.trim();
+      // 1. Check if current field is valid (uses HTML5 validation like type="email", required, pattern, etc.)
+      let isValid = true;
+      if (
+        target.tagName === "INPUT" ||
+        target.tagName === "SELECT" ||
+        target.tagName === "TEXTAREA"
+      ) {
+        const inputEl = target as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+        isValid = inputEl.checkValidity();
+        if (!isValid) {
+          inputEl.reportValidity();
+        }
       }
 
-      if (!isFilled) {
-        // If not filled, don't move, just stay here.
-        // We could also trigger a visual shake or validation message here if needed.
+      if (!isValid) {
+        // If not valid, don't move, just stay here.
         return;
       }
 
@@ -86,12 +91,12 @@ export function useSmartEnter() {
           emptyFields[0].focus();
         }
       } else {
-        // 3. If NO empty fields remain, find the submit button and focus it
+        // 3. If NO empty fields remain, find the submit button and click it directly
         const submitBtn = interactableElements.find(
           (el) => el.tagName === "BUTTON" && (el as HTMLButtonElement).type === "submit"
         );
         if (submitBtn) {
-          submitBtn.focus();
+          submitBtn.click();
         }
       }
     }

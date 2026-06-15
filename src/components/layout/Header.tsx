@@ -51,9 +51,15 @@ export const Header = () => {
           {/* Logo – DESIGN.md: 24px, 700, #299E63 */}
           <Link
             href="/"
-            className="text-h3 text-brand-green font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 rounded-[4px]"
+            onClick={(e) => {
+              if (pathname === '/') {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="text-h3 text-brand-green font-bold focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2 rounded-[4px] inline-block hover:scale-105 hover:-translate-y-0.5 hover:drop-shadow-sm transition-all duration-300"
           >
-            WasteLink
+            Waste<span className="text-text-primary">Link</span>
           </Link>
 
           {/* Desktop Navigation (Absolute Centered) */}
@@ -91,7 +97,16 @@ export const Header = () => {
           {/* Desktop CTA + Mobile Hamburger */}
           <div className="flex items-center gap-3">
             {/* Logo Image */}
-            <div className="hidden md:flex items-center">
+            <Link 
+              href="/" 
+              onClick={(e) => {
+                if (pathname === '/') {
+                  e.preventDefault();
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+              }}
+              className="hidden md:flex items-center hover:scale-105 hover:-translate-y-0.5 hover:drop-shadow-sm transition-all duration-300"
+            >
               <Image 
                 src="/logo.png" 
                 alt="WasteLink Icon" 
@@ -99,7 +114,7 @@ export const Header = () => {
                 height={40} 
                 className="object-contain"
               />
-            </div>
+            </Link>
 
             {/* Hamburger Button – mobile only */}
             <button

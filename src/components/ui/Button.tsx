@@ -21,7 +21,6 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       'transition-all duration-300',
       'focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2',
       'disabled:cursor-not-allowed',
-      'group relative overflow-hidden',   // For liquid glass effect
     ].join(' ');
 
     const variants: Record<string, string> = {
@@ -62,13 +61,7 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         className={`${base} ${variants[variant]} ${className}`}
         {...restProps}
       >
-        <span className="relative z-10 flex items-center justify-center gap-2">
-          {children}
-        </span>
-        {/* Adaptive Liquid Glass Sweep Effect */}
-        {variant !== 'ghost' && !disabled && (
-          <div className="absolute inset-0 -translate-x-[150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-in-out bg-gradient-to-r from-transparent via-current to-transparent skew-x-[-25deg] pointer-events-none opacity-20" />
-        )}
+        {children}
       </button>
     );
   }

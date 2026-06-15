@@ -1,9 +1,6 @@
-import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
-import Link from 'next/link';
+import { CollectorsList } from '@/components/features/CollectorsList';
 
 export const metadata = {
   title: 'Daftar Pengepul | WasteLink',
@@ -17,7 +14,7 @@ export default async function CollectorsPage() {
   const { data: collectors, error } = await supabase
     .from('collectors')
     .select(`
-      id, name, address, status,
+      id, name, description, address, status, image_url,
       categories (
         name
       )
@@ -25,16 +22,48 @@ export default async function CollectorsPage() {
     .eq('status', true)
     .order('name');
 
+  const sortedCollectors = collectors
+    ? [...collectors].sort((a, b) => a.name.localeCompare(b.name, 'id', { sensitivity: 'base' }))
+    : [];
+
+  const formattedCollectors = sortedCollectors.map(collector => ({
+    ...collector,
+    categories: Array.isArray(collector.categories)
+      ? (collector.categories[0] || null)
+      : (collector.categories || null)
+  }));
+
   return (
     <>
-      <Section className="bg-surface" contained>
-        {/* Header & Deskripsi */}
-        <div className="text-center mb-10 lg:mb-16">
-          <h1 className="text-display-lg text-text-primary mb-4">Daftar Pengepul</h1>
-          <p className="text-body-lg text-text-secondary max-w-3xl mx-auto">
-            Temukan jaringan pengepul tepercaya yang siap menerima berbagai jenis limbah daur ulang Anda.
-          </p>
+      {/* Page Header */}
+      <div className="w-full bg-gradient-to-r from-[#24925A] to-[#1B6F3E] text-white py-16 md:py-20 border-b border-brand-green/10">
+        <div className="max-w-[1200px] mx-auto w-full px-6 md:px-8 lg:px-10 text-center md:text-left flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+          <div>
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-semibold uppercase tracking-wider leading-tight text-white">
+              Daftar Pengepul
+            </h1>
+            <p className="text-sm md:text-base text-emerald-50/90 max-w-2xl mt-4 leading-relaxed">
+              Temukan jaringan pengepul tepercaya yang siap menerima berbagai jenis limbah daur ulang Anda.
+            </p>
+          </div>
+          
+          <div className="hidden md:flex items-center shrink-0">
+            <div className="flex items-center gap-3 bg-white/10 border border-white/20 px-4 py-2.5 rounded-lg select-none">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" className="text-emerald-300">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+                <circle cx="9" cy="7" r="4" />
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+                <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+              </svg>
+              <span className="text-sm font-semibold text-white tracking-wide">
+                {collectors?.length || 0} Pengepul Aktif
+              </span>
+            </div>
+          </div>
         </div>
+      </div>
+
+      <Section className="bg-background !py-16" contained>
 
         {/* Error State */}
         {error && (
@@ -51,7 +80,7 @@ export default async function CollectorsPage() {
           <div className="text-center py-16 bg-background rounded-[8px] border border-border">
             <div className="w-16 h-16 bg-border rounded-[6px] mx-auto mb-4 flex items-center justify-center">
               <svg className="w-8 h-8 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
             <h3 className="text-h3 text-text-primary mb-2">Belum Ada Pengepul</h3>
@@ -61,45 +90,9 @@ export default async function CollectorsPage() {
           </div>
         )}
 
-        {/* Grid Pengepul */}
-        {!error && collectors && collectors.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {collectors.map((collector) => (
-              <Card key={collector.id} variant="default" className="flex flex-col h-full hover:shadow-elevated transition-shadow">
-                <div className="flex justify-between items-start mb-4">
-                  <div className="flex-1 pr-4">
-                    <h3 className="text-h3 text-text-primary line-clamp-1" title={collector.name}>
-                      {collector.name}
-                    </h3>
-                    {(collector.categories as any)?.name && (
-                      <span className="text-body-sm text-brand-green font-semibold inline-block mt-1">
-                        Kategori: {(collector.categories as any).name}
-                      </span>
-                    )}
-                  </div>
-                  <Badge variant="success" className="shrink-0 whitespace-nowrap">Aktif</Badge>
-                </div>
-                
-                <div className="flex items-start gap-2 mb-6 text-text-secondary">
-                  <svg className="w-5 h-5 shrink-0 mt-0.5 text-text-muted" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                  </svg>
-                  <p className="text-body-sm line-clamp-2" title={collector.address}>
-                    {collector.address || "Alamat belum disediakan"}
-                  </p>
-                </div>
-                
-                <div className="mt-auto pt-4 border-t border-border">
-                  <Link href={`/collectors/${collector.id}`}>
-                    <Button tabIndex={-1} variant="secondary" className="w-full">
-                      Lihat Detail Pengepul
-                    </Button>
-                  </Link>
-                </div>
-              </Card>
-            ))}
-          </div>
+        {/* Collectors List with Search */}
+        {!error && sortedCollectors && sortedCollectors.length > 0 && (
+          <CollectorsList collectors={formattedCollectors} />
         )}
       </Section>
     </>

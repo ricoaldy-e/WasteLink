@@ -30,7 +30,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     ].join(' ');
 
     const stateStyles = error
-      ? 'border-error bg-error-bg focus:border-error focus:ring-error/10'
+      ? 'border-error bg-white focus:border-error focus:ring-error/10'
       : 'border-border focus:border-brand-green focus:ring-brand-green/10';
 
     return (
