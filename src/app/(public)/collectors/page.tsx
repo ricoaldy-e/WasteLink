@@ -17,7 +17,7 @@ export default async function CollectorsPage() {
   const { data: collectors, error } = await supabase
     .from('collectors')
     .select(`
-      *,
+      id, name, address, status,
       categories (
         name
       )
@@ -71,9 +71,9 @@ export default async function CollectorsPage() {
                     <h3 className="text-h3 text-text-primary line-clamp-1" title={collector.name}>
                       {collector.name}
                     </h3>
-                    {collector.categories?.name && (
+                    {(collector.categories as any)?.name && (
                       <span className="text-body-sm text-brand-green font-semibold inline-block mt-1">
-                        Kategori: {collector.categories.name}
+                        Kategori: {(collector.categories as any).name}
                       </span>
                     )}
                   </div>
@@ -91,8 +91,8 @@ export default async function CollectorsPage() {
                 </div>
                 
                 <div className="mt-auto pt-4 border-t border-border">
-                  <Link href={`/collectors/${collector.id}`} tabIndex={-1} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[6px]">
-                    <Button variant="secondary" className="w-full">
+                  <Link href={`/collectors/${collector.id}`}>
+                    <Button tabIndex={-1} variant="secondary" className="w-full">
                       Lihat Detail Pengepul
                     </Button>
                   </Link>

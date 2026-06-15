@@ -3,10 +3,11 @@ import { Card, CardIcon } from '@/components/ui/card';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default async function HomePage() {
   const supabase = await createClient();
-  const { data: categories } = await supabase.from('categories').select('*').limit(6);
+  const { data: categories } = await supabase.from('categories').select('id, name, description, image_url').order('name').limit(6);
 
   return (
     <>
@@ -19,13 +20,13 @@ export default async function HomePage() {
             Platform direktori terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.
           </p>
           <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link href="/collectors" tabIndex={-1}>
-              <Button className="!bg-white !text-brand-green hover:!bg-background w-full sm:w-auto h-[56px] px-8 text-lg">
+            <Link href="/collectors">
+              <Button tabIndex={-1} className="!bg-white !text-brand-green hover:!bg-background w-full sm:w-auto h-[56px] px-8 text-lg">
                 Cari Pengepul
               </Button>
             </Link>
-            <Link href="/about" tabIndex={-1}>
-              <Button className="!bg-transparent !border-2 !border-white !text-white hover:!bg-white/10 w-full sm:w-auto h-[56px] px-8 text-lg">
+            <Link href="/about">
+              <Button tabIndex={-1} className="!bg-transparent !border-2 !border-white !text-white hover:!bg-white/10 w-full sm:w-auto h-[56px] px-8 text-lg">
                 Pelajari Lebih Lanjut
               </Button>
             </Link>
@@ -74,8 +75,8 @@ export default async function HomePage() {
             <h2 className="text-h1 text-text-primary mb-3">Jelajahi Kategori</h2>
             <p className="text-body-lg text-text-secondary">Temukan tempat pengelolaan terbaik berdasarkan jenis sampah Anda.</p>
           </div>
-          <Link href="/categories" tabIndex={-1}>
-            <Button variant="secondary">Lihat Semua Kategori</Button>
+          <Link href="/categories">
+            <Button tabIndex={-1} variant="secondary">Lihat Semua Kategori</Button>
           </Link>
         </div>
 
@@ -84,9 +85,9 @@ export default async function HomePage() {
             categories.map((cat) => (
               <Link key={cat.id} href={`/categories/${cat.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[8px] group h-full">
                 <Card variant="default" className="h-full group-hover:shadow-elevated transition-all duration-300 group-hover:-translate-y-1 cursor-pointer flex flex-col">
-                  <div className="aspect-video w-full bg-background rounded-[6px] mb-4 flex items-center justify-center overflow-hidden border border-border group-hover:border-brand-green transition-colors">
+                  <div className="relative aspect-video w-full bg-background rounded-[6px] mb-4 flex items-center justify-center overflow-hidden border border-border group-hover:border-brand-green transition-colors">
                     {cat.image_url ? (
-                      <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover" />
+                      <Image src={cat.image_url} alt={cat.name || "Kategori"} fill className="object-cover" />
                     ) : (
                       <span className="text-text-muted text-sm">Tidak ada gambar</span>
                     )}
@@ -110,8 +111,8 @@ export default async function HomePage() {
         <p className="text-body-lg text-white mb-10 max-w-2xl mx-auto opacity-90">
           Jangan biarkan limbah menumpuk. Jadilah bagian dari solusi dengan mendukung pengepul lokal dan bantu mereka mengelola sampah menjadi sesuatu yang bermanfaat.
         </p>
-        <Link href="/collectors" tabIndex={-1}>
-          <Button className="!bg-white !text-brand-green hover:!bg-background h-[56px] px-8 text-lg">Mulai Cari Pengepul</Button>
+        <Link href="/collectors">
+          <Button tabIndex={-1} className="!bg-white !text-brand-green hover:!bg-background h-[56px] px-8 text-lg">Mulai Cari Pengepul</Button>
         </Link>
       </Section>
     </>

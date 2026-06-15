@@ -2,6 +2,7 @@ import { Card } from '@/components/ui/card';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 export const metadata = {
   title: 'Kategori Limbah | WasteLink',
@@ -14,7 +15,7 @@ export default async function CategoriesPage() {
   // Fetch categories, handling potential errors
   const { data: categories, error } = await supabase
     .from('categories')
-    .select('*')
+    .select('id, name, description, image_url')
     .order('name');
 
   return (
@@ -63,9 +64,9 @@ export default async function CategoriesPage() {
                 className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[8px] group h-full"
               >
                 <Card variant="default" className="h-full group-hover:shadow-elevated transition-all duration-300 group-hover:-translate-y-1 cursor-pointer flex flex-col">
-                  <div className="aspect-video w-full bg-background rounded-[6px] mb-4 flex items-center justify-center overflow-hidden border border-border group-hover:border-brand-green transition-colors">
+                  <div className="relative aspect-video w-full bg-background rounded-[6px] mb-4 flex items-center justify-center overflow-hidden border border-border group-hover:border-brand-green transition-colors">
                     {cat.image_url ? (
-                      <img src={cat.image_url} alt={cat.name} className="w-full h-full object-cover" />
+                      <Image src={cat.image_url} alt={cat.name || "Kategori"} fill sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw" className="object-cover" />
                     ) : (
                       <span className="text-text-muted text-sm">Tidak ada gambar</span>
                     )}

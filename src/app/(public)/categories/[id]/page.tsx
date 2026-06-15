@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CategoryDetailPageProps {
   params: Promise<{ id: string }>;
@@ -38,7 +39,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
   // Fetch Category
   const { data: category, error: categoryError } = await supabase
     .from('categories')
-    .select('*')
+    .select('id, name, description, education_content, image_url')
     .eq('id', resolvedParams.id)
     .single();
 
@@ -49,7 +50,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
   // Fetch Collectors associated with this category that are active
   const { data: collectors, error: collectorsError } = await supabase
     .from('collectors')
-    .select('*')
+    .select('id, name, address, status')
     .eq('category_id', category.id)
     .eq('status', true)
     .order('name');
@@ -61,12 +62,14 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12 mb-12">
           {/* Gambar Kategori */}
           <div className="w-full md:w-1/3">
-            <div className="aspect-square w-full bg-background rounded-lg border border-border overflow-hidden shadow-sm">
+            <div className="relative aspect-square w-full bg-background rounded-lg border border-border overflow-hidden shadow-sm">
               {category.image_url ? (
-                <img 
+                <Image 
                   src={category.image_url} 
-                  alt={category.name} 
-                  className="w-full h-full object-cover" 
+                  alt={category.name || "Kategori"} 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                  className="object-cover" 
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-text-muted">
@@ -158,8 +161,8 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                  <p className="text-body-sm line-clamp-2" title={collector.address}>
-                    {collector.address}
+                  <p className="text-body-sm line-clamp-2" title={collector.address || "Alamat belum disediakan"}>
+                    {collector.address || "Alamat belum disediakan"}
                   </p>
                 </div>
                 

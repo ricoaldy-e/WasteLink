@@ -1,5 +1,6 @@
 import './globals.css';
 import { Red_Hat_Display, Red_Hat_Text } from 'next/font/google';
+import NextTopLoader from 'nextjs-toploader';
 
 const redHatDisplay = Red_Hat_Display({
   subsets: ['latin'],
@@ -27,7 +28,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id" className={`${redHatDisplay.variable} ${redHatText.variable}`}>
-      <body>{children}</body>
+      <body>
+        <NextTopLoader color="#299E63" showSpinner={false} />
+        {children}
+      </body>
     </html>
   );
 }

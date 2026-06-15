@@ -67,10 +67,10 @@ export const Footer = () => {
             <h3 className="text-body-lg font-bold text-text-primary mb-4">Kontak</h3>
             <ul className="flex flex-col gap-3">
               <li className="text-body-md text-text-secondary">
-                Email: halo@wastelink.id
+                Email: <a href="mailto:halo@wastelink.id" className="hover:text-brand-green hover:underline">halo@wastelink.id</a>
               </li>
               <li className="text-body-md text-text-secondary">
-                WhatsApp: +62 812 3456 7890
+                WhatsApp: <a href="https://wa.me/6281234567890" target="_blank" rel="noreferrer" className="hover:text-brand-green hover:underline">+62 812 3456 7890</a>
               </li>
             </ul>
           </div>

@@ -5,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface CollectorDetailPageProps {
   params: Promise<{ id: string }>;
@@ -65,12 +66,14 @@ export default async function CollectorDetailPage({ params }: CollectorDetailPag
         <div className="flex flex-col md:flex-row gap-8 lg:gap-12">
           {/* Bagian Gambar Pengepul */}
           <div className="w-full md:w-1/3">
-            <div className="aspect-square w-full bg-background rounded-[8px] border border-border overflow-hidden shadow-sm">
+            <div className="relative aspect-square w-full bg-background rounded-[8px] border border-border overflow-hidden shadow-sm">
               {collector.image_url ? (
-                <img 
+                <Image 
                   src={collector.image_url} 
-                  alt={collector.name} 
-                  className="w-full h-full object-cover" 
+                  alt={collector.name || "Pengepul"} 
+                  fill 
+                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 33vw, 33vw"
+                  className="object-cover" 
                 />
               ) : (
                 <div className="w-full h-full flex flex-col items-center justify-center text-text-muted bg-border/20">
