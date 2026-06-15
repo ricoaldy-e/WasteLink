@@ -25,14 +25,6 @@ export const metadata = {
     description: 'Platform yang menghubungkan Anda dengan pengepul limbah terdekat. Daur ulang lebih mudah, bijak, dan efisien.',
     url: 'https://wastelinkapp.netlify.app',
     siteName: 'WasteLink',
-    images: [
-      {
-        url: '/logo.png', // Logo image from public folder
-        width: 800,
-        height: 800,
-        alt: 'WasteLink Logo',
-      },
-    ],
     locale: 'id_ID',
     type: 'website',
   },
