@@ -19,10 +19,10 @@ const redHatText = Red_Hat_Text({
 export const metadata = {
   metadataBase: new URL('https://wastelinkapp.netlify.app'),
   title: 'WasteLink | Recycling for Everyone',
-  description: 'Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.',
+  description: 'Platform yang menghubungkan Anda dengan pengepul limbah terdekat. Daur ulang lebih mudah, bijak, dan efisien.',
   openGraph: {
     title: 'WasteLink | Recycling for Everyone',
-    description: 'Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.',
+    description: 'Platform yang menghubungkan Anda dengan pengepul limbah terdekat. Daur ulang lebih mudah, bijak, dan efisien.',
     url: 'https://wastelinkapp.netlify.app',
     siteName: 'WasteLink',
     images: [
