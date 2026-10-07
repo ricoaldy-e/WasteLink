@@ -12,7 +12,7 @@ export default function PublicCategoriesLoading() {
               Kategori Limbah
             </h1>
             <p className="text-sm md:text-base text-emerald-50/90 max-w-2xl mt-4 leading-relaxed">
-              Pilih kategori limbah yang Anda miliki untuk menemukan informasi edukasi dan daftar pengepul terdekat yang menerima jenis sampah tersebut.
+              Pilih kategori limbah yang Anda miliki untuk menemukan informasi edukasi dan daftar pengepul yang menerima jenis sampah tersebut.
             </p>
           </div>
           

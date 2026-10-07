@@ -36,8 +36,8 @@ export default function GlobalError({
           <Button variant="primary" onClick={() => reset()}>
             Coba Lagi
           </Button>
-          <Link href="/">
-            <Button variant="secondary">Kembali ke Beranda</Button>
+          <Link href="/" className="inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] border border-brand-green text-brand-green hover:bg-brand-green-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+            Kembali ke Beranda
           </Link>
         </div>
       </Container>

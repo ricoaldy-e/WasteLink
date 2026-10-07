@@ -1,11 +1,11 @@
 import { notFound } from 'next/navigation';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
+import { publicMetadata } from '@/lib/site';
 
 interface CategoryDetailPageProps {
   params: Promise<{ id: string }>;
@@ -21,15 +21,10 @@ export async function generateMetadata({ params }: CategoryDetailPageProps) {
     .single();
 
   if (!category) {
-    return {
-      title: 'Kategori Tidak Ditemukan | WasteLink',
-    };
+    notFound();
   }
 
-  return {
-    title: `${category.name} | WasteLink`,
-    description: category.description,
-  };
+  return publicMetadata(`${category.name} | WasteLink`, `Informasi kategori ${category.name}, materi pengelolaan yang tersedia, dan daftar pengepul yang menerimanya.`, `/categories/${encodeURIComponent(resolvedParams.id)}`);
 }
 
 export default async function CategoryDetailPage({ params }: CategoryDetailPageProps) {
@@ -104,12 +99,12 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
 
             {category.education_content && (
               <Card className="mb-6" variant="default">
-                <h3 className="text-h3 text-text-primary mb-6 border-b border-border pb-4 flex items-center gap-2">
+                <h2 className="text-h3 text-text-primary mb-6 border-b border-border pb-4 flex items-center gap-2">
                   <svg className="w-5 h-5 text-brand-green" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                   </svg>
                   Edukasi Pengelolaan
-                </h3>
+                </h2>
                 <p className="text-body-md text-text-secondary whitespace-pre-wrap">
                   {category.education_content}
                 </p>
@@ -123,7 +118,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
         <div className="mb-8">
           <h2 className="text-h1 text-text-primary mb-2">Pengepul {category.name}</h2>
           <p className="text-body-lg text-text-secondary">
-            Daftar mitra pengepul yang menerima limbah dengan kategori {category.name}.
+            Daftar pengepul yang menerima limbah dengan kategori {category.name}.
           </p>
         </div>
 
@@ -145,7 +140,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
             </div>
             <h3 className="text-h3 text-text-primary mb-2">Belum Ada Pengepul</h3>
             <p className="text-body-md text-text-muted max-w-md mx-auto">
-              Saat ini belum ada data pengepul yang menerima kategori {category.name}. Kami terus berusaha memperbarui direktori kami.
+              Saat ini belum ada data pengepul yang menerima kategori {category.name}.
             </p>
           </div>
         )}
@@ -178,7 +173,7 @@ export default async function CategoryDetailPage({ params }: CategoryDetailPageP
                     <h3 title={collector.name} className="text-lg font-semibold text-text-primary mb-2 line-clamp-2 min-h-[3.5rem]">{collector.name}</h3>
 
                     <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">
-                      {collector.description || "Mitra pengepul terpercaya di WasteLink."}
+                      {collector.description || "Informasi pengepul dalam direktori WasteLink."}
                     </p>
 
                     <div className="flex items-start gap-2.5 text-text-secondary mt-auto">

@@ -1,11 +1,9 @@
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import { CollectorsList } from '@/components/features/CollectorsList';
+import { publicMetadata } from '@/lib/site';
 
-export const metadata = {
-  title: 'Daftar Pengepul | WasteLink',
-  description: 'Temukan jaringan pengepul limbah terdekat dan mulai berkontribusi pada lingkungan.',
-};
+export const metadata = publicMetadata('Daftar Pengepul | WasteLink', 'Cari informasi pengepul limbah berdasarkan kategori sampah, lalu lihat kontak dan lokasi yang tersedia.', '/collectors');
 
 export default async function CollectorsPage() {
   const supabase = await createClient();
@@ -41,7 +39,7 @@ export default async function CollectorsPage() {
               Daftar Pengepul
             </h1>
             <p className="text-sm md:text-base text-emerald-50/90 max-w-2xl mt-4 leading-relaxed">
-              Temukan jaringan pengepul tepercaya yang siap menerima berbagai jenis limbah daur ulang Anda.
+              Cari pengepul berdasarkan kategori limbah dan lihat informasi kontak yang tersedia.
             </p>
           </div>
 

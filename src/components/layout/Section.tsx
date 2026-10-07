@@ -18,7 +18,7 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
   ({ className = '', contained = true, as: Tag = 'section', children, ...props }, ref) => {
     return (
       <Tag
-        ref={ref as any}
+        ref={ref as React.Ref<HTMLDivElement>}
         className={`py-12 md:py-15 lg:py-20 ${className}`}
         {...props}
       >

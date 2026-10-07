@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { Container } from '@/components/ui/container';
+import { CONTACT_EMAIL, SITE_DESCRIPTION } from '@/lib/site';
 
 /**
  * Footer – Public layout footer
@@ -29,8 +30,11 @@ export const Footer = () => {
               Waste<span className="text-text-primary">Link</span>
             </Link>
             <p className="text-body-md text-text-secondary max-w-sm">
-              Platform direktori pengepul limbah untuk membantu masyarakat menemukan pengepul berdasarkan kategori sampah secara mudah dan efisien.
+              {SITE_DESCRIPTION}
             </p>
+            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block mt-4 max-w-full break-all text-body-md text-brand-green hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+              {CONTACT_EMAIL}
+            </a>
           </div>
 
           <div className="md:text-right flex flex-col md:items-end">
@@ -68,7 +72,7 @@ export const Footer = () => {
                   href="/about"
                   className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
                 >
-                  Tentang Kami
+                  Tentang
                   <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
                 </Link>
               </li>
@@ -80,14 +84,23 @@ export const Footer = () => {
           <p className="text-body-sm text-text-muted">
             &copy; {new Date().getFullYear()} WasteLink. Seluruh Hak Cipta Dilindungi.
           </p>
-          <div className="flex gap-4">
+          <nav aria-label="Informasi WasteLink" className="flex flex-wrap justify-center gap-4">
+            {[
+              { href: '/contact', label: 'Kontak' },
+              { href: '/privacy', label: 'Privasi' },
+              { href: '/terms', label: 'Ketentuan' },
+            ].map((link) => (
+              <Link key={link.href} href={link.href} className="text-body-sm text-text-secondary hover:text-brand-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+                {link.label}
+              </Link>
+            ))}
             <Link
               href="/login"
               className="text-body-sm text-text-muted hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
             >
               Admin Login
             </Link>
-          </div>
+          </nav>
         </div>
       </Container>
     </footer>

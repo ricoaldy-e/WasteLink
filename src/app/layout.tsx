@@ -1,6 +1,7 @@
 import './globals.css';
 import { Red_Hat_Display, Red_Hat_Text } from 'next/font/google';
 import NextTopLoader from 'nextjs-toploader';
+import { SITE_URL, SITE_DESCRIPTION } from '@/lib/site';
 
 const redHatDisplay = Red_Hat_Display({
   subsets: ['latin'],
@@ -17,13 +18,12 @@ const redHatText = Red_Hat_Text({
 });
 
 export const metadata = {
-  metadataBase: new URL('https://wastelinkapp.netlify.app'),
-  title: 'WasteLink | Recycling for Everyone',
-  description: 'Platform yang menghubungkan Anda dengan pengepul limbah terdekat. Daur ulang lebih mudah, bijak, dan efisien.',
+  metadataBase: new URL(SITE_URL),
+  title: 'WasteLink | Direktori Pengepul Limbah',
+  description: SITE_DESCRIPTION,
   openGraph: {
-    title: 'WasteLink | Recycling for Everyone',
-    description: 'Platform yang menghubungkan Anda dengan pengepul limbah terdekat. Daur ulang lebih mudah, bijak, dan efisien.',
-    url: 'https://wastelinkapp.netlify.app',
+    title: 'WasteLink | Direktori Pengepul Limbah',
+    description: SITE_DESCRIPTION,
     siteName: 'WasteLink',
     locale: 'id_ID',
     type: 'website',

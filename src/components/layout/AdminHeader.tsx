@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useTransition, useState } from "react";
 import { logoutAction } from "@/actions/auth";
-import { Button } from "@/components/ui/button";
 
 interface AdminHeaderProps {
   onMenuClick?: () => void;

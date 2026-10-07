@@ -13,9 +13,9 @@ export function StatsPanel({ collectorsCount, categoriesCount }: StatsPanelProps
   const [categories, setCategories] = useState(0);
 
   useEffect(() => {
-    let startCollectors = 0;
+    const startCollectors = 0;
     const endCollectors = collectorsCount;
-    let startCategories = 0;
+    const startCategories = 0;
     const endCategories = categoriesCount;
 
     const duration = 1200; // 1.2 seconds animation
@@ -48,7 +48,7 @@ export function StatsPanel({ collectorsCount, categoriesCount }: StatsPanelProps
           {collectors}
         </span>
         <span className="text-xs md:text-sm font-medium text-emerald-100/90 mt-1 block">
-          Pengepul Terverifikasi
+          Pengepul Aktif
         </span>
       </Link>
 

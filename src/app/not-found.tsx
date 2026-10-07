@@ -1,6 +1,11 @@
 import Link from 'next/link';
-import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
+
+export const metadata = {
+  title: 'Halaman Tidak Ditemukan | WasteLink',
+  description: 'Halaman atau informasi yang Anda cari tidak tersedia di WasteLink.',
+  robots: { index: false, follow: true },
+};
 
 export default function GlobalNotFound() {
   return (
@@ -19,8 +24,8 @@ export default function GlobalNotFound() {
         <p className="text-body-lg text-text-secondary max-w-lg mx-auto mb-8">
           Halaman atau data yang Anda cari tidak ada, sudah dihapus, atau belum tersedia saat ini.
         </p>
-        <Link href="/">
-          <Button variant="primary">Kembali ke Beranda</Button>
+        <Link href="/" className="inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] bg-brand-green text-white hover:bg-brand-green-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+          Kembali ke Beranda
         </Link>
       </Container>
     </main>

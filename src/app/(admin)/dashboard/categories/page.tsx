@@ -1,11 +1,9 @@
 import { Metadata } from "next";
 import Link from "next/link";
-import Image from "next/image";
 import { createClient } from "@/lib/supabase/server";
 import { Section } from "@/components/layout/Section";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { DeleteCategoryButton } from "@/components/features/admin/DeleteCategoryButton";
 import { AdminCategoriesList } from "@/components/features/admin/AdminCategoriesList";
 import { Category } from "@/types/category";
 

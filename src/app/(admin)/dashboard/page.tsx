@@ -132,7 +132,7 @@ export default async function DashboardPage() {
                       <div className="min-w-0 flex-1">
                         <p className="text-sm font-bold text-text-primary truncate">{collector.name}</p>
                         <p className="text-xs text-text-secondary mt-0.5 font-medium truncate">
-                          {(collector.categories as any)?.name || "Kategori Umum"}
+                          {(Array.isArray(collector.categories) ? collector.categories[0] : collector.categories)?.name || "Kategori Umum"}
                         </p>
                       </div>
                     </div>

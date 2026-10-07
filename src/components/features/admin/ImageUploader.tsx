@@ -106,7 +106,7 @@ export function ImageUploader({
         onUploadStateChange?.(false);
       }
     },
-    [folder, defaultImageUrl]
+    [folder, defaultImageUrl, onUploadStateChange]
   );
 
   function handleRemove() {

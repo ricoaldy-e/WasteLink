@@ -4,7 +4,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
 import { Container } from '@/components/ui/container';
 
 /**
@@ -26,9 +25,14 @@ const navLinks = [
 export const Header = () => {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+
+  if (previousPathname !== pathname) {
+    setPreviousPathname(pathname);
+    setMobileOpen(false);
+  }
 
   useEffect(() => {
-    setMobileOpen(false);
     // Memaksa scroll ke paling atas setiap kali pindah halaman
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -146,6 +150,7 @@ export const Header = () => {
       )}
 
       <div
+        inert={!mobileOpen}
         className={`
           fixed top-16 right-0 bottom-0 z-50 w-[280px]
           bg-white border-l border-border shadow-lg

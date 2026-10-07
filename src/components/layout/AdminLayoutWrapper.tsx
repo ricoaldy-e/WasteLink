@@ -9,9 +9,11 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
+  const [previousPathname, setPreviousPathname] = useState(pathname);
+  if (previousPathname !== pathname) {
+    setPreviousPathname(pathname);
     setIsSidebarOpen(false);
-  }, [pathname]);
+  }
 
   useEffect(() => {
     if (isSidebarOpen) {

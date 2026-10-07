@@ -1,10 +1,12 @@
-import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Section } from '@/components/layout/Section';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { StatsPanel } from '@/components/features/CollectorCounter';
+import { publicMetadata, SITE_DESCRIPTION } from '@/lib/site';
+
+export const metadata = publicMetadata('WasteLink | Direktori Pengepul Limbah', SITE_DESCRIPTION, '/');
 
 export default async function HomePage() {
   const supabase = await createClient();
@@ -62,28 +64,24 @@ export default async function HomePage() {
 
           <div className="relative z-20 px-6 sm:px-10 lg:px-20 max-w-2xl w-full mx-auto md:mx-0 pt-20 pb-16">
             <h1 className="uppercase text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-white tracking-wider leading-[1.1] mb-6 drop-shadow-sm">
-              Recycling for <br />
-              Everyone
+              Temukan <br />
+              Pengepul Limbah
             </h1>
 
             <p className="text-xl md:text-2xl text-emerald-50 mb-10 font-medium tracking-wide">
-              #ubahjadikebaikan
+              Direktori limbah untuk masyarakat
             </p>
 
             <p className="text-base md:text-lg text-white/90 mb-10 max-w-lg leading-relaxed">
-              Platform terpercaya yang menghubungkan Anda dengan jaringan pengepul limbah terdekat untuk pengelolaan sampah yang lebih bijak, mudah, dan efisien.
+              {SITE_DESCRIPTION}
             </p>
 
-            <div className="flex flex-col sm:flex-row items-start gap-4 w-full">
-              <Link href="/collectors" className="w-full sm:w-auto">
-                <Button tabIndex={-1} className="w-full sm:w-auto h-[52px] px-8 text-lg font-semibold rounded-[8px] !bg-white !text-[#24925A] hover:!bg-gray-100 transition-colors shadow-sm">
-                  Cari Pengepul
-                </Button>
+            <div className="flex flex-wrap items-start gap-4 w-full">
+              <Link href="/collectors" className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-6 py-3 text-base font-semibold rounded-[8px] bg-white text-[#24925A] hover:bg-gray-100 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+                Cari pengepul
               </Link>
-              <Link href="/about" className="w-full sm:w-auto">
-                <Button tabIndex={-1} className="w-full sm:w-auto h-[52px] px-8 text-lg font-semibold rounded-[8px] !bg-white/10 backdrop-blur-md !border-2 !border-solid !border-white/70 !text-white hover:!bg-white/20 transition-all shadow-sm">
-                  Pelajari Lebih Lanjut
-                </Button>
+              <Link href="/categories" className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-6 py-3 text-base font-semibold rounded-[8px] bg-white/10 backdrop-blur-md border-2 border-white/70 text-white hover:bg-white/20 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+                Jelajahi kategori
               </Link>
             </div>
           </div>
@@ -98,9 +96,9 @@ export default async function HomePage() {
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto relative">
           {[
-            { step: '01', title: 'Pilih Kategori', desc: 'Temukan berbagai kategori limbah seperti plastik, kertas, dan logam yang bisa didaur ulang.' },
-            { step: '02', title: 'Cari Pengepul', desc: 'Dapatkan informasi detail lokasi, kontak, dan jam operasional pengepul terdekat Anda.' },
-            { step: '03', title: 'Mulai Daur Ulang', desc: 'Hubungi pengepul dan jadikan limbah Anda kembali bernilai dan bermanfaat untuk bumi.' }
+            { step: '01', title: 'Pilih Kategori', desc: 'Pilih jenis limbah dari kategori yang tersedia untuk melihat informasi pengelolaannya.' },
+            { step: '02', title: 'Cari Pengepul', desc: 'Lihat kategori yang diterima serta informasi lokasi, kontak, dan jam operasional yang tersedia.' },
+            { step: '03', title: 'Hubungi Pengepul', desc: 'Gunakan kontak yang tersedia untuk mengonfirmasi jenis limbah dan jam operasional secara langsung.' }
           ].map((item, i) => (
             <div key={i} className="flex flex-col items-center text-center bg-white border border-border p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
               <div className="w-16 h-16 rounded-[1.25rem] bg-brand-green-subtle/50 flex items-center justify-center mb-6 border border-brand-green/10">
@@ -117,12 +115,10 @@ export default async function HomePage() {
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
           <div className="max-w-2xl">
             <h2 className="text-2xl md:text-3xl font-semibold uppercase tracking-wider text-text-primary mb-4">Jelajahi Kategori</h2>
-            <p className="text-lg text-text-secondary">Temukan tempat pengelolaan terbaik berdasarkan jenis sampah Anda.</p>
+            <p className="text-lg text-text-secondary">Lihat informasi limbah dan daftar pengepul berdasarkan kategori sampah Anda.</p>
           </div>
-          <Link href="/categories" className="shrink-0">
-            <Button tabIndex={-1} variant="secondary" className="h-[44px] px-6 !bg-transparent hover:!bg-brand-green hover:!text-white transition-all duration-300 border-border hover:border-brand-green">
-              Lihat Semua Kategori
-            </Button>
+          <Link href="/categories" className="shrink-0 inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] border border-border text-brand-green hover:bg-brand-green hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+            Lihat semua kategori
           </Link>
         </div>
 
@@ -170,15 +166,13 @@ export default async function HomePage() {
           <div className="relative z-10 px-8 py-16 md:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             <div className="lg:col-span-8 flex flex-col items-start text-left">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold uppercase tracking-wider text-white mb-6 leading-[1.2]">
-                Mari Jaga Lingkungan Bersama
+                Cari Informasi Pengepul
               </h2>
               <p className="text-sm sm:text-base md:text-lg text-emerald-50/90 mb-8 leading-relaxed max-w-2xl">
-                Jangan biarkan limbah menumpuk. Jadilah bagian dari solusi dengan mendukung pengepul lokal dan bantu mereka mengelola sampah menjadi sesuatu yang bermanfaat.
+                WasteLink adalah MVP tahap awal. Jelajahi direktori tanpa akun dan hubungi pengepul secara langsung. WasteLink tidak memproses pembayaran atau mengatur penjemputan.
               </p>
-              <Link href="/collectors">
-                <button className="h-[48px] sm:h-[52px] px-6 sm:px-8 text-sm sm:text-base font-semibold rounded-[6px] bg-white text-[#24925A] hover:bg-emerald-50 hover:shadow-lg transition-all duration-300 active:scale-[0.98]">
-                  Mulai Cari Pengepul
-                </button>
+              <Link href="/collectors" className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 text-base font-semibold rounded-[6px] bg-white text-[#24925A] hover:bg-emerald-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
+                Lihat pengepul
               </Link>
             </div>
 

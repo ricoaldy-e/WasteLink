@@ -12,7 +12,7 @@ export default function PublicCollectorsLoading() {
               Daftar Pengepul
             </h1>
             <p className="text-sm md:text-base text-emerald-50/90 max-w-2xl mt-4 leading-relaxed">
-              Temukan jaringan pengepul tepercaya yang siap menerima berbagai jenis limbah daur ulang Anda.
+              Cari pengepul berdasarkan kategori limbah dan lihat informasi kontak yang tersedia.
             </p>
           </div>
           

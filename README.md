@@ -1,31 +1,36 @@
 # WasteLink
 
-A modern platform connecting individuals with local waste collectors. Built to simplify recycling management, WasteLink enables users to find specific recycling facilities based on waste categories and seamlessly connect with collectors via WhatsApp.
+WasteLink is an early-stage MVP information platform and waste-collector directory. It helps the public find collectors by waste category and available contact information, without creating an account.
+
+Production website: https://wastelinkhub.app · Public contact: founder@wastelinkhub.app
+
+WasteLink does not process payments or transactions, book pickups, operate logistics, verify collectors, or guarantee their services. No production AI integration is implemented.
 
 ## Key Features
 
 **Public Interface**
 - **Categorized Directory**: Browse waste collectors filtered by specific recycling categories (e.g., Plastic, Metal, Paper).
 - **Collector Profiles**: Detailed pages featuring operational hours, addresses, and accepted materials.
-- **Direct Integration**: Seamless WhatsApp integration for immediate communication with collectors.
-- **Educational Content**: Embedded recycling guidelines and material-specific disposal instructions.
+- **Contact Links**: WhatsApp and location links where provided by directory records.
+- **Educational Content**: Category descriptions and waste-handling information where available.
+- **Product Information**: About, Contact, Privacy, and Terms pages accessible from the public footer.
 
 **Admin Dashboard**
 - **Content Management**: Complete CRUD operations for Collectors and Categories.
 - **Media Handling**: Integrated image uploading and storage management via Supabase.
-- **Secure Authentication**: Protected dashboard access with session management.
+- **Admin Authentication**: Supabase login and session management; deployed database and storage permissions require separate verification.
 - **Responsive Management**: Fully optimized interface for both desktop and mobile administration.
 
 ## Tech Stack
 
-- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Framework**: [Next.js 16.2.9](https://nextjs.org/) (App Router), React 19.2.4
 - **Language**: [TypeScript](https://www.typescriptlang.org/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Database & Services**: [Supabase](https://supabase.com/) (PostgreSQL, Authentication, Storage)
 
 ## Prerequisites
 
-- Node.js 18.x or later
+- Node.js 20.9 or later (as required by the installed Next.js package)
 - npm or yarn
 - A Supabase project and account
 
@@ -63,3 +68,9 @@ A modern platform connecting individuals with local waste collectors. Built to s
 - `/src/lib` - Utility configurations (e.g., Supabase client initialization)
 - `/src/actions` - Server actions handling database mutations
 - `/src/types` - TypeScript interfaces
+
+## Public readiness
+
+Canonical URLs and public metadata use `https://wastelinkhub.app` through `src/lib/site.ts`. The sitemap lists the seven stable public entry pages; directory detail pages are discoverable through category and collector links. `robots.txt` permits public pages and excludes admin/auth paths from crawling; it is not an authorization mechanism.
+
+See [PROJECT_CONTEXT.md](docs/PROJECT_CONTEXT.md) for current scope and planned work.

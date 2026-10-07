@@ -145,7 +145,7 @@ export function CollectorsList({ collectors }: CollectorsListProps) {
                   <h3 title={collector.name} className="text-lg font-semibold text-text-primary mb-2 line-clamp-2 min-h-[3.5rem]">{collector.name}</h3>
                   
                   <p className="text-sm text-text-muted line-clamp-2 mb-3 leading-relaxed">
-                    {collector.description || "Mitra pengepul terpercaya di WasteLink."}
+                    {collector.description || "Informasi pengepul dalam direktori WasteLink."}
                   </p>
                   
                   <div className="flex items-start gap-2.5 text-text-secondary mt-auto w-full">
