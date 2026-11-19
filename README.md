@@ -1,8 +1,8 @@
 # WasteLink
 
-WasteLink is an early-stage MVP information platform and waste-collector directory. It helps the public find collectors by waste category and available contact information, without creating an account.
+WasteLink is an information platform and waste-collector directory. It helps the public find collectors by waste category and available contact information, without creating an account.
 
-Production website: https://wastelinkhub.app · Public contact: founder@wastelinkhub.app
+Production website: https://wastelinkhub.app
 
 WasteLink does not process payments or transactions, book pickups, operate logistics, verify collectors, or guarantee their services. No production AI integration is implemented.
 

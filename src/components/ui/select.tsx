@@ -1,44 +1,37 @@
 import * as React from 'react';
 
-export type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement>;
+export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  /** Tandai error: border + outline merah dan `aria-invalid`. */
+  error?: boolean;
+}
 
-/**
- * Select / Dropdown – DESIGN.md §4 Select / Dropdown
- *
- * Same sizing as Input: Height 44px, Border 1px solid #E2E8F0, Radius 6px
- * Padding: 12px 16px, Font: 16px
- * Focus: border #299E63
- * Arrow icon color: #299E63 (via SVG background)
- */
+/** Select – mengikuti Input (docs/DESIGN.md §8). Panah memakai warna muted. */
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ className = '', children, ...props }, ref) => {
+  ({ className = '', error = false, children, ...props }, ref) => {
+    const base = [
+      'w-full appearance-none h-11 rounded-sm border px-4 pr-10',
+      'text-body text-ink bg-surface',
+      'transition-colors duration-150',
+      'focus-visible:outline-1 focus-visible:outline-offset-0',
+      'disabled:bg-bg-alt disabled:text-border-strong disabled:cursor-not-allowed',
+    ].join(' ');
+
+    const stateStyles = error
+      ? 'border-error focus-visible:outline-error'
+      : 'border-border-strong enabled:hover:border-ink focus:border-primary';
+
     return (
       <div className="relative">
         <select
           ref={ref}
-          className={`
-            w-full appearance-none
-            h-[44px] rounded-[6px]
-            border border-border
-            px-4 pr-10
-            text-body-md text-text-primary
-            bg-white
-            transition-all duration-200
-            focus:outline-none focus:border-brand-green focus:ring-[3px] focus:ring-brand-green/10
-            disabled:opacity-50 disabled:cursor-not-allowed
-            ${className}
-          `}
+          aria-invalid={error || undefined}
+          className={`${base} ${stateStyles} ${className}`}
           {...props}
         >
           {children}
         </select>
         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
-          <svg
-            className="h-5 w-5 text-brand-green"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
-          >
+          <svg className="size-5 text-muted" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
             <path
               fillRule="evenodd"
               d="M5.22 8.22a.75.75 0 0 1 1.06 0L10 11.94l3.72-3.72a.75.75 0 1 1 1.06 1.06l-4.25 4.25a.75.75 0 0 1-1.06 0L5.22 9.28a.75.75 0 0 1 0-1.06Z"

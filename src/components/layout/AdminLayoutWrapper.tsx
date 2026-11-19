@@ -31,7 +31,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
   }
 
   return (
-    <div className="flex min-h-screen bg-background">
+    <div className="flex min-h-screen bg-bg">
       <AdminSidebar 
         isOpen={isSidebarOpen} 
         onClose={() => setIsSidebarOpen(false)} 
@@ -46,7 +46,7 @@ export function AdminLayoutWrapper({ children }: { children: React.ReactNode }) 
 
       {isSidebarOpen && (
         <div 
-          className="fixed inset-0 z-40 bg-black/30 lg:hidden"
+          className="fixed inset-0 z-40 bg-ink/40 lg:hidden"
           onClick={() => setIsSidebarOpen(false)}
           aria-hidden="true"
         />

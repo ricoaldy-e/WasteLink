@@ -3,17 +3,14 @@ import * as React from 'react';
 export type LabelProps = React.LabelHTMLAttributes<HTMLLabelElement>;
 
 /**
- * Form Label – DESIGN.md §4 Form Label
- *
- * Font: 14px / 600 weight, Color: #1A202C
- * Margin bottom: 8px, Display: block
+ * Label – docs/DESIGN.md §10. Jakarta 600 14px, sentence case.
  */
 export const Label = React.forwardRef<HTMLLabelElement, LabelProps>(
   ({ className = '', ...props }, ref) => {
     return (
       <label
         ref={ref}
-        className={`block text-xs font-semibold uppercase tracking-wider text-text-primary mb-2 ${className}`}
+        className={`block text-small font-semibold text-ink mb-2 ${className}`}
         {...props}
       />
     );

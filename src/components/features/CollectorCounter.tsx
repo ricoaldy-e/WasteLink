@@ -1,65 +1,36 @@
-"use client";
-
-import { useEffect, useState } from "react";
-import Link from "next/link";
+import Link from 'next/link';
 
 interface StatsPanelProps {
   collectorsCount: number;
   categoriesCount: number;
 }
 
+const formatNumber = new Intl.NumberFormat('id-ID');
+
+/**
+ * Fakta singkat di bawah hero. Angka pertama jatuh di kolom teks (5/12) dan angka kedua di kolom foto (7/12), sehingga keduanya sejajar dengan blok di atasnya.
+ * Dirender di server, jadi angkanya langsung benar (tanpa hitung-naik dari 0).
+ */
 export function StatsPanel({ collectorsCount, categoriesCount }: StatsPanelProps) {
-  const [collectors, setCollectors] = useState(0);
-  const [categories, setCategories] = useState(0);
-
-  useEffect(() => {
-    const startCollectors = 0;
-    const endCollectors = collectorsCount;
-    const startCategories = 0;
-    const endCategories = categoriesCount;
-
-    const duration = 1200; // 1.2 seconds animation
-    const startTime = performance.now();
-    let animationFrameId: number;
-
-    const updateCounts = (now: number) => {
-      const progress = Math.min((now - startTime) / duration, 1);
-      const easeProgress = progress * (2 - progress); // easeOutQuad
-
-      setCollectors(Math.floor(easeProgress * (endCollectors - startCollectors) + startCollectors));
-      setCategories(Math.floor(easeProgress * (endCategories - startCategories) + startCategories));
-
-      if (progress < 1) {
-        animationFrameId = requestAnimationFrame(updateCounts);
-      } else {
-        setCollectors(endCollectors);
-        setCategories(endCategories);
-      }
-    };
-
-    animationFrameId = requestAnimationFrame(updateCounts);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, [collectorsCount, categoriesCount]);
+  const stats = [
+    { href: '/collectors', value: collectorsCount, label: 'pengepul aktif' },
+    { href: '/categories', value: categoriesCount, label: 'kategori limbah' },
+  ];
 
   return (
-    <div className="w-full max-w-[280px] sm:max-w-[320px] bg-white/[0.04] border border-white/10 rounded-2xl divide-y divide-white/10 shadow-lg backdrop-blur-[2px] overflow-hidden select-none">
-      <Link href="/collectors" className="block p-6 text-left transition-all hover:bg-white/[0.08] active:bg-white/[0.12] focus:outline-none focus:bg-white/[0.08]">
-        <span className="text-4xl md:text-5xl font-bold tracking-tight text-white tabular-nums block">
-          {collectors}
-        </span>
-        <span className="text-xs md:text-sm font-medium text-emerald-100/90 mt-1 block">
-          Pengepul Aktif
-        </span>
-      </Link>
-
-      <Link href="/categories" className="block p-6 text-left transition-all hover:bg-white/[0.08] active:bg-white/[0.12] focus:outline-none focus:bg-white/[0.08]">
-        <span className="text-4xl md:text-5xl font-bold tracking-tight text-white tabular-nums block">
-          {categories}
-        </span>
-        <span className="text-xs md:text-sm font-medium text-emerald-100/90 mt-1 block">
-          Kategori Sampah Didukung
-        </span>
-      </Link>
-    </div>
+    <ul className="mt-12 grid grid-cols-2 gap-x-6 border-t border-border pt-6 md:mt-14 lg:grid-cols-12 lg:gap-x-12">
+      {stats.map((stat, i) => (
+        <li key={stat.href} className={i === 0 ? 'lg:col-span-5' : 'lg:col-span-7'}>
+          <Link href={stat.href} className="group flex flex-col gap-1 rounded-sm sm:flex-row sm:items-baseline sm:gap-3">
+            <span className="font-display font-semibold leading-none lining-nums tabular-nums text-ink text-[length:clamp(2.75rem,2rem_+_3vw,4.25rem)]">
+              {formatNumber.format(stat.value)}
+            </span>
+            <span className="text-body font-medium text-muted link-ui group-hover:text-ink group-hover:[text-decoration-color:currentColor]">
+              {stat.label}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
   );
 }

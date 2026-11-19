@@ -17,27 +17,22 @@ export default function GlobalError({
   }, [error]);
 
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center py-16">
-      <Container className="text-center">
-        <div className="relative w-32 h-32 mx-auto mb-8 flex items-center justify-center select-none group">
-          <div className="absolute inset-0 bg-error/20 blur-2xl rounded-full pointer-events-none group-hover:bg-error/30 transition-all duration-500" />
-          <div className="relative w-24 h-24 bg-white border border-error/20 shadow-xl shadow-error/10 rounded-[24px] flex items-center justify-center transform rotate-6 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 ease-out">
-            <div className="absolute inset-0 bg-gradient-to-br from-error/5 to-transparent rounded-[24px]" />
-            <svg className="relative z-10 w-11 h-11 text-error drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
-            </svg>
-          </div>
-        </div>
-        <h1 className="text-h1 text-text-primary mb-4">Ups! Terjadi Kesalahan</h1>
-        <p className="text-body-lg text-text-secondary max-w-lg mx-auto mb-8">
-          Sistem kami mengalami kendala teknis saat memproses permintaan Anda.
+    <main className="flex min-h-screen items-center bg-bg py-16">
+      <Container>
+        <p className="text-eyebrow text-error">Kesalahan sistem</p>
+        <h1 className="mt-3 text-h1 text-ink">Halaman gagal dimuat</h1>
+        <p className="mt-4 max-w-[48ch] text-body-lg text-muted">
+          Sistem mengalami kendala teknis saat memproses permintaan Anda. Coba muat ulang; kalau masih gagal, kembali ke beranda atau coba lagi nanti.
         </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <div className="mt-8 flex flex-wrap items-center gap-3">
           <Button variant="primary" onClick={() => reset()}>
-            Coba Lagi
+            Coba lagi
           </Button>
-          <Link href="/" className="inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] border border-brand-green text-brand-green hover:bg-brand-green-subtle focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
-            Kembali ke Beranda
+          <Link
+            href="/"
+            className="inline-flex h-11 items-center rounded-sm border border-primary px-5 text-btn text-primary transition-colors duration-150 hover:bg-primary-subtle"
+          >
+            Kembali ke beranda
           </Link>
         </div>
       </Container>

@@ -9,17 +9,15 @@ export interface SectionProps extends React.HTMLAttributes<HTMLElement> {
 }
 
 /**
- * Section wrapper – DESIGN.md §5 Layout Principles
- *
- * Default vertical padding: 60px–80px (py-15 desktop, py-12 mobile)
- * Content centered with max-width 1200px when contained
+ * Section – docs/DESIGN.md §4. Padding vertikal fluid 48 → 96px dalam satu utility (bukan
+ * `md:py-*`), supaya `pt-*`/`pb-*`/`!py-*` dari pemanggil tidak ditimpa variant breakpoint.
  */
 export const Section = React.forwardRef<HTMLElement, SectionProps>(
   ({ className = '', contained = true, as: Tag = 'section', children, ...props }, ref) => {
     return (
       <Tag
         ref={ref as React.Ref<HTMLDivElement>}
-        className={`py-12 md:py-15 lg:py-20 ${className}`}
+        className={`py-[clamp(3rem,2rem_+_4vw,6rem)] ${className}`}
         {...props}
       >
         {contained ? <Container>{children}</Container> : children}

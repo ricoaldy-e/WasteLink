@@ -1,32 +1,42 @@
-import Link from 'next/link';
-import { Container } from '@/components/ui/container';
+import Link from "next/link";
+import { Container } from "@/components/ui/container";
+import { ArrowIcon } from "@/components/ui/arrow-icon";
+import { LostBinIllustration } from "@/components/features/Illustrations";
 
 export const metadata = {
-  title: 'Halaman Tidak Ditemukan | WasteLink',
-  description: 'Halaman atau informasi yang Anda cari tidak tersedia di WasteLink.',
+  title: "Halaman Tidak Ditemukan | WasteLink",
+  description:
+    "Halaman atau informasi yang Anda cari tidak tersedia di WasteLink.",
   robots: { index: false, follow: true },
 };
 
 export default function GlobalNotFound() {
   return (
-    <main className="min-h-screen bg-background flex items-center justify-center py-16">
-      <Container className="text-center">
-        <div className="relative w-32 h-32 mx-auto mb-8 flex items-center justify-center select-none group">
-          <div className="absolute inset-0 bg-brand-green/20 blur-2xl rounded-full pointer-events-none group-hover:bg-brand-green/30 transition-all duration-500" />
-          <div className="relative w-24 h-24 bg-white border border-border shadow-xl shadow-brand-green/5 rounded-[24px] flex items-center justify-center transform -rotate-6 group-hover:rotate-0 group-hover:scale-105 transition-all duration-500 ease-out">
-            <div className="absolute inset-0 bg-gradient-to-br from-brand-green/5 to-transparent rounded-[24px]" />
-            <span className="relative z-10 text-[2.5rem] leading-none font-extrabold text-transparent bg-clip-text bg-gradient-to-br from-brand-green to-[#17663E] tracking-tighter drop-shadow-sm">
-              404
-            </span>
-          </div>
+    <main className="flex min-h-screen items-center bg-bg py-16">
+      <Container className="grid items-center gap-10 lg:grid-cols-12 lg:gap-6">
+        <div className="lg:col-span-6">
+          <p
+            aria-hidden="true"
+            className="select-none font-display font-semibold leading-[0.9] lining-nums text-primary text-[length:clamp(8rem,2rem_+_30vw,20rem)]"
+          >
+            404
+          </p>
+          <h1 className="mt-8 text-h2 text-ink">Halaman tidak ditemukan</h1>
+          <p className="mt-4 max-w-[48ch] text-body-lg text-muted">
+            Halaman atau data yang Anda cari tidak ada, sudah dihapus, atau
+            belum tersedia saat ini.
+          </p>
+          <Link
+            href="/"
+            className="mt-8 inline-flex h-11 items-center gap-2 rounded-sm bg-primary px-5 text-btn text-on-primary transition-colors duration-150 hover:bg-primary-hover active:bg-primary-pressed motion-safe:hover:[&_[data-arrow]]:translate-x-0.5"
+          >
+            Kembali ke beranda
+            <ArrowIcon />
+          </Link>
         </div>
-        <h1 className="text-display-md text-text-primary mb-4">404 - Tidak Ditemukan</h1>
-        <p className="text-body-lg text-text-secondary max-w-lg mx-auto mb-8">
-          Halaman atau data yang Anda cari tidak ada, sudah dihapus, atau belum tersedia saat ini.
-        </p>
-        <Link href="/" className="inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] bg-brand-green text-white hover:bg-brand-green-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
-          Kembali ke Beranda
-        </Link>
+        <div className="max-w-md lg:col-span-6 lg:max-w-none">
+          <LostBinIllustration />
+        </div>
       </Container>
     </main>
   );

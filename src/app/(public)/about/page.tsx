@@ -1,108 +1,112 @@
-import { Section } from '@/components/layout/Section';
-import { Card } from '@/components/ui/card';
 import Link from 'next/link';
-import Image from 'next/image';
+import { Section } from '@/components/layout/Section';
+import { PageHeader } from '@/components/layout/PageHeader';
+import { Container } from '@/components/ui/container';
+import { ArrowIcon } from '@/components/ui/arrow-icon';
+import { Reveal } from '@/components/ui/reveal';
+import { LoopIllustration } from '@/components/features/Illustrations';
+import { NumberedSteps } from '@/components/features/NumberedSteps';
 import { publicMetadata, SITE_DESCRIPTION } from '@/lib/site';
 
-export const metadata = publicMetadata('Tentang | WasteLink', 'Kenali WasteLink, direktori pengepul limbah tahap awal, cara penggunaannya, dan batas layanan yang tersedia.', '/about');
+export const metadata = publicMetadata('Tentang | WasteLink', 'Kenali WasteLink, direktori pengepul limbah, cara penggunaannya, dan batas layanan yang tersedia.', '/about');
+
+const features = [
+  {
+    title: 'Direktori pengepul',
+    desc: 'Lihat kategori yang diterima, deskripsi, jam operasional, serta kontak WhatsApp dan tautan lokasi jika tersedia. Kelengkapan informasi dapat berbeda pada setiap pengepul.',
+  },
+  {
+    title: 'Informasi kategori',
+    desc: 'Baca deskripsi kategori dan materi edukasi pengelolaan limbah jika tersedia. Informasi ini membantu Anda mengenali jenis sampah sebelum menghubungi pengepul.',
+  },
+];
+
+const steps = [
+  { title: 'Pilih kategori limbah', desc: 'Pilih jenis sampah dari kategori yang tersedia dan baca informasi pengelolaannya.' },
+  { title: 'Temukan pengepul', desc: 'Jelajahi daftar pengepul yang menerima kategori limbah tersebut. Periksa lokasi dan jam operasionalnya.' },
+  { title: 'Hubungi pengepul', desc: 'Gunakan kontak yang tersedia untuk mengonfirmasi jenis limbah yang diterima, lokasi, dan jam operasional sebelum berkunjung.' },
+];
 
 export default function AboutPage() {
   return (
     <>
-      <section className="relative w-full overflow-hidden text-center py-20 md:py-28 lg:py-36 bg-gray-900">
-        <Image
-          src="/images/about.png"
-          alt="Tentang WasteLink"
-          fill
-          priority
-          className="object-cover object-center brightness-[0.35]"
-        />
-        <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-display-xl text-white mb-6 tracking-tight">Tentang WasteLink</h1>
-          <p className="text-body-lg text-white mb-8 max-w-2xl mx-auto opacity-90 leading-relaxed">
-            {SITE_DESCRIPTION}
-          </p>
-        </div>
-      </section>
+      <PageHeader eyebrow="Tentang" title="Tentang WasteLink" description={SITE_DESCRIPTION} art={<LoopIllustration />} />
 
-      <Section className="bg-surface" contained>
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-h1 text-text-primary mb-6">Apa Itu WasteLink?</h2>
-          <p className="text-body-lg text-text-secondary leading-relaxed">
-            WasteLink adalah proyek direktori dan informasi pengelolaan limbah dalam tahap MVP awal. Mencari informasi kategori sampah dan kontak pengepul bisa memerlukan pencarian di berbagai tempat. WasteLink menyajikan informasi tersebut dalam satu direktori yang dapat diakses masyarakat umum tanpa akun. Data kategori dan pengepul dikelola melalui area admin.
+      <Section contained>
+        <div className="grid gap-6 lg:grid-cols-12">
+          <h2 className="text-h2 text-ink lg:col-span-4">Apa itu WasteLink?</h2>
+          <p className="max-w-[68ch] text-body-lg text-muted lg:col-span-8">
+            WasteLink adalah direktori pengepul dan informasi pengelolaan limbah. Mencari informasi kategori sampah dan kontak pengepul bisa memerlukan pencarian di berbagai tempat. WasteLink menyajikan informasi tersebut dalam satu direktori yang dapat diakses masyarakat umum tanpa akun. Data kategori dan pengepul dikelola oleh pengelola WasteLink.
           </p>
         </div>
       </Section>
 
-      <Section className="bg-background border-y border-border" contained>
-        <div className="text-center mb-10 lg:mb-16">
-          <h2 className="text-h1 text-text-primary mb-4">Informasi yang Tersedia</h2>
-          <p className="text-body-lg text-text-secondary max-w-2xl mx-auto">
-            Mulai dari kategori sampah, lalu lihat informasi pengepul yang menerima kategori tersebut.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-          <Card variant="default" className="text-left">
-            <h3 className="text-h2 text-brand-green mb-4">Direktori Pengepul</h3>
-            <p className="text-body-md text-text-secondary leading-relaxed">
-              Lihat kategori yang diterima, deskripsi, jam operasional, serta kontak WhatsApp dan tautan lokasi jika tersedia. Kelengkapan informasi dapat berbeda pada setiap pengepul.
-            </p>
-          </Card>
-          
-          <Card variant="default" className="text-left">
-            <h3 className="text-h2 text-brand-green mb-4">Informasi Kategori</h3>
-            <p className="text-body-md text-text-secondary leading-relaxed">
-              Baca deskripsi kategori dan materi edukasi pengelolaan limbah jika tersedia. Informasi ini membantu Anda mengenali jenis sampah sebelum menghubungi pengepul.
-            </p>
-          </Card>
+      <Section className="border-y border-border bg-bg-alt" contained>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-4">
+            <h2 className="text-h2 text-ink">Informasi yang tersedia</h2>
+            <p className="mt-4 max-w-[32ch] text-body-lg text-muted">Mulai dari kategori sampah, lalu lihat pengepul yang menerimanya.</p>
+          </div>
+          <ul className="grid gap-x-10 gap-y-8 sm:grid-cols-2 lg:col-span-8">
+            {features.map((f, i) => (
+              <Reveal as="li" key={f.title} delay={i * 90} className="border-t-2 border-ink pt-4">
+                <h3 className="text-h3 text-ink">{f.title}</h3>
+                <p className="mt-2 text-body text-muted">{f.desc}</p>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </Section>
 
-      <Section className="bg-surface" contained>
-        <div className="text-center mb-12">
-          <h2 className="text-h1 text-text-primary mb-4">Cara Menggunakan WasteLink</h2>
-          <p className="text-body-lg text-text-secondary max-w-2xl mx-auto">
-            Gunakan direktori untuk mencari informasi, lalu konfirmasikan kebutuhan Anda langsung kepada pengepul.
-          </p>
+      <Section contained>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-6">
+          <div className="lg:col-span-4">
+            <h2 className="text-h2 text-ink">Cara menggunakan</h2>
+            <p className="mt-4 max-w-[32ch] text-body-lg text-muted">Cari informasi di direktori, lalu konfirmasikan kebutuhan Anda langsung kepada pengepul.</p>
+          </div>
+          <div className="lg:col-span-8">
+            <NumberedSteps steps={steps} />
+          </div>
         </div>
+      </Section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto relative">
-          {[
-            { step: '01', title: 'Pilih Kategori Limbah', desc: 'Pilih jenis sampah dari kategori yang tersedia dan baca informasi pengelolaannya.' },
-            { step: '02', title: 'Temukan Pengepul', desc: 'Jelajahi daftar pengepul yang menerima kategori limbah tersebut. Periksa lokasi dan jam operasionalnya.' },
-            { step: '03', title: 'Hubungi Pengepul', desc: 'Gunakan kontak yang tersedia untuk mengonfirmasi jenis limbah yang diterima, lokasi, dan jam operasional sebelum berkunjung.' }
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center text-center bg-white border border-border p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
-              <div className="w-16 h-16 rounded-[1.25rem] bg-brand-green-subtle/50 flex items-center justify-center mb-6 border border-brand-green/10">
-                <span className="text-xl font-semibold text-brand-green">{item.step}</span>
-              </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-3">{item.title}</h3>
-              <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+      <Section className="border-t border-border bg-bg-alt" contained>
+        <div className="grid gap-6 lg:grid-cols-12">
+          <h2 className="text-h2 text-ink lg:col-span-4">Batas layanan saat ini</h2>
+          <div className="lg:col-span-8">
+            <p className="max-w-[68ch] text-body text-muted">
+              WasteLink menyediakan informasi, bukan layanan transaksi, pembayaran, pemesanan penjemputan, atau logistik. Belum ada program pemeriksaan kelayakan pengepul maupun fitur ulasan pengguna. Pencantuman dalam direktori tidak menjamin kualitas layanan. Informasi dapat berubah; pastikan detailnya langsung kepada pengepul.
+            </p>
+            <Link
+              href="/terms"
+              className="mt-4 inline-flex min-h-11 items-center gap-2 rounded-sm text-action text-primary link-ui hover:text-primary-hover motion-safe:hover:[&_[data-arrow]]:translate-x-0.5"
+            >
+              Baca ketentuan penggunaan
+              <ArrowIcon />
+            </Link>
+          </div>
+        </div>
+      </Section>
+
+      <section className="bg-primary text-on-primary [&_:focus-visible]:outline-on-primary">
+        <Container className="py-[clamp(3rem,2rem_+_4vw,6rem)]">
+          <div className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-6">
+            <div className="lg:col-span-8">
+              <h2 className="text-h2 text-white">Jelajahi kategori limbah</h2>
+              <p className="mt-4 max-w-[56ch] text-body-lg text-on-primary/90">Lihat kategori yang tersedia dan temukan pengepul yang menerimanya.</p>
             </div>
-          ))}
-        </div>
-      </Section>
-
-      <Section className="bg-background border-t border-border" contained>
-        <div className="max-w-4xl mx-auto">
-          <h2 className="text-h2 text-text-primary mb-4">Batas Layanan Saat Ini</h2>
-          <p className="text-body-md text-text-secondary leading-relaxed">
-            WasteLink menyediakan informasi, bukan layanan transaksi, pembayaran, pemesanan penjemputan, atau logistik. Belum ada program pemeriksaan kelayakan pengepul maupun fitur ulasan pengguna. Pencantuman dalam direktori tidak menjamin kualitas layanan. Informasi dapat berubah; pastikan detailnya langsung kepada pengepul.
-          </p>
-          <Link href="/terms" className="inline-block mt-4 text-brand-green underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">Baca ketentuan penggunaan</Link>
-        </div>
-      </Section>
-
-      <Section className="bg-brand-green text-center border-t border-border" contained>
-        <h2 className="text-display-xl text-white mb-6">Jelajahi Kategori Limbah</h2>
-        <p className="text-body-lg text-white mb-10 max-w-2xl mx-auto opacity-90">
-          Lihat kategori yang tersedia dan temukan informasi pengepul yang menerimanya.
-        </p>
-        <Link href="/categories" className="inline-flex items-center justify-center bg-white text-brand-green hover:bg-background min-h-[56px] px-8 py-3 text-lg font-semibold rounded-[6px] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-          Lihat kategori limbah
-        </Link>
-      </Section>
+            <div className="lg:col-span-4 lg:justify-self-end">
+              <Link
+                href="/categories"
+                className="inline-flex h-11 items-center gap-2 rounded-sm bg-on-primary px-5 text-btn text-primary transition-colors duration-150 hover:bg-white motion-safe:hover:[&_[data-arrow]]:translate-x-0.5"
+              >
+                Lihat kategori limbah
+                <ArrowIcon />
+              </Link>
+            </div>
+          </div>
+        </Container>
+      </section>
     </>
   );
 }

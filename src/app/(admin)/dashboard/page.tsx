@@ -1,13 +1,15 @@
 import { Metadata } from "next";
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { Section } from "@/components/layout/Section";
-import { Card } from "@/components/ui/card";
+import { AdminPageHeader } from "@/components/layout/AdminPageHeader";
+import { ButtonLink } from "@/components/ui/button-link";
 
 export const metadata: Metadata = {
-  title: "Dashboard Admin — WasteLink",
+  title: "Dashboard Admin | WasteLink",
   description: "Dashboard panel admin WasteLink",
 };
+
+const formatNumber = new Intl.NumberFormat("id-ID");
 
 export default async function DashboardPage() {
   const supabase = await createClient();
@@ -31,127 +33,87 @@ export default async function DashboardPage() {
     .order("created_at", { ascending: false })
     .limit(3);
 
+  const stats = [
+    { label: "Total kategori", value: categoriesCount ?? 0, unit: "kategori limbah" },
+    { label: "Total pengepul", value: totalCollectors, unit: "pengepul terdaftar" },
+  ];
+
   return (
-    <main className="min-h-screen bg-[#F8FAFC]">
-      <Section className="pb-12 pt-8 lg:pt-12">
-        <div className="mb-8 pb-6 border-b border-border">
-          <h1 className="text-h2 font-bold uppercase tracking-wider text-text-primary">
-            Dashboard
-          </h1>
-          <p className="text-body-sm text-text-secondary mt-1">
-            Selamat datang di panel admin WasteLink. Pantau statistik dan kelola data sistem Anda di sini.
-          </p>
-        </div>
+    <Section className="pt-8 pb-12 lg:pt-12">
+      <AdminPageHeader title="Dashboard" description="Pantau jumlah data dan kelola kategori serta pengepul di direktori WasteLink." />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <Card className="flex flex-col justify-between p-6 bg-white border border-border rounded-[8px]">
-            <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
-              Total Kategori
-            </span>
-            <div className="mt-4 flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-text-primary leading-none">
-                {categoriesCount ?? 0}
+      <dl className="grid grid-cols-2 divide-x divide-border border-y border-border">
+        {stats.map((stat) => (
+          <div key={stat.label} className="px-4 py-6 first:ps-0 sm:px-8">
+            <dt className="text-small font-semibold text-muted">{stat.label}</dt>
+            <dd className="mt-2 flex flex-wrap items-baseline gap-x-2">
+              <span className="font-display font-semibold leading-none lining-nums tabular-nums text-ink text-[length:clamp(3rem,2rem_+_4vw,5rem)]">
+                {formatNumber.format(stat.value)}
               </span>
-              <span className="text-xs text-text-secondary font-semibold uppercase tracking-wider">kategori limbah</span>
-            </div>
-          </Card>
+              <span className="text-small text-muted">{stat.unit}</span>
+            </dd>
+          </div>
+        ))}
+      </dl>
 
-          <Card className="flex flex-col justify-between p-6 bg-white border border-border rounded-[8px]">
-            <span className="text-[10px] font-bold text-text-secondary uppercase tracking-wider">
-              Total Pengepul
-            </span>
-            <div className="mt-4 flex items-baseline gap-2">
-              <span className="text-3xl font-bold text-text-primary leading-none">
-                {totalCollectors}
-              </span>
-              <span className="text-xs text-text-secondary font-semibold uppercase tracking-wider">pengepul terdaftar</span>
-            </div>
-          </Card>
-        </div>
+      <div className="mt-12 grid gap-12 lg:grid-cols-2 lg:gap-8">
+        <section aria-labelledby="recent-categories">
+          <div className="flex items-center justify-between gap-4 border-b-2 border-ink pb-3">
+            <h2 id="recent-categories" className="text-h4 text-ink">Kategori terbaru</h2>
+            <ButtonLink href="/dashboard/categories/create" variant="secondary" size="sm">Tambah kategori</ButtonLink>
+          </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-border mb-4">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-text-primary">
-                Kategori Limbah
-              </h2>
-              <Link href="/dashboard/categories/create">
-                <button className="text-[10px] font-bold uppercase tracking-wider text-brand-green hover:text-brand-green-hover border border-brand-green rounded-[6px] px-3 py-1.5 transition-colors bg-white">
-                  + Tambah Kategori
-                </button>
-              </Link>
-            </div>
-
-            {recentCategories && recentCategories.length > 0 ? (
-              <div className="divide-y divide-border flex-1">
-                {recentCategories.map((category) => (
-                  <div key={category.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
-                    <div className="min-w-0 pr-4">
-                      <p className="text-sm font-bold text-text-primary truncate">{category.name}</p>
-                      {category.description && (
-                        <p className="text-xs text-text-secondary mt-0.5 line-clamp-1">
-                          {category.description}
-                        </p>
-                      )}
-                    </div>
-                    <Link href={`/dashboard/categories/${category.id}/edit`}>
-                      <button className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:text-brand-green border border-border hover:border-brand-green bg-white rounded-[6px] px-3 py-1.5 transition-colors">
-                        Edit
-                      </button>
-                    </Link>
+          {recentCategories && recentCategories.length > 0 ? (
+            <ul className="divide-y divide-border">
+              {recentCategories.map((category) => (
+                <li key={category.id} className="flex items-center justify-between gap-4 py-4">
+                  <div className="min-w-0">
+                    <p className="truncate text-small font-semibold text-ink">{category.name}</p>
+                    {category.description && <p className="line-clamp-1 text-caption text-muted">{category.description}</p>}
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-sm text-text-secondary flex-1 flex items-center justify-center">
-                Belum ada data kategori.
-              </div>
-            )}
-          </Card>
+                  <ButtonLink href={`/dashboard/categories/${category.id}/edit`} variant="secondary" size="sm" className="shrink-0">
+                    Edit<span className="sr-only"> kategori {category.name}</span>
+                  </ButtonLink>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="py-6 text-small text-muted">Belum ada kategori. Tambahkan kategori pertama untuk mulai mengisi direktori.</p>
+          )}
+        </section>
 
-          <Card className="bg-white border border-border rounded-[8px] p-6 shadow-sm flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-border mb-4">
-              <h2 className="text-xs font-bold uppercase tracking-wider text-text-primary">
-                Pengepul Terdaftar
-              </h2>
-              <Link href="/dashboard/collectors/create">
-                <button className="text-[10px] font-bold uppercase tracking-wider text-brand-green hover:text-brand-green-hover border border-brand-green rounded-[6px] px-3 py-1.5 transition-colors bg-white">
-                  + Tambah Pengepul
-                </button>
-              </Link>
-            </div>
+        <section aria-labelledby="recent-collectors">
+          <div className="flex items-center justify-between gap-4 border-b-2 border-ink pb-3">
+            <h2 id="recent-collectors" className="text-h4 text-ink">Pengepul terbaru</h2>
+            <ButtonLink href="/dashboard/collectors/create" variant="secondary" size="sm">Tambah pengepul</ButtonLink>
+          </div>
 
-            {recentCollectors && recentCollectors.length > 0 ? (
-              <div className="divide-y divide-border flex-1">
-                {recentCollectors.map((collector) => (
-                  <div key={collector.id} className="flex items-center justify-between py-4 first:pt-0 last:pb-0">
-                    <div className="flex items-center gap-3 flex-1 min-w-0 pr-4">
-                      <div className="w-8 h-8 rounded-full bg-brand-green flex items-center justify-center text-white text-xs font-bold uppercase shrink-0">
-                        {collector.name.charAt(0)}
-                      </div>
-                      <div className="min-w-0 flex-1">
-                        <p className="text-sm font-bold text-text-primary truncate">{collector.name}</p>
-                        <p className="text-xs text-text-secondary mt-0.5 font-medium truncate">
-                          {(Array.isArray(collector.categories) ? collector.categories[0] : collector.categories)?.name || "Kategori Umum"}
-                        </p>
-                      </div>
+          {recentCollectors && recentCollectors.length > 0 ? (
+            <ul className="divide-y divide-border">
+              {recentCollectors.map((collector) => (
+                <li key={collector.id} className="flex items-center justify-between gap-4 py-4">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <div aria-hidden="true" className="flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-small font-semibold text-on-primary">
+                      {collector.name.charAt(0)}
                     </div>
-                    <Link href={`/dashboard/collectors/${collector.id}/edit`}>
-                      <button className="text-[10px] font-bold uppercase tracking-wider text-text-secondary hover:text-brand-green border border-border hover:border-brand-green bg-white rounded-[6px] px-3 py-1.5 transition-colors shrink-0">
-                        Edit
-                      </button>
-                    </Link>
+                    <div className="min-w-0">
+                      <p className="truncate text-small font-semibold text-ink">{collector.name}</p>
+                      <p className="truncate text-caption text-muted">
+                        {(Array.isArray(collector.categories) ? collector.categories[0] : collector.categories)?.name || "Tanpa kategori"}
+                      </p>
+                    </div>
                   </div>
-                ))}
-              </div>
-            ) : (
-              <div className="text-center py-8 text-sm text-text-secondary flex-1 flex items-center justify-center">
-                Belum ada data pengepul.
-              </div>
-            )}
-          </Card>
-        </div>
-      </Section>
-    </main>
+                  <ButtonLink href={`/dashboard/collectors/${collector.id}/edit`} variant="secondary" size="sm" className="shrink-0">
+                    Edit<span className="sr-only"> pengepul {collector.name}</span>
+                  </ButtonLink>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="py-6 text-small text-muted">Belum ada pengepul. Tambahkan pengepul pertama untuk mulai mengisi direktori.</p>
+          )}
+        </section>
+      </div>
+    </Section>
   );
 }

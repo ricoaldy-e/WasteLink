@@ -1,187 +1,228 @@
-import { Card } from '@/components/ui/card';
-import { Section } from '@/components/layout/Section';
-import { createClient } from '@/lib/supabase/server';
+import Form from 'next/form';
 import Link from 'next/link';
 import Image from 'next/image';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Button } from '@/components/ui/button';
+import { ArrowIcon } from '@/components/ui/arrow-icon';
+import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
+import { Section } from '@/components/layout/Section';
 import { StatsPanel } from '@/components/features/CollectorCounter';
+import { NumberedSteps } from '@/components/features/NumberedSteps';
+import { CategoryCard } from '@/components/features/CategoryCard';
+import { HeroIllustration, SortIllustration, TruckIllustration } from '@/components/features/Illustrations';
+import { createClient } from '@/lib/supabase/server';
+import { getCategoryCounts } from '@/lib/category-counts';
 import { publicMetadata, SITE_DESCRIPTION } from '@/lib/site';
 
 export const metadata = publicMetadata('WasteLink | Direktori Pengepul Limbah', SITE_DESCRIPTION, '/');
 
+const steps = [
+  {
+    title: 'Pilih jenis limbah',
+    desc: 'Buka kategori yang sesuai dengan sampah Anda untuk melihat pengepul yang menerimanya.',
+  },
+  {
+    title: 'Bandingkan pengepul',
+    desc: 'Setiap profil memuat alamat, kontak, dan jam buka yang tersedia.',
+  },
+  {
+    title: 'Hubungi langsung',
+    desc: 'Pastikan jenis limbah dan jam buka lewat kontak pengepul sebelum datang. Pembayaran dan penjemputan diatur langsung antara Anda dan pengepul.',
+  },
+];
+
+// Aksi teks: hover = warna + garis bawah tipis, bobot tetap 500 (tidak menebal).
+const textLinkClass =
+  'inline-flex min-h-11 items-center gap-2 rounded-sm text-action text-primary link-ui hover:text-primary-hover motion-safe:hover:[&_[data-arrow]]:translate-x-0.5';
+
+const assurances = [
+  { title: 'Data dikelola pengelola', desc: 'Kategori dan pengepul dicatat dan diperbarui oleh pengelola WasteLink.' },
+  { title: 'Gratis, tanpa akun', desc: 'Tidak ada biaya maupun pendaftaran untuk mencari pengepul.' },
+  { title: 'Hubungi langsung', desc: 'WasteLink bukan perantara. Pembayaran dan penjemputan diatur antara Anda dan pengepul.' },
+];
+
 export default async function HomePage() {
   const supabase = await createClient();
-  const { data: categories } = await supabase.from('categories').select('id, name, description, image_url').order('name').limit(8);
-
-  const { count: activeCollectorsCount } = await supabase
-    .from('collectors')
-    .select('*', { count: 'exact', head: true })
-    .eq('status', true);
-
-  const { count: totalCategoriesCount } = await supabase
-    .from('categories')
-    .select('*', { count: 'exact', head: true });
-
-  const totalActiveCollectors = activeCollectorsCount || 0;
-  const totalCategories = totalCategoriesCount || 0;
+  const [{ data: categories }, { count: activeCollectorsCount }, { count: totalCategoriesCount }, counts] = await Promise.all([
+    supabase.from('categories').select('id, name, description, image_url').order('name').limit(4),
+    supabase.from('collectors').select('*', { count: 'exact', head: true }).eq('status', true),
+    supabase.from('categories').select('*', { count: 'exact', head: true }),
+    getCategoryCounts(supabase),
+  ]);
 
   return (
-    <div className="flex flex-col min-h-screen">
-      <section className="relative w-full min-h-[600px] h-[85vh] flex items-center overflow-hidden">
-
-        <div className="absolute inset-y-0 right-0 w-full md:w-[65%] lg:w-[60%] z-0 bg-gray-100">
+    <>
+      {/* Hero: foto pengepul sungguhan sebagai latar (misi situs ini adalah manusianya), ditutup scrim hijau tua
+          supaya teks terbaca. Header tetap solid di atasnya. Tanpa animasi masuk. */}
+      <section className="relative isolate overflow-hidden bg-primary-pressed text-on-primary [&_:focus-visible]:outline-on-primary">
+        {/* Mobile: foto tampil utuh di atas teks (wajahnya tidak boleh tertutup). lg: jadi latar penuh dengan scrim dari kiri. */}
+        <div className="relative aspect-[4/3] sm:aspect-[16/9] lg:absolute lg:inset-0 lg:-z-20 lg:aspect-auto">
           <Image
-            src="/images/hero-bg.png"
-            alt="WasteLink Hero Background"
+            src="/images/pengepul-hero.jpg"
+            alt="Seorang pengepul tersenyum sambil mendorong gerobak penuh karung limbah di jalan permukiman"
             fill
             priority
-            className="object-cover object-center md:object-right"
-            sizes="(max-width: 768px) 100vw, 60vw"
+            sizes="100vw"
+            className="object-cover object-[78%_25%] lg:object-[80%_30%]"
           />
-          <div className="absolute inset-0 bg-gradient-to-l from-black/40 via-transparent to-transparent hidden md:block" />
-          <div className="absolute inset-0 bg-black/50 md:hidden" />
+          <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-1/3 bg-linear-to-t from-primary-pressed to-transparent lg:hidden" />
         </div>
-
-        <div className="absolute top-0 bottom-0 left-0 w-full md:w-[55%] lg:w-[50%] z-10 bg-[#24925A]/95 md:bg-[#24925A] flex flex-col justify-center">
-          <svg
-            className="hidden md:block absolute top-0 bottom-0 left-[99%] h-full w-[150px] lg:w-[200px] text-[#24925A]"
-            preserveAspectRatio="none"
-            viewBox="0 0 100 100"
-            fill="currentColor"
-          >
-            <path d="M0,0 Q100,50 0,100 Z" />
-          </svg>
-
-          <svg
-            className="hidden md:block absolute top-0 bottom-0 left-[100%] h-full w-[170px] lg:w-[230px] text-white/20 pointer-events-none"
-            preserveAspectRatio="none"
-            viewBox="0 0 100 100"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1"
-          >
-            <path d="M0,0 Q100,50 0,100" />
-          </svg>
-
-          <div className="relative z-20 px-6 sm:px-10 lg:px-20 max-w-2xl w-full mx-auto md:mx-0 pt-20 pb-16">
-            <h1 className="uppercase text-3xl sm:text-4xl md:text-5xl lg:text-[3.5rem] font-semibold text-white tracking-wider leading-[1.1] mb-6 drop-shadow-sm">
-              Temukan <br />
-              Pengepul Limbah
+        <div aria-hidden="true" className="absolute inset-0 -z-10 hidden lg:block lg:bg-linear-to-r lg:from-primary-pressed lg:via-primary-pressed/85 lg:to-primary-pressed/0" />
+        <Container className="relative pb-12 pt-6 md:pb-16 lg:flex lg:min-h-[34rem] lg:items-center lg:py-28">
+          <div className="max-w-[38rem]">
+            <p className="text-eyebrow text-on-primary/80">Direktori pengepul limbah</p>
+            <h1 className="mt-4 font-display text-[length:clamp(2.75rem,1rem_+_8vw,4.75rem)] font-semibold leading-[1.02] tracking-[-0.02em] text-white">
+              Temukan <span className="text-accent">pengepul</span> limbah
             </h1>
-
-            <p className="text-xl md:text-2xl text-emerald-50 mb-10 font-medium tracking-wide">
-              Direktori limbah untuk masyarakat
+            <p className="mt-6 max-w-[44ch] text-body-lg text-on-primary/90">
+              Pilah sampah di rumah, lalu jual langsung kepada pengepul di dekat Anda. Lihat alamat dan kontaknya. Gratis, tanpa akun.
             </p>
 
-            <p className="text-base md:text-lg text-white/90 mb-10 max-w-lg leading-relaxed">
-              {SITE_DESCRIPTION}
+            <Form action="/collectors" role="search" className="mt-8">
+              <Label htmlFor="hero-q" className="text-on-primary!">Nama pengepul, alamat, atau jenis limbah</Label>
+              <div className="flex flex-col gap-3 sm:flex-row">
+                <Input id="hero-q" name="q" type="search" placeholder="Contoh: kardus" autoComplete="off" enterKeyHint="search" className="sm:flex-1" />
+                <Button type="submit" className="shrink-0 bg-on-primary! text-primary! hover:bg-white!">
+                  Cari pengepul
+                  <ArrowIcon />
+                </Button>
+              </div>
+            </Form>
+            <p className="mt-3 text-small text-on-primary/90">
+              Belum tahu jenisnya?{' '}
+              <Link href="/categories" className="link font-medium text-on-primary hover:text-white">
+                Lihat kategori limbah
+              </Link>
             </p>
-
-            <div className="flex flex-wrap items-start gap-4 w-full">
-              <Link href="/collectors" className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-6 py-3 text-base font-semibold rounded-[8px] bg-white text-[#24925A] hover:bg-gray-100 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                Cari pengepul
-              </Link>
-              <Link href="/categories" className="inline-flex items-center justify-center w-full sm:w-auto min-h-[52px] px-6 py-3 text-base font-semibold rounded-[8px] bg-white/10 backdrop-blur-md border-2 border-white/70 text-white hover:bg-white/20 transition-colors shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                Jelajahi kategori
-              </Link>
-            </div>
           </div>
-        </div>
+        </Container>
       </section>
 
-      <Section className="bg-background !py-24">
-        <div className="text-center mb-16 md:mb-20 relative z-10">
-          <h2 className="text-2xl md:text-3xl font-semibold uppercase tracking-wider text-text-primary mb-4">Cara Kerja WasteLink</h2>
-          <p className="text-lg text-text-secondary max-w-2xl mx-auto">Tiga langkah mudah untuk mulai mengelola limbah Anda.</p>
-        </div>
+      <section className="pb-10 md:pb-14">
+        <Container>
+          <StatsPanel collectorsCount={activeCollectorsCount ?? 0} categoriesCount={totalCategoriesCount ?? 0} />
+        </Container>
+      </section>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 max-w-5xl mx-auto relative">
-          {[
-            { step: '01', title: 'Pilih Kategori', desc: 'Pilih jenis limbah dari kategori yang tersedia untuk melihat informasi pengelolaannya.' },
-            { step: '02', title: 'Cari Pengepul', desc: 'Lihat kategori yang diterima serta informasi lokasi, kontak, dan jam operasional yang tersedia.' },
-            { step: '03', title: 'Hubungi Pengepul', desc: 'Gunakan kontak yang tersedia untuk mengonfirmasi jenis limbah dan jam operasional secara langsung.' }
-          ].map((item, i) => (
-            <div key={i} className="flex flex-col items-center text-center bg-white border border-border p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow duration-200">
-              <div className="w-16 h-16 rounded-[1.25rem] bg-brand-green-subtle/50 flex items-center justify-center mb-6 border border-brand-green/10">
-                <span className="text-xl font-semibold text-brand-green">{item.step}</span>
-              </div>
-              <h3 className="text-xl font-semibold text-text-primary mb-3">{item.title}</h3>
-              <p className="text-text-secondary text-sm leading-relaxed">{item.desc}</p>
+      {/* Jaminan singkat: apa yang WasteLink lakukan dan tidak lakukan (selaras dengan halaman Tentang). */}
+      <section className="border-y border-border bg-surface">
+        <Container>
+          <dl className="grid divide-y divide-border md:grid-cols-3 md:divide-x md:divide-y-0">
+            {assurances.map((a, i) => (
+              <Reveal key={a.title} delay={i * 90} className="py-6 md:px-8 md:first:ps-0 md:last:pe-0">
+                <dt className="font-display text-[1.375rem] font-semibold leading-tight text-ink">{a.title}</dt>
+                <dd className="mt-2 max-w-[40ch] text-small text-muted">{a.desc}</dd>
+              </Reveal>
+            ))}
+          </dl>
+        </Container>
+      </section>
+
+      {/* Misi: kenapa memilah, dan siapa yang terbantu. Foto kedua + sketsa alurnya. */}
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-12">
+          <Reveal className="lg:col-span-5">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-lg bg-bg-alt outline -outline-offset-1 outline-black/10 lg:aspect-auto lg:h-full lg:min-h-[28rem]">
+              <Image
+                src="/images/pengepul-pilah.jpg"
+                alt="Seorang pengepul lanjut usia mendorong gerobaknya di jalan, bertumpu pada pegangan gerobak"
+                fill
+                sizes="(min-width: 1024px) 40vw, 100vw"
+                className="object-cover object-[30%_45%]"
+              />
             </div>
-          ))}
+          </Reveal>
+          <Reveal delay={90} className="lg:col-span-7">
+            <p className="text-eyebrow text-muted">Mengapa memilah</p>
+            <h2 className="mt-3 text-h2 text-ink">Sampah yang Anda pilah punya nilai, untuk Anda dan untuk mereka</h2>
+            <p className="mt-4 max-w-[56ch] text-body-lg text-muted">
+              Botol, kardus, dan kaleng yang sudah dipilah punya nilai jual. Pengepul membelinya dari Anda, mengumpulkannya, lalu menyalurkannya kembali. Anda mendapat uang dari sampah yang biasanya terbuang, dan mereka mendapat penghasilan untuk mencari nafkah setiap hari.
+            </p>
+            <p className="mt-3 max-w-[56ch] text-body text-muted">
+              Dengan memilah di rumah lalu menjualnya langsung kepada pengepul di dekat Anda, sampah yang berakhir di tempat pembuangan berkurang. Harga dan jenis yang diterima disepakati langsung dengan pengepul. WasteLink hanya membantu Anda menemukan mereka.
+            </p>
+            <Link href="/categories" className={`${textLinkClass} mt-3`}>
+              Lihat apa saja yang bisa dipilah
+              <ArrowIcon />
+            </Link>
+            <HeroIllustration className="mt-8 max-w-[40rem]" />
+          </Reveal>
         </div>
       </Section>
 
-      <Section className="bg-surface !py-24">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-6">
-          <div className="max-w-2xl">
-            <h2 className="text-2xl md:text-3xl font-semibold uppercase tracking-wider text-text-primary mb-4">Jelajahi Kategori</h2>
-            <p className="text-lg text-text-secondary">Lihat informasi limbah dan daftar pengepul berdasarkan kategori sampah Anda.</p>
+      {/* Cara kerja: daftar bernomor editorial */}
+      <Section>
+        <div className="grid gap-10 lg:grid-cols-12 lg:gap-6">
+          <Reveal className="lg:col-span-4">
+            <h2 className="text-h2 text-ink">Cara kerja</h2>
+            <p className="mt-4 max-w-[32ch] text-body-lg text-muted">Tiga langkah, tanpa akun dan tanpa biaya.</p>
+            <SortIllustration className="mt-10 hidden max-w-[20rem] lg:block" />
+          </Reveal>
+          <div className="lg:col-span-8">
+            <NumberedSteps steps={steps} />
           </div>
-          <Link href="/categories" className="shrink-0 inline-flex items-center justify-center min-h-11 px-6 py-3 text-btn rounded-[6px] border border-border text-brand-green hover:bg-brand-green hover:text-white transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
-            Lihat semua kategori
+        </div>
+      </Section>
+
+      {/* Kategori */}
+      <Section className="border-t border-border bg-bg-alt">
+        <Reveal className="flex flex-wrap items-end justify-between gap-x-6 gap-y-4">
+          <div>
+            <h2 className="text-h2 text-ink">Kategori limbah</h2>
+            <p className="mt-4 max-w-[52ch] text-body-lg text-muted">Pilih jenis sampah untuk melihat pengepul yang menerimanya.</p>
+          </div>
+          <Link href="/categories" className={textLinkClass}>
+            Semua kategori
+            <ArrowIcon />
           </Link>
-        </div>
+        </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories && categories.length > 0 ? (
-            categories.slice(0, 4).map((cat) => (
-              <Link key={cat.id} href={`/categories/${cat.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-2xl h-full">
-                <Card className="h-full border border-border shadow-sm hover:border-brand-green/50 hover:shadow-md transition-all duration-200 overflow-hidden bg-white flex flex-col">
-                  <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50 border-b border-border/50">
-                    {cat.image_url ? (
-                      <Image
-                        src={cat.image_url}
-                        alt={cat.name || "Kategori"}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-contain p-4"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
-                        <span className="text-text-muted text-sm font-medium">Tanpa Gambar</span>
-                      </div>
-                    )}
-                  </div>
-                  <div className="p-5 flex flex-col flex-1">
-                    <h3 className="text-lg font-semibold text-text-primary mb-2">{cat.name}</h3>
-                    <p className="text-sm text-text-secondary line-clamp-2 leading-relaxed">{cat.description}</p>
-                  </div>
-                </Card>
-              </Link>
-            ))
-          ) : (
-            <div className="col-span-full text-center py-20 bg-white rounded-2xl border border-dashed border-border">
-              <p className="text-lg text-text-muted font-medium">Data kategori belum tersedia saat ini.</p>
-            </div>
-          )}
-        </div>
+        {categories && categories.length > 0 ? (
+          <ul className="mt-10 grid grid-cols-[repeat(auto-fit,minmax(min(100%,15rem),1fr))] gap-4">
+            {categories.map((cat, i) => (
+              <Reveal as="li" key={cat.id} delay={i * 90}>
+                <CategoryCard category={cat} count={counts[cat.id] ?? 0} />
+              </Reveal>
+            ))}
+          </ul>
+        ) : (
+          <p className="mt-10 text-body text-muted">
+            Belum ada kategori yang terdaftar.{' '}
+            <Link href="/collectors" className="link font-medium text-primary hover:text-primary-hover">
+              Lihat semua pengepul
+            </Link>
+          </p>
+        )}
       </Section>
 
-      <div className="bg-surface pb-24 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto bg-gradient-to-br from-[#24925A] via-[#1F824F] to-[#17663E] rounded-[2.5rem] relative overflow-hidden shadow-xl border border-brand-green/20">
-
-          <div className="absolute top-0 right-0 -mt-20 -mr-20 w-96 h-96 bg-white/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-96 h-96 bg-black/10 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative z-10 px-8 py-16 md:py-20 lg:py-24 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-            <div className="lg:col-span-8 flex flex-col items-start text-left">
-              <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold uppercase tracking-wider text-white mb-6 leading-[1.2]">
-                Cari Informasi Pengepul
-              </h2>
-              <p className="text-sm sm:text-base md:text-lg text-emerald-50/90 mb-8 leading-relaxed max-w-2xl">
-                WasteLink adalah MVP tahap awal. Jelajahi direktori tanpa akun dan hubungi pengepul secara langsung. WasteLink tidak memproses pembayaran atau mengatur penjemputan.
+      {/* Penutup: blok teal datar */}
+      <section className="bg-primary text-on-primary [&_:focus-visible]:outline-on-primary">
+        <Container className="py-[clamp(3rem,2rem_+_4vw,6rem)]">
+          <Reveal className="grid gap-8 lg:grid-cols-12 lg:items-end lg:gap-6">
+            <div className="lg:col-span-7">
+              <h2 className="text-h2 text-white">Siap mencari pengepul?</h2>
+              <p className="mt-4 max-w-[56ch] text-body-lg text-on-primary/90">
+                Pilih kategori limbah Anda, atau cari langsung berdasarkan nama pengepul.
               </p>
-              <Link href="/collectors" className="inline-flex items-center justify-center min-h-[48px] px-6 py-3 text-base font-semibold rounded-[6px] bg-white text-[#24925A] hover:bg-emerald-50 transition-colors focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-white">
-                Lihat pengepul
+              <p className="mt-3 max-w-[56ch] text-small text-on-primary/90">
+                WasteLink hanya menyediakan informasi. Pembayaran dan penjemputan diatur langsung antara Anda dan pengepul.
+              </p>
+              <Link
+                href="/collectors"
+                className="mt-8 inline-flex h-11 items-center gap-2 rounded-sm bg-on-primary px-5 text-btn text-primary transition-colors duration-150 hover:bg-white motion-safe:hover:[&_[data-arrow]]:translate-x-0.5"
+              >
+                Lihat semua pengepul
+                <ArrowIcon />
               </Link>
             </div>
-
-            <div className="lg:col-span-4 flex items-center justify-center lg:justify-end">
-              <StatsPanel collectorsCount={totalActiveCollectors} categoriesCount={totalCategories} />
+            <div className="max-w-md lg:col-span-5 lg:max-w-none">
+              <TruckIllustration />
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </Reveal>
+        </Container>
+      </section>
+    </>
   );
 }

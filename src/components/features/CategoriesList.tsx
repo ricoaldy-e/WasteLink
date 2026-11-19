@@ -1,101 +1,51 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import Image from "next/image";
-import { Card } from "@/components/ui/card";
-
-interface Category {
-  id: string;
-  name: string;
-  description: string | null;
-  image_url: string | null;
-}
+import { Button } from "@/components/ui/button";
+import { SearchInput } from "@/components/ui/search-input";
+import { CategoryCard, type CategoryCardData } from "@/components/features/CategoryCard";
+import { StateMessage } from "@/components/features/StateMessage";
 
 interface CategoriesListProps {
-  categories: Category[];
+  categories: CategoryCardData[];
+  /** Jumlah pengepul aktif per kategori: { [category_id]: n } */
+  counts: Record<string, number>;
 }
 
-export function CategoriesList({ categories }: CategoriesListProps) {
+export function CategoriesList({ categories, counts }: CategoriesListProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
-  const filteredCategories = categories.filter((cat) => {
-    const query = searchQuery.toLowerCase().trim();
-    if (!query) return true;
-    return (
-      cat.name.toLowerCase().includes(query) ||
-      (cat.description || "").toLowerCase().includes(query)
-    );
-  });
+  const query = searchQuery.toLowerCase().trim();
+  const filtered = categories.filter(
+    (cat) => !query || cat.name.toLowerCase().includes(query) || (cat.description || "").toLowerCase().includes(query)
+  );
 
   return (
     <div className="w-full">
-      <div className="relative w-full max-w-sm mb-8 select-none">
-        <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
-          <svg className="h-[18px] w-[18px] text-text-secondary" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-          </svg>
-        </div>
-        <input
-          type="text"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.target.value)}
-          placeholder="Cari kategori limbah..."
-          className="block w-full pl-10 pr-10 py-2.5 bg-white border border-border rounded-[8px] text-sm font-semibold text-text-primary placeholder:text-text-secondary focus:outline-none focus:border-brand-green focus:ring-1 focus:ring-brand-green/20 transition-all shadow-sm"
-        />
-        {searchQuery && (
-          <button
-            type="button"
-            onClick={() => setSearchQuery("")}
-            className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-text-secondary hover:text-text-primary focus:outline-none"
-            aria-label="Bersihkan pencarian"
-          >
-            <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        )}
+      <SearchInput value={searchQuery} onValueChange={setSearchQuery} label="Cari kategori" placeholder="Cari kategori limbah" />
+
+      <div className="mt-8 flex min-h-11 items-center justify-between gap-4">
+        <p role="status" className="text-small font-semibold tabular-nums text-ink">
+          {filtered.length} kategori{query && " ditemukan"}
+        </p>
       </div>
 
-      {filteredCategories.length > 0 ? (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCategories.map((cat) => (
-            <Link key={cat.id} href={`/categories/${cat.id}`} className="block focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-2xl h-full">
-              <Card className="h-full border border-border shadow-sm hover:border-brand-green/50 hover:shadow-md transition-all duration-200 overflow-hidden bg-white flex flex-col">
-                <div className="relative aspect-[4/3] w-full overflow-hidden bg-gray-50 rounded-lg">
-                  {cat.image_url ? (
-                    <Image
-                      src={cat.image_url}
-                      alt={cat.name || "Kategori"}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-contain p-4"
-                    />
-                  ) : (
-                    <div className="absolute inset-0 flex items-center justify-center bg-gray-50">
-                      <span className="text-text-muted text-sm font-medium">Tanpa Gambar</span>
-                    </div>
-                  )}
-                </div>
-                <div className="pt-4 flex flex-col items-start text-left flex-1 w-full">
-                  <h3 className="text-lg font-semibold text-text-primary mb-2">{cat.name}</h3>
-                  <p className="text-sm text-text-secondary line-clamp-2 leading-relaxed">{cat.description}</p>
-                </div>
-              </Card>
-            </Link>
+      {filtered.length > 0 ? (
+        <ul className="mt-2 grid grid-cols-[repeat(auto-fit,minmax(min(100%,17rem),1fr))] gap-4">
+          {filtered.map((cat) => (
+            <li key={cat.id}>
+              <CategoryCard category={cat} count={counts[cat.id] ?? 0} />
+            </li>
           ))}
-        </div>
+        </ul>
       ) : (
-        <div className="text-center py-16 bg-white rounded-2xl border border-dashed border-border px-4 select-none">
-          <div className="w-12 h-12 bg-gray-50 border border-gray-100 rounded-xl mx-auto mb-4 flex items-center justify-center text-text-muted">
-            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <h3 className="text-base font-semibold text-text-primary mb-1">Kategori Tidak Ditemukan</h3>
-          <p className="text-xs text-text-muted max-w-xs mx-auto">
-            Tidak ada kategori limbah yang cocok dengan kata kunci &ldquo;{searchQuery}&rdquo;. Silakan coba kata kunci lain.
-          </p>
+        <div className="mt-2">
+          <StateMessage
+            title="Tidak ada kategori yang cocok"
+            action={<Button variant="secondary" onClick={() => setSearchQuery("")}>Hapus pencarian</Button>}
+          >
+            Tidak ada hasil untuk “{searchQuery.trim()}”. Coba kata kunci yang lebih pendek, misalnya “plastik” atau “kertas”.
+          </StateMessage>
         </div>
       )}
     </div>

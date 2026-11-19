@@ -1,108 +1,88 @@
-'use client';
-
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
 import { Container } from '@/components/ui/container';
+import { Reveal } from '@/components/ui/reveal';
 import { CONTACT_EMAIL, SITE_DESCRIPTION } from '@/lib/site';
 
 /**
- * Footer – Public layout footer
- * Follows DESIGN.md spacing (48px–80px), typography, and color tokens
+ * Footer - docs/DESIGN.md §3.4. Latar primary-pressed (#013D3C).
+ * Kontras terukur: on-primary 11.02 · on-primary/80 7.63 · on-primary/70 6.19 · accent 6.71.
+ * Outline fokus global (primary) hanya 1.66:1 di sini, jadi diganti accent.
  */
-export const Footer = () => {
-  const pathname = usePathname();
 
-  return (
-    <footer className="bg-white border-t border-border py-12 md:py-16 mt-auto">
-      <Container>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-6">
-          <div className="col-span-1 md:col-span-2">
-            <Link
-              href="/"
-              onClick={(e) => {
-                if (pathname === '/') {
-                  e.preventDefault();
-                  window.scrollTo({ top: 0, behavior: 'smooth' });
-                }
-              }}
-              className="text-h3 text-brand-green font-bold block mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px] inline-block hover:scale-105 hover:-translate-y-0.5 hover:drop-shadow-sm transition-all duration-300 w-fit"
-            >
-              Waste<span className="text-text-primary">Link</span>
-            </Link>
-            <p className="text-body-md text-text-secondary max-w-sm">
-              {SITE_DESCRIPTION}
-            </p>
-            <a href={`mailto:${CONTACT_EMAIL}`} className="inline-block mt-4 max-w-full break-all text-body-md text-brand-green hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
+const groups = [
+  {
+    id: 'footer-jelajahi',
+    title: 'Jelajahi',
+    links: [
+      { href: '/', label: 'Beranda' },
+      { href: '/categories', label: 'Kategori sampah' },
+      { href: '/collectors', label: 'Daftar pengepul' },
+      { href: '/about', label: 'Tentang WasteLink' },
+    ],
+  },
+  {
+    id: 'footer-informasi',
+    title: 'Informasi',
+    links: [
+      { href: '/contact', label: 'Kontak' },
+      { href: '/privacy', label: 'Kebijakan privasi' },
+      { href: '/terms', label: 'Ketentuan layanan' },
+    ],
+  },
+];
+
+// Hover seragam dengan tautan teks lain: warna naik + garis bawah tipis, bobot tetap.
+const linkClass = 'link-ui rounded-sm text-on-primary/80 hover:text-on-primary';
+
+export const Footer = () => (
+  <footer className="mt-auto overflow-hidden bg-primary-pressed text-on-primary [&_:focus-visible]:outline-accent">
+    <Container className="pt-16 md:pt-20">
+      <div className="grid gap-10 md:grid-cols-12 md:gap-6">
+        <div className="md:col-span-6">
+          <p className="max-w-[38ch] text-body-lg text-on-primary">{SITE_DESCRIPTION}</p>
+          {CONTACT_EMAIL && (
+            <a href={`mailto:${CONTACT_EMAIL}`} className={`mt-6 inline-block break-all text-body ${linkClass}`}>
               {CONTACT_EMAIL}
             </a>
-          </div>
+          )}
+        </div>
 
-          <div className="md:text-right flex flex-col md:items-end">
-            <h3 className="text-body-lg font-bold text-text-primary mb-4">Navigasi</h3>
-            <ul className="flex flex-col gap-3 items-start md:items-end">
-              <li>
-                <Link
-                  href="/"
-                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
-                >
-                  Beranda
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/categories"
-                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
-                >
-                  Kategori Sampah
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/collectors"
-                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
-                >
-                  Daftar Pengepul
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/about"
-                  className="relative group inline-block text-body-md text-text-secondary hover:text-brand-green transition-colors duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
-                >
-                  Tentang
-                  <span className="absolute bottom-[-2px] left-0 w-full h-0.5 bg-brand-green transform origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100" />
-                </Link>
-              </li>
+        {groups.map((group) => (
+          <nav key={group.id} aria-labelledby={group.id} className="md:col-span-3">
+            <h2 id={group.id} className="text-eyebrow text-accent">
+              {group.title}
+            </h2>
+            <ul className="mt-4 flex flex-col gap-1">
+              {group.links.map((link) => (
+                <li key={link.href}>
+                  <Link href={link.href} className={`inline-flex min-h-11 items-center text-body ${linkClass}`}>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
-          </div>
-        </div>
-
-        <div className="mt-8 pt-6 border-t border-border flex flex-col md:flex-row items-center justify-between gap-4">
-          <p className="text-body-sm text-text-muted">
-            &copy; {new Date().getFullYear()} WasteLink. Seluruh Hak Cipta Dilindungi.
-          </p>
-          <nav aria-label="Informasi WasteLink" className="flex flex-wrap justify-center gap-4">
-            {[
-              { href: '/contact', label: 'Kontak' },
-              { href: '/privacy', label: 'Privasi' },
-              { href: '/terms', label: 'Ketentuan' },
-            ].map((link) => (
-              <Link key={link.href} href={link.href} className="text-body-sm text-text-secondary hover:text-brand-green focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-green">
-                {link.label}
-              </Link>
-            ))}
-            <Link
-              href="/login"
-              className="text-body-sm text-text-muted hover:text-brand-green transition-colors duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-brand-green rounded-[4px]"
-            >
-              Admin Login
-            </Link>
           </nav>
-        </div>
-      </Container>
-    </footer>
-  );
-};
+        ))}
+      </div>
+
+      {/* Wordmark dekoratif; nama merek sudah ada di header dan copyright. Lebar font mengikuti lebar kolom (cqw), rata tengah. */}
+      <Reveal className="mt-16 [container-type:inline-size]">
+        <p
+          aria-hidden="true"
+          className="select-none whitespace-nowrap text-center font-display font-semibold leading-[0.9] tracking-[-0.02em] text-on-primary text-[length:21.2cqw]"
+        >
+          WasteLink
+        </p>
+      </Reveal>
+
+      <div className="mt-8 flex flex-col gap-2 border-t border-on-primary/15 py-6 text-small text-on-primary/70 sm:flex-row sm:items-center sm:justify-between">
+        <p>
+          &copy; {new Date().getFullYear()} WasteLink. Seluruh hak cipta dilindungi.
+        </p>
+        <Link href="/login" className="link-ui inline-flex min-h-11 items-center rounded-sm text-on-primary/70 hover:text-on-primary">
+          Masuk admin
+        </Link>
+      </div>
+    </Container>
+  </footer>
+);
